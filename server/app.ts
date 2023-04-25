@@ -2,6 +2,7 @@ import 'dotenv/config';
 import http from 'http';
 import express from 'express';
 import { ServerSocket } from './socket';
+import initDB from './models/initModels';
 
 const app = express(); // Express app object can handle http requests but is not suitable for sockets.
 const httpServer = http.createServer(app); // Node http server object is suitable for sockets.
@@ -12,13 +13,15 @@ new ServerSocket(httpServer);
 
 /** Log the request */
 app.use((req, res, next) => {
-    console.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
+  console.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
 
-    res.on('finish', () => {
-        console.info(`METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`);
-    });
+  res.on('finish', () => {
+    console.info(
+      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`
+    );
+  });
 
-    next();
+  next();
 });
 
 /** Enable JSON parsing */
@@ -29,13 +32,15 @@ app.use(express.json());
 
 /** Error handling */
 app.use((req, res, next) => {
-    const error = new Error('Not found');
-    
-    res.status(404).json({
-        message: error.message,
-    });
+  const error = new Error('Not found');
+
+  res.status(404).json({
+    message: error.message,
+  });
 });
 
 /** Listen */
 const PORT = process.env.PORT || 5000;
-httpServer.listen(PORT, () => console.info('🚀🚀Server is running on port', PORT));
+initDB().then(() => {
+  httpServer.listen(PORT, () => console.info('🚀🚀Server is running on port', PORT));
+});
