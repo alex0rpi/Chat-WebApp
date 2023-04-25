@@ -1,39 +1,34 @@
-import { useEffect, useState } from 'react';
-// import WelcomeChat from './pages/WelcomeChat';
-// import PrivateChat from './pages/PrivateChat';
-import { Phrase as PhraseModel } from './models/Phrase';
-import PhraseComponent from './components/PhraseComponent';
-import { Col, Container, Row } from 'react-bootstrap';
-import styles from './styles/WelcomeChat.module.css';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import GlobalChatWindow from './components/GlobalChatWindow';
+import RoomChat from './pages/RoomChat';
+import WelcomeChat from './pages/WelcomeChat';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<WelcomeChat />}>
+      {/* <Route index element={<Home />} />
+      <Route path="about" element={<About />} />
+      <Route path="help" element={<HelpLayout />}>
+        <Route path="faq" element={<Faq />} />
+        <Route path="contact" element={<Contact />} action={contactAction} />
+      </Route>
+      <Route path="careers" element={<CareersLayout />} errorElement={<CareersError />}>
+        <Route
+          index
+          element={<Careers />}
+          loader={careersLoader}
+          // errorElement={<CareersError />}
+        />
+        <Route path=":roomId" element={<CareerDetails />} loader={careerDetailsLoader} />
+      </Route> */}
+
+      {/* <Route path="*" element={<NotFound />} /> */}
+    </Route>
+  )
+);
 
 function App() {
-  const [phrases, setPhrases] = useState<PhraseModel[]>([]);
-
-  useEffect(() => {
-    async function loadPhrases() {
-      try {
-        const response = await fetch('/api/phrases', { method: 'GET' });
-        const phrases = await response.json();
-        setPhrases(phrases);
-      } catch (error) {
-        console.error(error);
-        alert(error);
-      }
-    }
-    loadPhrases();
-  }, []);
-
-  return (
-    <Container>
-      <Row xs={1} md={2} lg={3} className="g-4">
-        {phrases.map((phr) => {
-          <Col key={phr.id}>
-            <PhraseComponent phrase={phr} className={styles.note} />
-          </Col>;
-        })}
-      </Row>
-    </Container>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
