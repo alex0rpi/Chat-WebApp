@@ -1,34 +1,38 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-import welcomeChat from './pages/welcomeChat';
-import privateChat from './pages/privateChat'
+import { useEffect, useState } from 'react';
+// import WelcomeChat from './pages/WelcomeChat';
+// import PrivateChat from './pages/PrivateChat';
+import { Phrase as PhraseModel } from './models/Phrase';
+import PhraseComponent from './components/PhraseComponent';
+import { Col, Container, Row } from 'react-bootstrap';
+import styles from './styles/WelcomeChat.module.css';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [phrases, setPhrases] = useState<PhraseModel[]>([]);
+
+  useEffect(() => {
+    async function loadPhrases() {
+      try {
+        const response = await fetch('/api/phrases', { method: 'GET' });
+        const phrases = await response.json();
+        setPhrases(phrases);
+      } catch (error) {
+        console.error(error);
+        alert(error);
+      }
+    }
+    loadPhrases();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-      <welcomeChat />
-      <privateChat />
-    </>
+    <Container>
+      <Row xs={1} md={2} lg={3} className="g-4">
+        {phrases.map((phr) => {
+          <Col key={phr.id}>
+            <PhraseComponent phrase={phr} className={styles.note} />
+          </Col>;
+        })}
+      </Row>
+    </Container>
   );
 }
 

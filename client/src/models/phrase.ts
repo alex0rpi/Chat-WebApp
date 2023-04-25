@@ -1,4 +1,4 @@
-export interface Note {
+export interface Phrase {
     id: string,
     author: string,
     text?: string,

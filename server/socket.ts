@@ -9,8 +9,9 @@ export class ServerSocket {
   /** Master list of all connected users **/
   /* This allows the class to keep track of all connected users with their unique user IDs (uid) and their associated socket IDs. */
   public users: {
-    //* IT IS AN OBJECT, NOT AN ARRAY. AN OBJECT CONTAINING: {uid: socketId}
     [uid: string]: string; // we define both the key and value as strings.
+    //* IT IS AN OBJECT, NOT AN ARRAY. AN OBJECT CONTAINING: 
+    // {sdfdsfdsfssf: socketId, 435o4i35o4i3j5: socketId, ...}
     // We do this to easily query the object for the socket ID of a user with a specific uid with a dynamic key [keyName]
   };
 
@@ -32,5 +33,8 @@ export class ServerSocket {
     console.info('Socket.io server started');
   }
 
-  StartListeners = (socket: Socket) => {};
+  StartListeners = (socket: Socket) => {
+    // Here we'll have all the listeners for the socket.io server
+
+  };
 }
