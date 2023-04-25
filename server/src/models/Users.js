@@ -3,16 +3,13 @@ export default (sequelize, DataTypes) => {
     'Users',
     {
       username: { type: DataTypes.STRING, allowNull: false },
-      // pwd: { type: DataTypes.STRING, allowNull: false },
-    },
-    {
       lastConnected: { type: DataTypes.DATE, allowNull: false },
-    },
-    {
       room: { type: DataTypes.STRING, allowNull: true },
+      active: { type: DataTypes.BOOLEAN, allowNull: false },
     },
     {
-      active: { type: DataTypes.BOOLEAN, allowNull: false },
+      timestamps: true,
+      updatedAt: false,
     }
   );
 

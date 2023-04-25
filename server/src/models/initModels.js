@@ -1,5 +1,5 @@
 import Sequelize, { DataTypes } from 'sequelize';
-import { mysqlConfig } from '../config/mysqlConfig';
+import mysqlConfig from '../db/configMysql';
 
 import _Users from './Users';
 import _Messages from './Messages';

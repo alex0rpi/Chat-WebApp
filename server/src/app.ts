@@ -2,7 +2,7 @@ import 'dotenv/config';
 import http from 'http';
 import express from 'express';
 import { ServerSocket } from './socket';
-// import initDB from './models/initModels';
+import initDB from './models/initModels';
 
 const app = express(); // Express app object can handle http requests but is not suitable for sockets.
 const httpServer = http.createServer(app); // Node http server object is suitable for sockets.
@@ -41,6 +41,6 @@ app.use((req, res, next) => {
 
 /** Listen */
 const PORT = process.env.PORT || 5000;
-// initDB().then(() => {
+initDB().then(() => {
   httpServer.listen(PORT, () => console.info('🚀🚀Server is running on port', PORT));
-// });
+});
