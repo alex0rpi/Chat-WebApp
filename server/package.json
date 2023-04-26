@@ -4,7 +4,7 @@
   "description": "Alex Orpi chat app",
   "main": "dist/app.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/app.ts"
+    "start": "nodemon src/app.ts"
   },
   "author": "alex0rpi",
   "license": "ISC",
