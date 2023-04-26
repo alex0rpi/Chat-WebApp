@@ -3,3 +3,7 @@ body {
   background: #fafafa;
   font-family: 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Fira Sans';
 }
+
+.App {
+  text-align: center;
+}

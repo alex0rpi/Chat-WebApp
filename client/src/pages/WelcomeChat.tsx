@@ -1,4 +1,6 @@
 import { useState, MouseEvent } from 'react';
+import GlobalChatWindow from '../layout/GlobalChatWindow';
+import NewUserInput from '../components/NewUserInput';
 
 // type Props = {}
 
@@ -9,17 +11,19 @@ const WelcomeChat = () => {
     e.preventDefault();
     setIdentified((prevState) => !prevState);
   };
+
   return (
-    <>
+    <GlobalChatWindow>
       <div>This is the WelcomeChat</div>
       {identified ? (
         <p>Some additional components will be visible once the user has identified itself</p>
       ) : (
-        <p>Only the chat itself and an id form will be visible in no-id state</p>
-      )}
+        <NewUserInput/>
+      )
+      }
       <p>With all its necessary components imported</p>
       <button onClick={handleIdChange}>ChangeID mode</button>
-    </>
+    </GlobalChatWindow>
   );
 };
 

@@ -7,8 +7,12 @@ import { Container } from 'react-bootstrap';
 
 // type Props = {}
 
-const GlobalChatWindow = (props:PropsWithChildren ) => {
-  return <Container>{props.children}</Container>;
+const GlobalChatWindow = (props: PropsWithChildren) => {
+  return (
+    <Container fluid="md" className="bg-primary rounded">
+      {props.children}
+    </Container>
+  );
 };
 
 export default GlobalChatWindow;

@@ -4,3 +4,19 @@
 -create room at New Room form
 -Leave room button
 */
+
+import { Button } from 'react-bootstrap';
+
+interface ButtonProps {
+  btnText: string;
+}
+
+const UIButton = (props: ButtonProps) => {
+  return (
+    <Button type="submit" className="bg-warning">
+      {props.btnText}
+    </Button>
+  );
+};
+
+export default UIButton;
