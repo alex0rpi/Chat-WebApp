@@ -5,11 +5,9 @@
 import { PropsWithChildren } from 'react';
 import { Container } from 'react-bootstrap';
 
-// type Props = {}
-
 const GlobalChatWindow = (props: PropsWithChildren) => {
   return (
-    <Container fluid="md" className="bg-primary rounded">
+    <Container fluid className="mx-auto mx-md-0 w-md-50 w-100 bg-primary rounded">
       {props.children}
     </Container>
   );

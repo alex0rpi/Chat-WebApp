@@ -2,7 +2,7 @@
 
 ## Frontend
 React - Typescript - Vite
-Bootstrap
+Bootstrap 5
 
 ## Backend
 Nodejs - Express - SocketIO - Typescript - Sequelize - Mysql
