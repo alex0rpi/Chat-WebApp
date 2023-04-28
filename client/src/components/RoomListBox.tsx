@@ -4,9 +4,11 @@ import React from 'react';
 // type Props = {}
 
 const RoomListBox = () => {
-  return <div className="room-list">
-    <h2>Room_List ↓↓↓</h2>
-  </div>;
+  return (
+    <div className="room-list">
+      <h6>Room_List↓↓</h6>
+    </div>
+  );
 };
 
 export default RoomListBox;

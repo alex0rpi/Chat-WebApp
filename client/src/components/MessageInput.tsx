@@ -2,16 +2,21 @@
 // at welcome chat once the user is identified
 // at a room chat
 
-import React from 'react';
+import UIButton from './UIButton';
 
 // type Props = {}
 
 const MessageInput = () => {
+  const handleSendMsg = () => {
+    console.log('handleSendMsg');
+  };
   return (
-    <form className="msg-field">
-      <input type="text" />
-      <button type="submit">SEND</button>
-    </form>
+    <div className="msg-field">
+      <form>
+        <input type="text" />
+        <UIButton btnText="SEND" clickHandler={handleSendMsg} />
+      </form>
+    </div>
   );
 };
 

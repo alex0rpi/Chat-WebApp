@@ -4,20 +4,18 @@
 -create room at New Room form
 -Leave room button
 */
-
 import { Button } from 'react-bootstrap';
 
 interface ButtonProps {
   btnText: string;
+  clickHandler: () => void;
 }
 
 const UIButton = (props: ButtonProps) => {
   return (
-    <div className="msg-btn">
-      <Button type="submit" className="bg-warning">
-        {props.btnText}
-      </Button>
-    </div>
+    <Button className="bg-success" onClick={props.clickHandler}>
+      {props.btnText}
+    </Button>
   );
 };
 

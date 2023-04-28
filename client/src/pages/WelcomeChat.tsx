@@ -4,18 +4,19 @@ import ChatBox from '../components/ChatBox';
 import MessageInput from '../components/MessageInput';
 import RoomListBox from '../components/RoomListBox';
 import ConnectedUsersBox from '../components/ConnectedUsersBox';
+import Header_bar from '../components/Header_bar';
 
 // type Props = {}
 
 const WelcomeChat = () => {
   return (
     <ContainerChatWindow>
-      <h1>This is the WelcomeChat</h1>
+      <Header_bar />
       <NewUserInput />
+      <ConnectedUsersBox />
+      <RoomListBox />
       <ChatBox />
       <MessageInput />
-      <RoomListBox />
-      <ConnectedUsersBox />
     </ContainerChatWindow>
   );
 };
