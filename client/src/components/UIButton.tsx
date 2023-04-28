@@ -13,9 +13,11 @@ interface ButtonProps {
 
 const UIButton = (props: ButtonProps) => {
   return (
-    <Button type="submit" className="bg-warning">
-      {props.btnText}
-    </Button>
+    <div className="msg-btn">
+      <Button type="submit" className="bg-warning">
+        {props.btnText}
+      </Button>
+    </div>
   );
 };
 

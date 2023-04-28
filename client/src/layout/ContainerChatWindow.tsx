@@ -3,10 +3,9 @@
 // At a room chat
 
 import { PropsWithChildren } from 'react';
-import styles from './layout.module.css';
 
 const ContainerChatWindow = (props: PropsWithChildren) => {
-  return <div className={styles.layout}>{props.children}</div>;
+  return <div className="container">{props.children}</div>;
 };
 
 export default ContainerChatWindow;

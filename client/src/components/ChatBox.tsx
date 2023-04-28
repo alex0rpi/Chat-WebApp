@@ -1,10 +1,9 @@
 import React from 'react';
-import styles from './compCSS/ChatBox.module.css'
 
 // type Props = {}
 
 const ChatBox = () => {
-  return <div className={styles.chatbox}>ChatBox</div>;
+  return <div className="chat-box">ChatBox</div>;
 };
 
 export default ChatBox;

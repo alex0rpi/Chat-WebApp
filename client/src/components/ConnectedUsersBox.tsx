@@ -8,7 +8,9 @@ import React from 'react'
 
 const ConnectedUsersBox = () => {
   return (
-    <div>ConnectedUsersBox</div>
+    <div className='user-list'>
+      <h1>Connected Users</h1>
+    </div>
   )
 }
 

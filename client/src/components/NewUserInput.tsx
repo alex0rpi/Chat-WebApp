@@ -3,8 +3,7 @@
 // type Props = {}
 
 const NewUserInput = () => {
-
-const handleUserEnter = async() => {
+  const handleUserEnter = async () => {
     const response = await fetch('http://localhost:5000/api/v1/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -12,13 +11,17 @@ const handleUserEnter = async() => {
     });
     const data = await response.json();
     console.log(data);
-}
+  };
 
   return (
-    <form>
-      <input type="text" placeholder="Vegita Prince of all Sayans" />
-      <button type="submit" onClick={handleUserEnter}>ENTER</button>
-    </form>
+    <div className="name-field">
+      <form>
+        <input type="text" placeholder="Vegita Prince of all Sayans" />
+        <button type="submit" onClick={handleUserEnter}>
+          ENTER
+        </button>
+      </form>
+    </div>
   );
 };
 

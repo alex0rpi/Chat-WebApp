@@ -11,16 +11,26 @@ class MysqlUserRepository {
   }
 
   async retrieveByName(username: string) {
-    let existingUser = await Users.findOne({ where: { username: name } });
+    let existingUser = await Users.findOne({ where: { username } });
     return existingUser;
   }
 
   async retrieveAll(room?: string) {
-    const users = await Users.findAll({
-      attributes: ['id', 'username'],
-      raw: true,
-    });
-    return users;
+    if (room) {
+      const users = await Users.findAll({
+        attributes: ['id', 'username'],
+        where: { room },
+        raw: true,
+      });
+      return users;
+    }
+    if (!room) {
+      const users = await Users.findAll({
+        attributes: ['id', 'username'],
+        raw: true,
+      });
+      return users;
+    }
   }
 
   // Contar el nombre d'usuaris que hi ha en una room (si hi són es que estan actius)
