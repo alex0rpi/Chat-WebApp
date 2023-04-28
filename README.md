@@ -1,9 +1,11 @@
 # Chat-WebApp 💻🖥
 
 ## Frontend
-![alt text](https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F1%2F18%2FReact_Native_Logo.png&tbnid=viJ6CsTiT3pOsM&vet=12ahUKEwiy3rPw9Mz-AhVumScCHdOICH0QMygCegUIARC5AQ..i&imgrefurl=https%3A%2F%2Fes.m.wikipedia.org%2Fwiki%2FArchivo%3AReact_Native_Logo.png&docid=mm3j0LoqJifksM&w=1200&h=630&q=react%20logo&ved=2ahUKEwiy3rPw9Mz-AhVumScCHdOICH0QMygCegUIARC5AQ)
-React - Typescript - Vite
-Bootstrap 5
+![REACT](https://upload.wikimedia.org/wikipedia/commons/1/18/React_Native_Logo.png)
+![Typescript](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1200px-Typescript_logo_2020.svg.png)
+![Vite](https://vitejs.dev/logo-with-shadow.png)
+![Bootstrap5](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/1280px-Bootstrap_logo.svg.png)
 
 ## Backend
-Nodejs - Express - SocketIO - Typescript - Sequelize - Mysql
+![Node](https://w7.pngwing.com/pngs/1006/374/png-transparent-web-development-node-js-socket-io-javascript-network-socket-modernization-miscellaneous-logo-web-application.png)
+Express - SocketIO - Typescript - Sequelize - Mysql
