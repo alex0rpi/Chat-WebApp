@@ -33,7 +33,7 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions) 
   }
   if (action.type === 'update_users') {
     // payload is an array of users
-    return { ...state, users: action.payload as string[] };
+    return { ...state, users: state.users.concat(action.payload)};
   }
   if (action.type === 'remove_user') {
     // payload is a string

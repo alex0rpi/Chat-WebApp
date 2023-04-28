@@ -8,12 +8,12 @@ import { Button } from 'react-bootstrap';
 
 interface ButtonProps {
   btnText: string;
-  clickHandler: () => void;
+  clickHandler: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const UIButton = (props: ButtonProps) => {
   return (
-    <Button className="bg-success" onClick={props.clickHandler}>
+    <Button variant="primary" type="button" onClick={props.clickHandler}>
       {props.btnText}
     </Button>
   );

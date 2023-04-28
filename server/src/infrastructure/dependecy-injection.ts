@@ -9,7 +9,5 @@ function configMessageRepository() {
   if (process.env.DB === 'mysql') return new MysqlMessageRepository();
 }
 
-const userRepository = configUserRepository();
-const MessageRepository = configMessageRepository();
-
-export default { userRepository, MessageRepository };
+export const userRepository = configUserRepository();
+export const MessageRepository = configMessageRepository();

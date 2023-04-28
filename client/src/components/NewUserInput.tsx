@@ -1,26 +1,37 @@
 // Only visible at the beggining, once the user enters the app to identify itself.
 
+import { useRef, useContext } from 'react';
+import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
+import { User } from '../models/Interfaces';
 
 // type Props = {}
 
 const NewUserInput = () => {
-  const handleUserEnter = async () => {
-    const response = await fetch('http://localhost:5000/api/v1/users', {
+  const { appDispatch } = useContext(SocketContext);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleUserEnter = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    // eslint-disable-next-line no-debugger
+    event.preventDefault();
+    if (!inputRef.current?.value) {
+      alert('Please enter a name (≧▽≦)'); //later it could be a toast
+      return;
+    }
+    const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'Vegita' }),
+      body: JSON.stringify({ username: inputRef.current.value }),
     });
-    const data = await response.json();
-    console.log(data);
+    const data: User = await response.json();
+    console.log(data)
+    appDispatch({ type: 'update_users', payload: data.username }); // revisar esto
+    alert('user was added😁😀');
   };
 
   return (
     <div className="name-field">
-      <form>
-        <input type="text" placeholder="Vegita Prince of all Sayans" />
-        <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
-      </form>
+      <input ref={inputRef} type="text" placeholder="Vegita Prince of all Sayans" />
+      <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
     </div>
   );
 };

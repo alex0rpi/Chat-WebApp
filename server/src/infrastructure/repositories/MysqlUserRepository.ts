@@ -1,8 +1,16 @@
+import moment from 'moment';
 import { Users } from '../../models/initModels';
 
 class MysqlUserRepository {
   async create(username: string) {
-    await Users.create({ username });
+    const newUser = {
+      username,
+      connectedAt: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      room: null,
+      active: true,
+    };
+    await Users.create({ ...newUser });
+    return newUser;
   }
 
   async retrieveById(id: number) {
