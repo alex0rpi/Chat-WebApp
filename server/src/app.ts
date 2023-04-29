@@ -4,6 +4,7 @@ import express from 'express';
 import { ServerSocket } from './socket';
 import initDB from './models/initModels';
 import userRoutes from './routes/userRoutes';
+import messageRoutes from './routes/messageRoutes';
 
 const app = express(); // Express app object can handle http requests but is not suitable for sockets.
 const httpServer = http.createServer(app); // Node http server object is suitable for sockets.
@@ -31,7 +32,8 @@ app.use(express.json());
 /** CORS handling **/
 // For the moment we'll use a proxy at client side to avoid CORS issues.
 
-app.use('/', userRoutes)
+app.use('/user', userRoutes)
+app.use('/message', messageRoutes)
 
 /** Error handling */
 app.use((req, res, next) => {

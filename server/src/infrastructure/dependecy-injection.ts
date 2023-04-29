@@ -10,4 +10,4 @@ function configMessageRepository() {
 }
 
 export const userRepository = configUserRepository();
-export const MessageRepository = configMessageRepository();
+export const messageRepository = configMessageRepository();

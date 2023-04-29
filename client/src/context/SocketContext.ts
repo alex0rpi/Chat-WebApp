@@ -4,10 +4,10 @@ import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
 
 export interface ISocketContext {
-  socket: Socket | undefined;
+  socket: Socket | null;
   uid: string | null; // your own id
-  users: string[]; // list of all the ids already connected
-  messages: string[]; // list of all the messages (in a room or in the welcome chat)
+  users: string[] | string; // list of all the ids already connected
+  messages: string[] | string; // list of all the messages (in a room or in the welcome chat)
   rooms: string[]; // list of all the rooms
 }
 
@@ -32,13 +32,15 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions) 
     return { ...state, uid: action.payload as string };
   }
   if (action.type === 'update_users') {
-    // payload is an array of users
-    return { ...state, users: state.users.concat(action.payload)};
+    // payload is either an array of users or just a single string
+    const newUsers = Array.isArray(action.payload) ? action.payload : [action.payload]; // we put it in an array in case it is a single string
+    return { ...state, users: [...state.users, ...newUsers] };
+    // we use the spread operator to add the new users to the existing ones, if any.
   }
-  if (action.type === 'remove_user') {
-    // payload is a string
-    return { ...state, users: state.users.filter((uid) => uid !== action.payload) };
-  }
+  // if (action.type === 'remove_user') {
+  //   // payload is a string
+  //   return { ...state, users: state.users.filter((uid) => uid !== action.payload) };
+  // }
   if (action.type === 'update_messages') {
     // payload is an array of messages
     return { ...state, messages: action.payload as string[] };
@@ -64,9 +66,9 @@ export interface ISocketContextProps {
 }
 
 export const initialSocketContext: ISocketContext = {
-  socket: undefined,
-  uid: null,
   users: [],
+  socket: null,
+  uid: null,
   messages: [],
   rooms: [], //
 }; // this is the default state of the context

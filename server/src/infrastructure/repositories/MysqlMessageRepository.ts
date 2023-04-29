@@ -2,15 +2,14 @@ import { Messages } from '../../models/initModels';
 
 class MysqlGameRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.
-  async createMessage(UserId: number, text: string, time: string, room?: string) {
-    const newGame = await Messages.create({ text, room, UserId, created_at: time });
-    return newGame;
+  async createMessage(UserId: number, text: string, created_at: string, room?: string) {
+    await Messages.create({ text, room, UserId, created_at });
   }
 
   // En cas que vulgui esborrar missatges d'un user, potser ho trec això.
   async deleteUserMessages(UserId: number, room: string) {
-    const hasGames = await Messages.findAll({ where: { UserId } });
-    if (hasGames) {
+    const userMessages = await Messages.findAll({ where: { UserId } });
+    if (userMessages) {
       await Messages.destroy({ where: { UserId } });
     }
   }

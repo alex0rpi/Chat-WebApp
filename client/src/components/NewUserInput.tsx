@@ -30,7 +30,7 @@ const NewUserInput = () => {
 
   return (
     <div className="name-field">
-      <input ref={inputRef} type="text" placeholder="Vegita Prince of all Sayans" />
+      <input ref={inputRef} type="text" placeholder="Prince of all Sayans" />
       <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
     </div>
   );

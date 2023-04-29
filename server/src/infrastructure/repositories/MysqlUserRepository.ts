@@ -2,15 +2,8 @@ import moment from 'moment';
 import { Users } from '../../models/initModels';
 
 class MysqlUserRepository {
-  async create(username: string) {
-    const newUser = {
-      username,
-      connectedAt: moment().format('MMMM Do YYYY, h:mm:ss a'),
-      room: null,
-      active: true,
-    };
-    await Users.create({ ...newUser });
-    return newUser;
+  async create(username: string, connectedAt: string, active: boolean, room?: string) {
+    await Users.create({ username, connectedAt, active, room });
   }
 
   async retrieveById(id: number) {
@@ -26,15 +19,15 @@ class MysqlUserRepository {
   async retrieveAll(room?: string) {
     if (room) {
       const users = await Users.findAll({
-        attributes: ['id', 'username'],
+        attributes: ['username'],
         where: { room },
         raw: true,
       });
-      return users;
+      return users; // [ { username: 'user1' }, { username: 'user2' } ]
     }
     if (!room) {
       const users = await Users.findAll({
-        attributes: ['id', 'username'],
+        attributes: ['username'],
         raw: true,
       });
       return users;
