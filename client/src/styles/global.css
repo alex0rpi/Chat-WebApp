@@ -6,30 +6,43 @@ body {
 }
 .container {
   position: relative;
-  margin-top: 5vh;
-  height: 70vh;
+  margin-top: 2vh;
+  height: 75vh;
   width: 80vw;
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 10% 10% 65% 15%;
+  grid-template-rows: 10% 24% 60% 10%;
   grid-column-gap: 10px;
 }
 .header_bar {
   grid-column-start: 2;
+  margin: 0;
   grid-column-end: 3;
   grid-row: 1/4;
 }
+
 .name-field {
   grid-column: 2/2;
   grid-row: 2/2;
 }
+
 .room-list {
   border: 2px solid rgb(11, 61, 97);
   grid-column: 1/1;
   grid-row-start: 3;
   grid-row-end: 4;
   border-radius: 10px 0px 0px 10px;
+  display: flex;
+  flex-direction: column;
 }
+
+.room-list .room-list-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .chat-box {
   border: 2px solid rgb(11, 61, 97);
   grid-column: 2/2;
@@ -60,4 +73,8 @@ body {
   margin-top: 5px;
   grid-column: 2/3;
   grid-row: 4/4;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 }

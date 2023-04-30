@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 import React from 'react';
 import UIButton from './UIButton';
+import { Button, Form } from 'react-bootstrap';
 
 // type Props = {}
 
@@ -12,9 +13,15 @@ const NewRoomForm = () => {
     console.log('room created');
   };
   return (
-    <div className="name-field">
-      <input ref={roomRef} type="text" placeholder="Prince of all Sayans" />
-      <UIButton btnText="Create Room" clickHandler={handleRoomCreate} />
+    <div className="room-field">
+      <Form.Group>
+        <div className="d-grid gap-1 d-flex">
+          <Form.Control ref={roomRef} type="text" className='p-1 mx-0' placeholder='Add room'/>
+          <Button variant="danger" className='m-0' size="sm" onClick={handleRoomCreate}>
+            +
+          </Button>
+        </div>
+      </Form.Group>
     </div>
   );
 };

@@ -11,5 +11,4 @@ export interface User {
   username: string;
   room?: string;
   connectedAt: string;
-  active: boolean;
 }

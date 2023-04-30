@@ -4,6 +4,7 @@ import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
 import { Message } from '../models/Interfaces';
+import { Form } from 'react-bootstrap';
 // type Props = {}
 
 const MessageInput = () => {
@@ -30,10 +31,10 @@ const MessageInput = () => {
   };
   return (
     <div className="msg-field">
-      <form>
-        <input ref={msgInputRef} type="text" />
+      <Form.Group className="my-0 p-2 d-flex" controlId="">
+        <Form.Control ref={msgInputRef} type="text" />
         <UIButton btnText="SEND" clickHandler={handleSendMsg} />
-      </form>
+      </Form.Group>
     </div>
   );
 };

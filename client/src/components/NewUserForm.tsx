@@ -4,10 +4,11 @@ import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
 import { User } from '../models/Interfaces';
+import { FloatingLabel, Form } from 'react-bootstrap';
 
 // type Props = {}
 
-const NewUserInput = () => {
+const NewUserForm = () => {
   const { appDispatch } = useContext(SocketContext);
   const inputRef = useRef<HTMLInputElement>(null);
   const handleUserEnter = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,17 +24,22 @@ const NewUserInput = () => {
       body: JSON.stringify({ username: inputRef.current.value }),
     });
     const data: User = await response.json();
-    console.log(data)
+    console.log(data);
     appDispatch({ type: 'update_users', payload: data.username }); // revisar esto
     alert('user was added😁😀');
   };
 
   return (
     <div className="name-field">
-      <input ref={inputRef} type="text" placeholder="Prince of all Sayans" />
-      <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
+      <FloatingLabel controlId="floatingInput" label="Email address" className="mb-2 p-0">
+        <Form.Control type="email" placeholder="name@example.com" />
+      </FloatingLabel>
+      <FloatingLabel className="d-flex" controlId="floatingPassword" label="Password">
+        <Form.Control type="password" placeholder="Password" />
+        <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
+      </FloatingLabel>
     </div>
   );
 };
 
-export default NewUserInput;
+export default NewUserForm;

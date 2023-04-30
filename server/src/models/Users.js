@@ -5,7 +5,6 @@ export default (sequelize, DataTypes) => {
       username: { type: DataTypes.STRING, allowNull: false },
       connectedAt: { type: DataTypes.STRING, allowNull: false },
       room: { type: DataTypes.STRING, allowNull: true },
-      active: { type: DataTypes.BOOLEAN, allowNull: false },
     },
     {
       timestamps: false,

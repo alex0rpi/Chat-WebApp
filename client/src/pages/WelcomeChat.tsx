@@ -1,5 +1,5 @@
 import ContainerChatWindow from '../layout/ContainerChatWindow';
-import NewUserInput from '../components/NewUserInput';
+import NewUserForm from '../components/NewUserForm';
 import ChatBox from '../components/ChatBox';
 import MessageInput from '../components/MessageInput';
 import RoomListBox from '../components/RoomListBox';
@@ -12,7 +12,7 @@ const WelcomeChat = () => {
   return (
     <ContainerChatWindow>
       <Header_bar />
-      <NewUserInput />
+      <NewUserForm />
       <ConnectedUsersBox />
       <RoomListBox />
       <ChatBox />

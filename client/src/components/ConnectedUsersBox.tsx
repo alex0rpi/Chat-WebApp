@@ -4,6 +4,7 @@
 
 import { useContext, useEffect } from 'react';
 import { SocketContext } from '../context/SocketContext';
+import { Button } from 'react-bootstrap';
 
 // type Props = {}
 
@@ -24,11 +25,33 @@ const ConnectedUsersBox = () => {
   return (
     <div className="user-list">
       <h6>Connected Users</h6>
-      {appState.users.map((user, index) => (
+      <div className="user-list-content">
+        {/* {appState.users.map((user, index) => (
         <p key={index} className="user-list-item">
-          {`👷‍♀️${user}`}
+        {`👷‍♀️${user}`}
         </p>
-      ))}
+      ))} */}
+        <div className="d-grid gap-1">
+          <Button variant="warning" size="sm">
+            My_user
+          </Button>
+          <Button variant="secondary" size="sm">
+            User_1
+          </Button>
+          <Button variant="secondary" size="sm">
+            User_2
+          </Button>
+          <Button variant="secondary" size="sm">
+            User_3
+          </Button>
+          <Button variant="secondary" size="sm">
+            User_4
+          </Button>
+          <Button variant="secondary" size="sm">
+            User_5
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ interface ButtonProps {
 
 const UIButton = (props: ButtonProps) => {
   return (
-    <Button variant="primary" type="button" onClick={props.clickHandler}>
+    <Button size="sm" variant="primary" type="button" onClick={props.clickHandler}>
       {props.btnText}
     </Button>
   );
