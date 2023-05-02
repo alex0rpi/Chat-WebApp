@@ -1,7 +1,6 @@
 // This component will only be visible at the welcome chat, once the user is identified.
 import { useRef } from 'react';
 import React from 'react';
-import UIButton from './UIButton';
 import { Button, Form } from 'react-bootstrap';
 
 // type Props = {}

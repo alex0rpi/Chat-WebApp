@@ -1,14 +1,24 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import RoomChat from './pages/RoomChat';
 import WelcomeChat from './pages/WelcomeChat';
-import { initialSocketContext, SocketContext, reducerFunction } from './context/SocketContext';
-import { useReducer } from 'react';
+import {
+  initialSocketContext,
+  SocketContext,
+  reducerFunction,
+  ISocketContext,
+  IReducerActions,
+} from './context/SocketContext';
+import React, { useReducer } from 'react';
 
 function App() {
-  const [appState, dispatch] = useReducer(reducerFunction, initialSocketContext);
+  const [appState, dispatch] = useReducer<React.Reducer<ISocketContext, IReducerActions>>(
+    reducerFunction,
+    initialSocketContext
+  );
+  /* <React.Reducer<ISocketContext, IReducerActions>> help with type checking and ensures 
+  that the state and action objects are used correctly in the reducer function. */
 
   // Suposo que implementarí aquí mateix els events i escoltes del socket
-  // Però abans vull donar més forma a l'estructura del frontend.
 
   return (
     <div className="App">
@@ -28,13 +38,3 @@ function App() {
 }
 
 export default App;
-
-/* 
-export const initialSocketContext: ISocketContext = {
-  socket: undefined,
-  uid: null,
-  users: [],
-  messages: [],
-  rooms: [], //
-};
-*/

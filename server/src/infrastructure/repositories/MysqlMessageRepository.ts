@@ -2,7 +2,7 @@ import { Messages } from '../../models/initModels';
 
 class MysqlGameRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.
-  async createMessage(UserId: number, text: string, created_at: string, room?: string) {
+  async createMessage(text: string, created_at: string, UserId: number, room?: string) {
     await Messages.create({ text, room, UserId, created_at });
   }
 

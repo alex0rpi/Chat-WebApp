@@ -1,5 +1,4 @@
 // This component will only be visible at the welcome chat, once the user is identified.
-import React from 'react';
 import NewRoomForm from './NewRoomForm';
 import { Button } from 'react-bootstrap';
 
@@ -8,7 +7,7 @@ import { Button } from 'react-bootstrap';
 const RoomListBox = () => {
   return (
     <div className="room-list">
-      <h6>Room_List↓↓</h6>
+      <h6>Rooms</h6>
       <div className="room-list-content">
         <div className="d-grid gap-1">
           <Button variant="secondary" size="sm">

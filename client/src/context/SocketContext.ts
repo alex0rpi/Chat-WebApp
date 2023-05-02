@@ -2,16 +2,18 @@
 // create a context for authentication
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
+import { Message, User } from '../models/Interfaces';
 
+// State types
 export interface ISocketContext {
   socket: Socket | null;
   uid: string | null; // your own id
-  users: string[] | string; // list of all the ids already connected
-  messages: string[] | string; // list of all the messages (in a room or in the welcome chat)
+  users: User[]; // list of all the ids already connected
+  messages: Message[]; // list of all the messages (in a room or in the welcome chat)
   rooms: string[]; // list of all the rooms
 }
 
-interface IReducerActions {
+export interface IReducerActions {
   type:
     | 'update_socket'
     | 'update_uid'
@@ -20,9 +22,9 @@ interface IReducerActions {
     | 'update_messages'
     | 'update_rooms'
     | 'remove_room';
-  payload: string | string[] | Socket; // only 3 things can pass to the reducer
+  payload: string | string[] | User | User[] | Message | Message[] | Socket; // only 3 things can pass to the reducer
 }
-export const reducerFunction = (state: ISocketContext, action: IReducerActions) => {
+export const reducerFunction = (state: ISocketContext, action: IReducerActions): ISocketContext => {
   if (action.type === 'update_socket') {
     // payload is a socket object
     return { ...state, socket: action.payload as Socket };
@@ -33,17 +35,14 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions) 
   }
   if (action.type === 'update_users') {
     // payload is either an array of users or just a single string
-    const newUsers = Array.isArray(action.payload) ? action.payload : [action.payload]; // we put it in an array in case it is a single string
+    const newUsers = [action.payload]; // we put it in an array in case it is a single string
     return { ...state, users: [...state.users, ...newUsers] };
     // we use the spread operator to add the new users to the existing ones, if any.
   }
-  // if (action.type === 'remove_user') {
-  //   // payload is a string
-  //   return { ...state, users: state.users.filter((uid) => uid !== action.payload) };
-  // }
   if (action.type === 'update_messages') {
     // payload is an array of messages
-    return { ...state, messages: action.payload as string[] };
+    const newMessages = [action.payload]; // we put it in an array in case it is a single string
+    return { ...state, messages: [...state.messages, ...newMessages] };
   }
   if (action.type === 'update_rooms') {
     // payload is an array of rooms
@@ -66,9 +65,9 @@ export interface ISocketContextProps {
 }
 
 export const initialSocketContext: ISocketContext = {
-  users: [],
   socket: null,
   uid: null,
+  users: [],
   messages: [],
   rooms: [], //
 }; // this is the default state of the context
