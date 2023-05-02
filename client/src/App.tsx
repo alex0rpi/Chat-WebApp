@@ -8,7 +8,7 @@ import {
   ISocketContext,
   IReducerActions,
 } from './context/SocketContext';
-import React, { useReducer } from 'react';
+import React, { useReducer, useRef } from 'react';
 
 function App() {
   const [appState, dispatch] = useReducer<React.Reducer<ISocketContext, IReducerActions>>(
@@ -17,8 +17,6 @@ function App() {
   );
   /* <React.Reducer<ISocketContext, IReducerActions>> help with type checking and ensures 
   that the state and action objects are used correctly in the reducer function. */
-
-  // Suposo que implementarí aquí mateix els events i escoltes del socket
 
   return (
     <div className="App">

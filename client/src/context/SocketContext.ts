@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-// create a context for authentication
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
 import { Message, User } from '../models/Interfaces';
@@ -16,18 +15,22 @@ export interface ISocketContext {
 export interface IReducerActions {
   type:
     | 'update_socket'
+    | 'remove_socket'
     | 'update_uid'
     | 'update_users'
     | 'remove_user'
     | 'update_messages'
     | 'update_rooms'
     | 'remove_room';
-  payload: string | string[] | User | Message | Socket; // types admited by reducer.
+  payload: string | string[] | User | Message | Socket | null; // types admited by reducer.
 }
 export const reducerFunction = (state: ISocketContext, action: IReducerActions): ISocketContext => {
   if (action.type === 'update_socket') {
     // payload is a socket object
     return { ...state, socket: action.payload as Socket };
+  }
+  if (action.type === 'remove_socket') {
+    return { ...state, socket: null };
   }
   if (action.type === 'update_uid') {
     // payload is a string
@@ -53,8 +56,6 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
 };
 
 // ### CREATE THE CONTEXT ### //
-// up until now, we have only created the types and the reducer function that will be used
-
 export interface ISocketContextProps {
   // defines the shape of the context provider props. This interface has two properties:
   appState: ISocketContext;

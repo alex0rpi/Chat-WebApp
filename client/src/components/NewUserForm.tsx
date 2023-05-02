@@ -3,14 +3,16 @@
 import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
-// import { User } from '../models/Interfaces';
 import { FloatingLabel, Form } from 'react-bootstrap';
-
-// type Props = {}
+import { Socket, io } from 'socket.io-client';
 
 const NewUserForm = () => {
   const { appDispatch } = useContext(SocketContext);
   const inputRef = useRef<HTMLInputElement>(null);
+  //Create a socket instance and store it in a ref (so it survives app re-renders)
+  const { current: socket } = useRef(
+    io('ws://localhost:5000', { reconnectionAttempts: 5, reconnectionDelay: 5000, autoConnect: false })
+  );
   const handleUserEnter = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!inputRef.current?.value) {
@@ -26,6 +28,18 @@ const NewUserForm = () => {
     console.log(data);
     appDispatch({ type: 'update_users', payload: data.user }); // revisar esto
     // alert('user was added😁😀');
+    /* INIT THE SOCKET, update the state, connect to the server and provide this socket to
+   the context so that it can be used by the child components. */
+
+    socket.connect(); // connect to the server
+    appDispatch({ type: 'update_socket', payload: socket }); // update the socket in the context
+    initSocketEventListeners(socket); // init the socket event listeners
+  };
+
+  const initSocketEventListeners = (socket: Socket) => {
+    socket.on('connect', () => {
+      console.log('connected to the socket server');
+    });
   };
 
   return (

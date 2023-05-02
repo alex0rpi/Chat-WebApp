@@ -24,7 +24,6 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #6c93ae;
-
 }
 
 .container {
@@ -37,6 +36,14 @@ body {
   grid-template-rows: 10% 24% 60% 10%;
   grid-column-gap: 10px;
 }
+
+.exit-btn {
+  position: relative;
+  grid-column: 2/2;
+  margin-top: 90px;
+  text-align: center;
+}
+
 .header_bar {
   /* margin: 0; */
   grid-column-start: 1;

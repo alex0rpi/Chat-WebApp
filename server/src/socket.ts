@@ -5,10 +5,8 @@ import { v4 } from 'uuid';
 export class ServerSocket {
   public static instance: ServerSocket;
   public io: Server;
-  public botName = 'Bot ◑﹏◐';
+  public botName = 'Bot `◑﹏◐´';
 
-  /** LOCAL DATABASE OF USERS **/
-  /* This allows the class to keep track of all connected users with their unique user IDs (uid) and their associated socket IDs. */
   public users: {
     [uid: string]: string; // we define both the key and value as strings.
     //* IT IS AN OBJECT, NOT AN ARRAY. AN OBJECT CONTAINING:
@@ -37,9 +35,6 @@ export class ServerSocket {
   StartListeners = (socket: Socket) => {
     // Here we'll have all the listeners for the socket.io server
 
-    socket.on('joinRoom', ({username, room}) => {
-      
-    })
     socket.on('new-user', (name: string, callback: Function) => {
       // check is the user is new to the world
       if (Object.values(this.users).includes(socket.id)) {
@@ -48,5 +43,7 @@ export class ServerSocket {
         callback(true);
       }
     });
+
+    socket.on('joinRoom', ({ username, room }) => {});
   };
 }

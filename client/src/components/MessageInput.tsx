@@ -19,7 +19,7 @@ const MessageInput = () => {
         body: JSON.stringify({ text: msgInputRef.current.value }),
       });
       const data = await response.json();
-      console.log(data.text);
+      console.log(data);
       appDispatch({ type: 'update_messages', payload: data });
       msgInputRef.current.value = '';
     }
