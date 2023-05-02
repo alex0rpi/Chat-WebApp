@@ -22,7 +22,7 @@ export interface IReducerActions {
     | 'update_messages'
     | 'update_rooms'
     | 'remove_room';
-  payload: string | string[] | User | User[] | Message | Message[] | Socket; // only 3 things can pass to the reducer
+  payload: string | string[] | User | Message | Socket; // types admited by reducer.
 }
 export const reducerFunction = (state: ISocketContext, action: IReducerActions): ISocketContext => {
   if (action.type === 'update_socket') {
@@ -34,15 +34,12 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
     return { ...state, uid: action.payload as string };
   }
   if (action.type === 'update_users') {
-    // payload is either an array of users or just a single string
-    const newUsers = [action.payload]; // we put it in an array in case it is a single string
-    return { ...state, users: [...state.users, ...newUsers] };
-    // we use the spread operator to add the new users to the existing ones, if any.
+    const updatedUsers: User[] = [...state.users, action.payload as User];
+    return { ...state, users: updatedUsers };
   }
   if (action.type === 'update_messages') {
-    // payload is an array of messages
-    const newMessages = [action.payload]; // we put it in an array in case it is a single string
-    return { ...state, messages: [...state.messages, ...newMessages] };
+    const updatedMessages: Message[] = [...state.messages, action.payload as Message];
+    return { ...state, messages: updatedMessages };
   }
   if (action.type === 'update_rooms') {
     // payload is an array of rooms
