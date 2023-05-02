@@ -1,9 +1,8 @@
-import moment from 'moment';
 import { Users } from '../../models/initModels';
 
 class MysqlUserRepository {
-  async create(username: string, connectedAt: string, active: boolean, room?: string) {
-    await Users.create({ username, connectedAt, room, active });
+  async create(username: string, active: boolean, room?: string) {
+    return await Users.create({ username, room, active });
   }
 
   async retrieveUsers(room?: string) {

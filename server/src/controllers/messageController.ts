@@ -11,8 +11,8 @@ export const createMsg: RequestHandler = async (req, res) => {
       UserId: 1,
       //   room: null,
     };
-    await messageRepository?.createMessage(newMsg.text, newMsg.createdAt, newMsg.UserId);
-    res.status(201).json(newMsg);
+    const savedMsg = await messageRepository?.createMessage(newMsg.text, newMsg.createdAt, newMsg.UserId);
+    res.status(201).json(savedMsg);
   } catch (error) {
     if (error instanceof Error) res.status(500).json({ message: error.message });
   }

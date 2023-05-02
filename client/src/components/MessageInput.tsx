@@ -6,7 +6,7 @@ import UIButton from './UIButton';
 import { Form } from 'react-bootstrap';
 
 const MessageInput = () => {
-  const { appDispatch } = useContext(SocketContext);
+  const { appState, appDispatch } = useContext(SocketContext);
 
   const msgInputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +22,7 @@ const MessageInput = () => {
       console.log(data);
       appDispatch({ type: 'update_messages', payload: data });
       msgInputRef.current.value = '';
+      appState.socket?.emit('chatMsg', data.text); // send the message to the server
     }
   };
   return (

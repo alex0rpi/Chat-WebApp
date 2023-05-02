@@ -13,9 +13,11 @@ import { Button } from 'react-bootstrap';
 
 const WelcomeChat = () => {
   const { appState, appDispatch } = useContext(SocketContext);
+
   const handleExit = () => {
     console.log('exit button clicked');
     appDispatch({ type: 'remove_socket', payload: null });
+    appDispatch({ type: 'remove_user', payload: null });
   };
   return (
     <ContainerChatWindow>
@@ -27,7 +29,7 @@ const WelcomeChat = () => {
           <div className="exit-btn">
             <Button onClick={handleExit}>Disconnect</Button>
           </div>
-          <ConnectedUsersBox />
+          <ConnectedUsersBox welcomeChatUsers={appState.logged_users} />
           <RoomListBox />
           <MessageInput />
         </>

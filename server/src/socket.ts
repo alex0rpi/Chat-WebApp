@@ -1,6 +1,6 @@
 import { Server as HTTPServer } from 'http';
 import { Socket, Server } from 'socket.io';
-import { v4 } from 'uuid';
+// import { v4 } from 'uuid';
 
 export class ServerSocket {
   public static instance: ServerSocket;
@@ -35,15 +35,16 @@ export class ServerSocket {
   StartListeners = (socket: Socket) => {
     // Here we'll have all the listeners for the socket.io server
 
-    socket.on('new-user', (name: string, callback: Function) => {
+    socket.on('connection', () => {
       // check is the user is new to the world
-      if (Object.values(this.users).includes(socket.id)) {
-        // If the user is not already connected, we add them to the users object.
-        this.users[v4()] = socket.id; // we use the uuid library to generate a unique id for the user.
-        callback(true);
-      }
+      console.log('New user connected!!!!!');
+      socket.broadcast.emit('message', `${this.botName}: A new user has joined the welcome chat`);
     });
 
-    socket.on('joinRoom', ({ username, room }) => {});
+    socket.on('chatMsg', (message: string) => {
+      // when a user sends a message
+      console.log(message);
+      // socket.broadcast.emit('message', message);
+    });
   };
 }

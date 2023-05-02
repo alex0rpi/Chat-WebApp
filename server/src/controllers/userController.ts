@@ -8,15 +8,15 @@ export const createUser: RequestHandler = async (req, res) => {
     if (!existingUser) {
       const newUser = {
         username: req.body.username,
-        connectedAt: moment().format('MMMM Do YYYY, h:mm:ss a'),
         active: true,
         // no rooms for the moment
       };
-      await userRepository?.create(newUser.username, newUser.connectedAt, newUser.active);
-      return res.status(201).json({ user: newUser });
+      const savedUser = await userRepository?.create(newUser.username, newUser.active);
+      return res.status(201).json({ user: savedUser });
     }
-    // If user exists and is not active, change active status to true
-    return res.status(201).json({ user: existingUser });
+    // If user exists and is not active, change active status to true and update connectedAt.
+    const user = { ...existingUser, connectedAt: moment().format('MMMM Do YYYY, h:mm:ss a'), active: true };
+    return res.status(201).json({ user });
   } catch (error) {
     if (error instanceof Error) return res.status(500).json({ message: error.message });
   }

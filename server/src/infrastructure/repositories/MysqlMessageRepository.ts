@@ -3,7 +3,7 @@ import { Messages } from '../../models/initModels';
 class MysqlGameRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.
   async createMessage(text: string, created_at: string, UserId: number, room?: string) {
-    await Messages.create({ text, room, UserId, created_at });
+    return await Messages.create({ text, room, UserId, created_at });
   }
 
   // En cas que vulgui esborrar missatges d'un user, potser ho trec això.

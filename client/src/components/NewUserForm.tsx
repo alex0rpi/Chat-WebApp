@@ -31,7 +31,9 @@ const NewUserForm = () => {
     /* INIT THE SOCKET, update the state, connect to the server and provide this socket to
    the context so that it can be used by the child components. */
 
+    appDispatch({ type: 'update_uid', payload: data.user.id });
     socket.connect(); // connect to the server
+    socket.emit('connection');
     appDispatch({ type: 'update_socket', payload: socket }); // update the socket in the context
     initSocketEventListeners(socket); // init the socket event listeners
   };

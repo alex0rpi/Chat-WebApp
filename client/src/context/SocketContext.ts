@@ -7,7 +7,7 @@ import { Message, User } from '../models/Interfaces';
 export interface ISocketContext {
   socket: Socket | null;
   uid: string | null; // your own id
-  users: User[]; // list of all the ids already connected
+  logged_users: User[]; // list of all the ids already connected
   messages: Message[]; // list of all the messages (in a room or in the welcome chat)
   rooms: string[]; // list of all the rooms
 }
@@ -37,8 +37,8 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
     return { ...state, uid: action.payload as string };
   }
   if (action.type === 'update_users') {
-    const updatedUsers: User[] = [...state.users, action.payload as User];
-    return { ...state, users: updatedUsers };
+    const updatedUsers: User[] = [...state.logged_users, action.payload as User];
+    return { ...state, logged_users: updatedUsers };
   }
   if (action.type === 'update_messages') {
     const updatedMessages: Message[] = [...state.messages, action.payload as Message];
@@ -65,7 +65,7 @@ export interface ISocketContextProps {
 export const initialSocketContext: ISocketContext = {
   socket: null,
   uid: null,
-  users: [],
+  logged_users: [],
   messages: [],
   rooms: [], //
 }; // this is the default state of the context

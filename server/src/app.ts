@@ -14,7 +14,7 @@ new ServerSocket(httpServer);
 // Static instance of the socket server. We can now access the socket server from anywhere in the application.
 
 /** Log the request */
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   console.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
 
   res.on('finish', () => {
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   });
 
   next();
-});
+}); */
 
 /** Enable JSON parsing */
 app.use(express.json());
@@ -49,3 +49,11 @@ const PORT = process.env.PORT || 5000;
 initDB().then(() => {
   httpServer.listen(PORT, () => console.info('🚀🚀Server is running on port', PORT));
 });
+
+// ? Passarem el llistat de users actius a través del socket? o bé a través d'una petició http a la API?
+// Suposo que aquesta vegada seria a través de socket, de manera que tothom que escolti el socket rebrà la llista de users actius.
+// Això vol dir que el client haurà de tenir un socket obert per escoltar aquesta informació, cosa que 
+// passarà quan l'usuari es registri o faci login.
+// Idem amb els missatges.
+// Aleshores, els únics API requests que farà el client seràn per register i login.
+// En canvi, per enviar missatges, crear rooms i demés, ho farà a través del socket.
