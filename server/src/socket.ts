@@ -1,6 +1,5 @@
 import { Server as HTTPServer } from 'http';
 import { Socket, Server } from 'socket.io';
-import { v4 } from 'uuid';
 import { getCurrentUser, getRoomUsers, userJoin, userLeave } from './utils/users';
 
 export class ServerSocket {
@@ -22,7 +21,7 @@ export class ServerSocket {
     });
     this.io.on('connect', this.StartListeners); //socket will be injected in here by the io.on('connect') event
 
-    console.info('Socket.io server started');
+    console.info('Socket.io server started, awaiting connections...📡📡');
   }
 
   //  *Event listeners ________________________________________________________________________
