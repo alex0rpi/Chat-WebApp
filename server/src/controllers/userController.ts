@@ -9,9 +9,9 @@ export const createUser: RequestHandler = async (req, res) => {
       const newUser = {
         username: req.body.username,
         active: true,
-        // no rooms for the moment
+        room: 'welcome',
       };
-      const savedUser = await userRepository?.create(newUser.username, newUser.active);
+      const savedUser = await userRepository?.create(newUser.username, newUser.active, newUser.room);
       return res.status(201).json({ user: savedUser });
     }
     // If user exists and is not active, change active status to true and update connectedAt.

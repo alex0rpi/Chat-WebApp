@@ -1,7 +1,7 @@
 import { Users } from '../../models/initModels';
 
 class MysqlUserRepository {
-  async create(username: string, active: boolean, room?: string) {
+  async create(username: string, active: boolean, room: string) {
     return await Users.create({ username, room, active });
   }
 

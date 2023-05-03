@@ -14,7 +14,7 @@ new ServerSocket(httpServer);
 // Static instance of the socket server. We can now access the socket server from anywhere in the application.
 
 /** Log the request */
-/* app.use((req, res, next) => {
+app.use((req, res, next) => {
   console.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
 
   res.on('finish', () => {
@@ -24,7 +24,7 @@ new ServerSocket(httpServer);
   });
 
   next();
-}); */
+});
 
 /** Enable JSON parsing */
 app.use(express.json());

@@ -4,7 +4,7 @@ export default (sequelize, DataTypes) => {
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       username: { type: DataTypes.STRING, allowNull: false },
-      room: { type: DataTypes.STRING, allowNull: true },
+      room: { type: DataTypes.STRING, allowNull: false },
       active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
     },
     {
