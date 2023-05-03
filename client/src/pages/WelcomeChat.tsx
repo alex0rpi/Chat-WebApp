@@ -29,12 +29,12 @@ const WelcomeChat = () => {
           <div className="exit-btn">
             <Button onClick={handleExit}>Disconnect</Button>
           </div>
+          <ChatBox />
           <ConnectedUsersBox welcomeChatUsers={appState.logged_users} />
           <RoomListBox />
           <MessageInput />
         </>
       )}
-      <ChatBox />
     </ContainerChatWindow>
   );
 };
