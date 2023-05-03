@@ -22,6 +22,10 @@ class MysqlUserRepository {
     return users;
   }
 
+  async setUserLoggedOut(uid: number) {
+    await Users.update({ active: false }, { where: { id: uid } });
+  }
+
   async retrieveByName(username: string) {
     const existingUser = await Users.findOne({ where: { username } });
     return existingUser;

@@ -4,7 +4,7 @@ import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
 import { FloatingLabel, Form } from 'react-bootstrap';
-import { Socket, io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 const NewUserForm = () => {
   const { appDispatch } = useContext(SocketContext);
@@ -26,28 +26,22 @@ const NewUserForm = () => {
     });
     const data = await response.json();
     console.log(data);
-    appDispatch({ type: 'update_users', payload: data.user }); // revisar esto
-    // alert('user was added😁😀');
-    /* INIT THE SOCKET, update the state, connect to the server and provide this socket to
+    appDispatch({ type: 'update_users', payload: data.user });
+    // user was created or an existing user active status was updated and context as well.
+    /* INIT THE SOCKET, connect to the server and provide this socket to
    the context so that it can be used by the child components. */
 
     appDispatch({ type: 'update_uid', payload: data.user.id });
-    socket.connect(); // connect to the server
+    // update the uid in the context for the current user.
+    socket.connect(); // connect to the socket server
     socket.emit('connection');
     appDispatch({ type: 'update_socket', payload: socket }); // update the socket in the context
-    initSocketEventListeners(socket); // init the socket event listeners
-  };
-
-  const initSocketEventListeners = (socket: Socket) => {
-    socket.on('connect', () => {
-      console.log('connected to the socket server');
-    });
   };
 
   return (
     <div className="name-field">
-      <FloatingLabel controlId="floatingInput" label="Email address" className="mb-2 p-0">
-        <Form.Control ref={inputRef} type="email" placeholder="name@example.com" />
+      <FloatingLabel controlId="floatingInput" label="Your username" className="mb-2 p-0">
+        <Form.Control ref={inputRef} type="username" placeholder="name@example.com" />
       </FloatingLabel>
       <FloatingLabel className="d-flex" controlId="floatingPassword" label="Password">
         <Form.Control type="password" placeholder="Password" />

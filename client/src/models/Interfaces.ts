@@ -1,5 +1,5 @@
 export interface Message {
-  id: string;
+  id: number;
   text?: string;
   room?: string;
   UserId: string;
@@ -7,7 +7,7 @@ export interface Message {
 }
 
 export interface User {
-  id: string;
+  id: number;
   username: string;
   room?: string;
   active: boolean;

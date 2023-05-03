@@ -6,7 +6,7 @@ import { Message, User } from '../models/Interfaces';
 // State types
 export interface ISocketContext {
   socket: Socket | null;
-  uid: string | null; // your own id
+  uid: number | null; // your own id
   logged_users: User[]; // list of all the ids already connected
   messages: Message[]; // list of all the messages (in a room or in the welcome chat)
   rooms: string[]; // list of all the rooms
@@ -22,7 +22,7 @@ export interface IReducerActions {
     | 'update_messages'
     | 'update_rooms'
     | 'remove_room';
-  payload: string | string[] | User | Message | Socket | null; // types admited by reducer.
+  payload: number | string | string[] | User | Message | Socket | null; // types admited by reducer.
 }
 export const reducerFunction = (state: ISocketContext, action: IReducerActions): ISocketContext => {
   if (action.type === 'update_socket') {
@@ -34,7 +34,7 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
   }
   if (action.type === 'update_uid') {
     // payload is a string
-    return { ...state, uid: action.payload as string };
+    return { ...state, uid: action.payload as number };
   }
   if (action.type === 'update_users') {
     const updatedUsers: User[] = [...state.logged_users, action.payload as User];

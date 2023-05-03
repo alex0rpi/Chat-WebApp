@@ -30,3 +30,9 @@ export const getUsers: RequestHandler = async (req, res) => {
     if (error instanceof Error) return res.status(500).json({ message: error.message });
   }
 };
+
+export const logOutUser: RequestHandler = async (req, res) => {
+  const uid: number = Number(req.params.uid);
+  await userRepository?.setUserLoggedOut(uid);
+  return res.sendStatus(204);
+};

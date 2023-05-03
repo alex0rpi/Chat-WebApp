@@ -16,6 +16,8 @@ const ConnectedUsersBox = ({ welcomeChatUsers }: connectedUsersProps) => {
 
   const usersInWelcomeChat = welcomeChatUsers.length;
 
+  appState.socket?.on('activeUsers', (data) => console.log(data.activeUserList));
+
   return (
     <div className="user-list">
       <h6>Connected ({usersInWelcomeChat})</h6>
@@ -23,7 +25,7 @@ const ConnectedUsersBox = ({ welcomeChatUsers }: connectedUsersProps) => {
         {appState.logged_users.map((user) => {
           console.log(user.username);
           return (
-            <Button variant={user.id === appState.uid ? 'warning' : 'secondary'} size="sm" key={user.id}>
+            <Button key={user.id} variant={user.id === appState.uid ? 'warning' : 'secondary'} size="sm">
               👦{user.username}
             </Button>
           );

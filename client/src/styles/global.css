@@ -37,6 +37,12 @@ body {
   grid-column-gap: 10px;
 }
 
+.toast {
+  grid-row: 2/2;
+  grid-column: 3/3;
+  z-index: 10;
+}
+
 .exit-btn {
   display: flex;
   flex-direction: column;
