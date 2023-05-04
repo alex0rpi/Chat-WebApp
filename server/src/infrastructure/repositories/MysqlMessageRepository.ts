@@ -3,7 +3,7 @@ import { Messages } from '../../models/initModels';
 class MysqlGameRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.
   async createMessage(text: string, created_at: string, UserId: number, room?: string) {
-    return await Messages.create({ text, room, UserId, created_at });
+    await Messages.create({ text, room, UserId, created_at });
   }
 
   // En cas que vulgui esborrar missatges d'un user, potser ho trec això.
@@ -17,8 +17,8 @@ class MysqlGameRepository {
   // Recuperar tots els missatges d'un usuari i per una room en concret si aplica.
   async retrieveUserMessages(UserId: number, room: string) {
     const messageList = await Messages.findAll(
-      { where: { UserId } },
-      { attributes: { exclude: ['UserId'] } },
+      { attributes: { exclude: ['id'] } },
+      { where: { UserId, room } },
       { raw: true }
     );
     return messageList;

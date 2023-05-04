@@ -9,16 +9,14 @@ import { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Button } from 'react-bootstrap';
 
-// type Props = {}
-
 const WelcomeChat = () => {
-  const { appState } = useContext(SocketContext);
+  const { appState, dispatch } = useContext(SocketContext);
 
   const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log('exit button clicked');
+    appState.socket?.disconnect();
+    dispatch({ type: 'remove_user', payload: null });
   };
-
 
   return (
     <ContainerChatWindow>

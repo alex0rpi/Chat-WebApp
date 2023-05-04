@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { userRepository } from '../infrastructure/dependecy-injection';
 import { User } from '../models/Interfaces';
+import { v4 } from 'uuid';
 
 export let activeUsers: User[] = [];
 
@@ -14,7 +15,14 @@ export const createUser: RequestHandler = async (req, res) => {
         active: true,
       };
       await userRepository?.create(newUser.username, newUser.active, newUser.room);
-      activeUsers = await userRepository?.retrieveUsers('welcome')
+      const activeUsernamesList = await userRepository?.retrieveUsers('welcome');
+      activeUsers = activeUsernamesList.map((item: { username: string }) => {
+        return {
+          uid: v4(),
+          username: item.username,
+        };
+      });
+      console.log(activeUsers)
       return res.status(201).send();
     }
     // If user exists and is not active, change active status to true and put in the "welcome" room.

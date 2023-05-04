@@ -1,17 +1,28 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 
 const ChatBox = () => {
-  const { appState } = useContext(SocketContext);
-  const [message, setMessage] = useState(null);
+  const { appState, dispatch } = useContext(SocketContext);
+  // const [message, setMessage] = useState(null);
   // Listen for messages from server
+
+  appState.socket?.on('infoMsg', ({ message }) => {
+    // just display the message
+    
+  });
   appState.socket?.on('message', ({ message }) => {
-    setMessage(message);
+    dispatch({ type: 'update_messages', payload: message });
   });
 
   return (
     <div className="chat-box">
-      <p>{message}</p>
+      {appState.messages.map((message, index) => {
+        return (
+          <div key={index} className="message">
+            <p className="message-text">{message}</p>
+          </div>
+        );
+      })}
     </div>
   );
 };

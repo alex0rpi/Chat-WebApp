@@ -5,7 +5,6 @@ import { Message } from '../models/Interfaces';
 
 export let displayMessages: Message[] = [];
 
-
 export const createMsg: RequestHandler = async (req, res) => {
   try {
     const { text } = req.body;
@@ -13,9 +12,10 @@ export const createMsg: RequestHandler = async (req, res) => {
       text,
       createdAt: moment().format('MMMM Do YYYY, h:mm:ss a'),
       UserId: 1,
-      //   room: null,
+      room: 'welcome',
     };
-    const savedMsg = await messageRepository?.createMessage(newMsg.text, newMsg.createdAt, newMsg.UserId);
+    await messageRepository?.createMessage(newMsg.text, newMsg.createdAt, newMsg.UserId);
+    displayMessages = await messageRepository?.retrieveUserMessages(newMsg.UserId, newMsg.room);
     res.status(201).json(savedMsg);
   } catch (error) {
     if (error instanceof Error) res.status(500).json({ message: error.message });

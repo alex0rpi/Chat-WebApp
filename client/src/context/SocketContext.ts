@@ -6,18 +6,13 @@ import { Message, User } from '../models/Interfaces';
 // State types
 export interface ISocketContext {
   socket: Socket | null;
-  logged_users: User[]; // list of all the ids already connected
-  messages: string[]; // list of all the messages (in a room or in the welcome chat)
-  rooms: string[]; // list of all the rooms
+  current_uid: number | null; // the id of the current user
+  logged_users: User[]; // ['name1', 'name2', 'name3']
+  messages: Message[]; // list of all the messages (in a room or in the welcome chat)
 }
 
 export interface IReducerActions {
-  type:
-    | 'update_socket'
-    | 'remove_socket'
-    | 'update_logged_users'
-    // | 'remove_user'
-    | 'update_messages';
+  type: 'update_socket' | 'remove_socket' | 'update_logged_users' | 'remove_user' | 'update_messages';
   // | 'update_rooms'
   // | 'remove_room';
   payload: number | string | string[] | User[] | Message | Socket | null; // types admited by reducer.
@@ -35,18 +30,17 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
     console.log(updatedUsers);
     return { ...state, logged_users: updatedUsers as User[] };
   }
+  if (action.type === 'remove_user') {
+    return { ...state, logged_users: [] };
+  }
+  /* if (action.type === 'remove_user') {
+    const updatedUsers = state.logged_users.filter((user) => user.uid !== state.current_uid);
+    return { ...state, logged_users: updatedUsers };
+  } */
   if (action.type === 'update_messages') {
-    const updatedMessages: string[] = [...state.messages, action.payload as string];
+    const updatedMessages: Message[] = [...state.messages, action.payload as Message];
     return { ...state, messages: updatedMessages };
   }
-  /*   if (action.type === 'update_rooms') {
-    // payload is an array of rooms
-    return { ...state, rooms: action.payload as string[] };
-  } */
-  /* if (action.type === 'remove_room') {
-    // payload is a string
-    return { ...state, rooms: state.rooms.filter((room) => room !== action.payload) };
-  } */
   return state;
 };
 
@@ -59,9 +53,9 @@ export interface ISocketContextProps {
 
 export const initialSocketContext: ISocketContext = {
   socket: null,
+  current_uid: null,
   logged_users: [],
   messages: [],
-  rooms: [], //
 }; // this is the default state of the context
 
 export const SocketContext = createContext<ISocketContextProps>({

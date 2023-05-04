@@ -26,8 +26,10 @@ const NewUserForm = () => {
       // Extract info from the socket event we receive from the server
       socket.connect();
       dispatch({ type: 'update_socket', payload: socket });
-      dispatch({ type: 'update_logged_users', payload: inputRef.current.value });
       socket.emit('join', { username: inputRef.current.value, room: 'welcome' });
+      socket.on('userList', ({ users }) => {
+        dispatch({ type: 'update_logged_users', payload: users });
+      });
     }
   };
 

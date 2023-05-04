@@ -2,19 +2,20 @@ import { Users } from '../../models/initModels';
 
 class MysqlUserRepository {
   async create(username: string, active: boolean, room: string) {
-    return await Users.create({ username, room, active });
+    await Users.create({ username, room, active });
   }
 
   async retrieveUsers(room?: string) {
     if (room) {
       const users = await Users.findAll({
+        attributes: ['username'],
         where: { room, active: true },
         raw: true,
       });
-      console.log(users);
       return users;
     }
     const users = await Users.findAll({
+      attributes: ['username'],
       where: { active: true },
       raw: true,
     });

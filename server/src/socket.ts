@@ -9,6 +9,7 @@ export class ServerSocket {
   public io: Server;
   public botName = 'Bot `◑_◐´';
   public activeUsers = activeUsers;
+  public displayMessages = displayMessages;
 
   constructor(server: HTTPServer) {
     ServerSocket.instance = this; // this is a singleton class, so we set the instance to this class.
@@ -30,7 +31,7 @@ export class ServerSocket {
 
   StartListeners = (socket: Socket) => {
     // *SOCKET IDS ARE UNIQUE TO EACH CONNECTION OR BROWSER WINDOW
-    console.info('New socket generated with id: ' + socket.id);
+    console.info('New socket connection: ' + socket.id);
 
     // !Handle connection event
     socket.on('join', ({ username, room }) => {
@@ -39,9 +40,9 @@ export class ServerSocket {
 
       socket.join(room);
       // Pass on information to the client side
-      socket.emit('message', { message: `${this.botName}: Welcome to the chat, ${username}!` });
+      socket.emit('infoMsg', { message: `${this.botName}: Welcome to the chat, ${username}!` });
       const message = `${this.botName}: ${username} has joined the chat!`;
-      socket.broadcast.to(room).emit('message', { message, users: activeUsers });
+      socket.broadcast.to(room).emit('userList', { users: activeUsers });
     });
 
     socket.on('chatMsg', (message: string) => {
@@ -51,17 +52,14 @@ export class ServerSocket {
     });
 
     // !Handle disconnect event (the user needs to give me back the socket.id I provided to him/her, so I can remove it from the users object)
-    /* socket.on('disconnect', () => {
+    socket.on('disconnect', () => {
       console.log('Disconnect received from ' + socket.id);
-      const user = userLeave(socket.id); // the removed user
-      console.log(user)
-      this.io
-        .to(user!.room)
-        .emit('message', { message: `${this.botName}: user ${user!.username} is gone bye bye..` });
-      this.io.to(user!.room).emit('roomUsers', {
-        room: user!.room,
-        users: getRoomUsers(user!.room),
+
+
+
+      this.io.emit('userList', {
+        users: activeUsers,
       });
-    }); */
+    });
   };
 }

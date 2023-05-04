@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import RoomChat from './pages/RoomChat';
 import WelcomeChat from './pages/WelcomeChat';
 import {
   initialSocketContext,
@@ -9,7 +8,6 @@ import {
   IReducerActions,
 } from './context/SocketContext';
 import React, { useReducer, useEffect } from 'react';
-import { socket } from './socket';
 
 function App() {
   const [appState, dispatch] = useReducer<React.Reducer<ISocketContext, IReducerActions>>(
@@ -23,12 +21,6 @@ function App() {
 
   /* INIT THE SOCKET, connect to the server and provide this socket to
     the context so that it can be used by the child components. */
-  useEffect(() => {
-    appState.socket?.on('message', ({ message }) => {
-      console.log(message);
-      dispatch({ type: 'update_messages', payload: message });
-    });
-  }, []);
 
   // ----------------
 
