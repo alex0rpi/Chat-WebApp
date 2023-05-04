@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
 import { userRepository } from '../infrastructure/dependecy-injection';
-import moment from 'moment';
+import { User } from '../models/Interfaces';
+
+export let activeUsers: User[] = [];
 
 export const createUser: RequestHandler = async (req, res) => {
   try {
@@ -8,15 +10,17 @@ export const createUser: RequestHandler = async (req, res) => {
     if (!existingUser) {
       const newUser = {
         username: req.body.username,
-        active: true,
         room: 'welcome',
+        active: true,
       };
-      const savedUser = await userRepository?.create(newUser.username, newUser.active, newUser.room);
-      return res.status(201).json({ user: savedUser });
+      await userRepository?.create(newUser.username, newUser.active, newUser.room);
+      activeUsers = await userRepository?.retrieveUsers('welcome')
+      return res.status(201).send();
     }
-    // If user exists and is not active, change active status to true and update connectedAt.
-    const user = { ...existingUser, connectedAt: moment().format('MMMM Do YYYY, h:mm:ss a'), active: true };
-    return res.status(201).json({ user });
+    // If user exists and is not active, change active status to true and put in the "welcome" room.
+    await userRepository?.setUserActive(existingUser.username);
+    activeUsers = await userRepository?.retrieveUsers('welcome');
+    return res.status(201).send();
   } catch (error) {
     if (error instanceof Error) return res.status(500).json({ message: error.message });
   }
@@ -24,8 +28,8 @@ export const createUser: RequestHandler = async (req, res) => {
 
 export const getUsers: RequestHandler = async (req, res) => {
   try {
-    const userList = await userRepository?.retrieveUsers();
-    return res.status(200).json(userList);
+    activeUsers = await userRepository?.retrieveUsers();
+    return res.status(200).json(activeUsers);
   } catch (error) {
     if (error instanceof Error) return res.status(500).json({ message: error.message });
   }

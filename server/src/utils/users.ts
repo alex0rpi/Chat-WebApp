@@ -13,10 +13,9 @@ const users: User[] = [];
 
 // Join user to chat
 export function userJoin(id: string, username: string, room: string) {
-  const user = { id, username, room };
-
+  const user = { id, username, room }; //id es el socket.id, NO el mysql id.
   users.push(user);
-
+  console.log(users)
   return user;
 }
 

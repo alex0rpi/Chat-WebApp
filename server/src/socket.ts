@@ -1,11 +1,14 @@
 import { Server as HTTPServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { getCurrentUser, getRoomUsers, userJoin, userLeave } from './utils/users';
+import { activeUsers } from './controllers/userController';
+import { displayMessages } from './controllers/messageController';
 
 export class ServerSocket {
   public static instance: ServerSocket;
   public io: Server;
-  public botName = 'Bot `◑﹏◐´';
+  public botName = 'Bot `◑_◐´';
+  public activeUsers = activeUsers;
 
   constructor(server: HTTPServer) {
     ServerSocket.instance = this; // this is a singleton class, so we set the instance to this class.
@@ -20,7 +23,6 @@ export class ServerSocket {
       },
     });
     this.io.on('connect', this.StartListeners); //socket will be injected in here by the io.on('connect') event
-
     console.info('Socket.io server started, awaiting connections...📡📡');
   }
 
@@ -28,22 +30,18 @@ export class ServerSocket {
 
   StartListeners = (socket: Socket) => {
     // *SOCKET IDS ARE UNIQUE TO EACH CONNECTION OR BROWSER WINDOW
-    console.info('Comm. received from ' + socket.id);
+    console.info('New socket generated with id: ' + socket.id);
 
     // !Handle connection event
-
     socket.on('join', ({ username, room }) => {
       // when a user joins the welcome chat
-      const user = userJoin(socket.id, username, room);
+      // const user = userJoin(socket.id, username, room);
 
       socket.join(room);
-      socket.emit('message', { message: `${this.botName}: Welcome to the chat ${username}!` });
-      socket.broadcast.to(room).emit('message', { message: `${this.botName}: ${username} has joined the chat!` });
       // Pass on information to the client side
-      this.io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room),
-      });
+      socket.emit('message', { message: `${this.botName}: Welcome to the chat, ${username}!` });
+      const message = `${this.botName}: ${username} has joined the chat!`;
+      socket.broadcast.to(room).emit('message', { message, users: activeUsers });
     });
 
     socket.on('chatMsg', (message: string) => {
@@ -53,9 +51,10 @@ export class ServerSocket {
     });
 
     // !Handle disconnect event (the user needs to give me back the socket.id I provided to him/her, so I can remove it from the users object)
-    socket.on('disconnect', () => {
+    /* socket.on('disconnect', () => {
       console.log('Disconnect received from ' + socket.id);
       const user = userLeave(socket.id); // the removed user
+      console.log(user)
       this.io
         .to(user!.room)
         .emit('message', { message: `${this.botName}: user ${user!.username} is gone bye bye..` });
@@ -63,6 +62,6 @@ export class ServerSocket {
         room: user!.room,
         users: getRoomUsers(user!.room),
       });
-    });
+    }); */
   };
 }

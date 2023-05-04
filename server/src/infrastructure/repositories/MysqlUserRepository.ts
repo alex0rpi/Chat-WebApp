@@ -8,22 +8,25 @@ class MysqlUserRepository {
   async retrieveUsers(room?: string) {
     if (room) {
       const users = await Users.findAll({
-        attributes: ['username'],
         where: { room, active: true },
         raw: true,
       });
-      return users; // [ { username: 'user1' }, { username: 'user2' } ]
+      console.log(users);
+      return users;
     }
     const users = await Users.findAll({
-      attributes: ['username'],
       where: { active: true },
       raw: true,
     });
     return users;
   }
 
+  async setUserActive(username: string) {
+    await Users.update({ active: true }, { where: { username } });
+  }
+
   async setUserLoggedOut(uid: number) {
-    await Users.update({ active: false }, { where: { id: uid } });
+    await Users.update({ active: false, room: null }, { where: { id: uid } });
   }
 
   async retrieveByName(username: string) {

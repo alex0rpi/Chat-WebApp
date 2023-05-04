@@ -1,6 +1,10 @@
 import { RequestHandler } from 'express';
 import { messageRepository } from '../infrastructure/dependecy-injection';
 import moment from 'moment';
+import { Message } from '../models/Interfaces';
+
+export let displayMessages: Message[] = [];
+
 
 export const createMsg: RequestHandler = async (req, res) => {
   try {

@@ -4,17 +4,15 @@ import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
 import { FloatingLabel, Form } from 'react-bootstrap';
-import { io } from 'socket.io-client';
+import { socket } from '../socket';
 
 const NewUserForm = () => {
-  const { appDispatch } = useContext(SocketContext);
+  const { dispatch } = useContext(SocketContext);
   const inputRef = useRef<HTMLInputElement>(null);
-  //Create a socket instance and store it in a ref (so it survives app re-renders)
-  const { current: socket } = useRef(
-    io('ws://localhost:5000', { reconnectionAttempts: 5, reconnectionDelay: 5000, autoConnect: false })
-  );
+
   const handleUserEnter = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
     if (!inputRef.current?.value) {
       alert('Please enter a name (≧▽≦)'); //later it could be a toast
       return;
@@ -24,18 +22,13 @@ const NewUserForm = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: inputRef.current.value }),
     });
-    const data = await response.json();
-    console.log(data);
-    appDispatch({ type: 'update_users', payload: data.user });
-    // user was created or an existing user active status was updated and context as well.
-    /* INIT THE SOCKET, connect to the server and provide this socket to
-   the context so that it can be used by the child components. */
-
-    appDispatch({ type: 'update_uid', payload: data.user.id });
-    // update the uid in the context for the current user.
-    socket.connect(); // connect to the socket server
-    socket.emit('connection');
-    appDispatch({ type: 'update_socket', payload: socket }); // update the socket in the context
+    if (response.ok) {
+      // Extract info from the socket event we receive from the server
+      socket.connect();
+      dispatch({ type: 'update_socket', payload: socket });
+      dispatch({ type: 'update_logged_users', payload: inputRef.current.value });
+      socket.emit('join', { username: inputRef.current.value, room: 'welcome' });
+    }
   };
 
   return (

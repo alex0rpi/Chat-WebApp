@@ -5,31 +5,27 @@
 import { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Button } from 'react-bootstrap';
-import { User } from '../models/Interfaces';
 
-type connectedUsersProps = {
-  welcomeChatUsers: User[];
-};
 
-const ConnectedUsersBox = ({ welcomeChatUsers }: connectedUsersProps) => {
+const ConnectedUsersBox = () => {
   const { appState } = useContext(SocketContext);
 
-  const usersInWelcomeChat = welcomeChatUsers.length;
+  // const usersInWelcomeChat = appState.logged_users.length;
 
-  appState.socket?.on('activeUsers', (data) => console.log(data.activeUserList));
+  // appState.socket?.on('activeUsers', (data) => console.log(data.activeUserList));
 
   return (
     <div className="user-list">
-      <h6>Connected ({usersInWelcomeChat})</h6>
+      {/* <h6>Connected ({usersInWelcomeChat})</h6> */}
       <div className="d-grid gap-1">
-        {appState.logged_users.map((user) => {
+        {/* {appState.logged_users.map((user) => {
           console.log(user.username);
           return (
-            <Button key={user.id} variant={user.id === appState.uid ? 'warning' : 'secondary'} size="sm">
+            <Button key={user.id} variant="warning" size="sm">
               👦{user.username}
             </Button>
           );
-        })}
+        })} */}
 
         {/* UI samples, current user should be warning highlighted */}
         {/* <div className="d-grid gap-1">

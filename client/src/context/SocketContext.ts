@@ -6,9 +6,8 @@ import { Message, User } from '../models/Interfaces';
 // State types
 export interface ISocketContext {
   socket: Socket | null;
-  uid: number | null; // your own id
   logged_users: User[]; // list of all the ids already connected
-  messages: Message[]; // list of all the messages (in a room or in the welcome chat)
+  messages: string[]; // list of all the messages (in a room or in the welcome chat)
   rooms: string[]; // list of all the rooms
 }
 
@@ -16,13 +15,12 @@ export interface IReducerActions {
   type:
     | 'update_socket'
     | 'remove_socket'
-    | 'update_uid'
-    | 'update_users'
-    | 'remove_user'
-    | 'update_messages'
-    | 'update_rooms'
-    | 'remove_room';
-  payload: number | string | string[] | User | Message | Socket | null; // types admited by reducer.
+    | 'update_logged_users'
+    // | 'remove_user'
+    | 'update_messages';
+  // | 'update_rooms'
+  // | 'remove_room';
+  payload: number | string | string[] | User[] | Message | Socket | null; // types admited by reducer.
 }
 export const reducerFunction = (state: ISocketContext, action: IReducerActions): ISocketContext => {
   if (action.type === 'update_socket') {
@@ -32,26 +30,23 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
   if (action.type === 'remove_socket') {
     return { ...state, socket: null };
   }
-  if (action.type === 'update_uid') {
-    // payload is a string
-    return { ...state, uid: action.payload as number };
-  }
-  if (action.type === 'update_users') {
-    const updatedUsers: User[] = [...state.logged_users, action.payload as User];
-    return { ...state, logged_users: updatedUsers };
+  if (action.type === 'update_logged_users') {
+    const updatedUsers = action.payload; // array of User objects
+    console.log(updatedUsers);
+    return { ...state, logged_users: updatedUsers as User[] };
   }
   if (action.type === 'update_messages') {
-    const updatedMessages: Message[] = [...state.messages, action.payload as Message];
+    const updatedMessages: string[] = [...state.messages, action.payload as string];
     return { ...state, messages: updatedMessages };
   }
-  if (action.type === 'update_rooms') {
+  /*   if (action.type === 'update_rooms') {
     // payload is an array of rooms
     return { ...state, rooms: action.payload as string[] };
-  }
-  if (action.type === 'remove_room') {
+  } */
+  /* if (action.type === 'remove_room') {
     // payload is a string
     return { ...state, rooms: state.rooms.filter((room) => room !== action.payload) };
-  }
+  } */
   return state;
 };
 
@@ -59,12 +54,11 @@ export const reducerFunction = (state: ISocketContext, action: IReducerActions):
 export interface ISocketContextProps {
   // defines the shape of the context provider props. This interface has two properties:
   appState: ISocketContext;
-  appDispatch: React.Dispatch<IReducerActions>; // it will look for that reducer function
+  dispatch: React.Dispatch<IReducerActions>; // it will look for that reducer function
 }
 
 export const initialSocketContext: ISocketContext = {
   socket: null,
-  uid: null,
   logged_users: [],
   messages: [],
   rooms: [], //
@@ -72,5 +66,5 @@ export const initialSocketContext: ISocketContext = {
 
 export const SocketContext = createContext<ISocketContextProps>({
   appState: initialSocketContext,
-  appDispatch: () => {},
+  dispatch: () => {},
 });
