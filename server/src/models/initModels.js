@@ -23,8 +23,8 @@ function initModels(sequelize) {
   const UserRoom = _UserRoom(sequelize, User, Room);
   User.belongsToMany(Room, { through: UserRoom, foreignKey: 'userId', otherKey: 'roomId' });
   Room.belongsToMany(User, { through: UserRoom, foreignKey: 'roomId', otherKey: 'userId' });
-  User.hasMany(Message, { foreignKey: 'UserId' });
-  Room.hasMany(Message, { foreignKey: 'RoomId' }); // foreign key appears in the messages table.
+  User.hasMany(Message, { foreignKey: 'userId' });
+  Room.hasMany(Message, { foreignKey: 'roomId' }); // foreign key appears in the messages table.
   return {
     User,
     Message,

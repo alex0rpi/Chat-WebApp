@@ -52,4 +52,5 @@ export const handshake = (
     users.filter((id) => id !== socket.id),
     users
   );
+  //this sends the message to all connected users, except the one that just connected.
 };

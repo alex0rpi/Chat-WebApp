@@ -1,30 +1,28 @@
 import { ServerSocket } from '../socket';
-
-import { User, Room, UserRoom } from '../initModels';
+// import { User, Room, UserRoom } from '../initModels';
+import { userRepository, roomRepository, userRoomRepository } from '../../infrastructure/dependecy-injection';
 import { newMessage } from './newMessage';
- 
-export const enterRoom = async (serverSocket: ServerSocket, userId: string, roomName: string) => {
-  try {
-    // Recupera el usuario y el room
-    const user = await User.findByPk(userId);
-    const newRoom = roomName ? await Room.findOne({ where: { roomName } }) : 0;
 
-    // Recupera los datos del room antiguo
-    const oldUserRoom = await UserRoom.findOne({ where: { userId } });
-    const oldRoom = oldUserRoom?.roomId ? await Room.findByPk(oldUserRoom.roomId) : 0;
+export const enterRoom = async (serverSocket: ServerSocket, userId: number, roomName?: string | number) => {
+  try {
+    // Retrieve user and room
+    const user = await userRepository!.retrieveById(userId);
+    const newRoom = roomName ? await roomRepository!.retrieveRoomByName(roomName) : 0;
+
+    // Recupera los datos del room existente
+    const oldUserRoom = await userRoomRepository?.findRoomByUserId(userId);
+    const oldRoom = oldUserRoom?.roomId ? await roomRepository!.retrieveRoomById(oldUserRoom.roomId) : 0;
 
     // Borra cualquier registro antiguo
-    await UserRoom.destroy({ where: { userId: user.userId } });
+    await userRoomRepository!.deleteUserRooms(user.userId);
 
-    // Escribe el nuevo room
+    // Escribe el nuevo room //*Això no ho acabo d'entendre
     if (newRoom) {
       await user.addRoom(newRoom);
     }
 
     // Recupera la lista de rooms con los usuarios
-    const rooms = await Room.findAll({
-      include: [{ model: User }],
-    });
+    const rooms = await roomRepository!.getAllRoomsAndUsers();
 
     if (roomName) {
       const data = {

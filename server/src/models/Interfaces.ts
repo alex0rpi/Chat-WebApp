@@ -13,3 +13,9 @@ export interface User {
 export interface ActiveUser {
   [key: string]: string;
 }
+
+export interface MessageData {
+  userId: number | null;
+  roomName: string | number;
+  message: string;
+}

@@ -1,6 +1,6 @@
 import { User } from '../../models/initModels';
 
-class MysqlUserRepository {
+class UserRepository {
   async create(username: string, active: boolean, room: string) {
     await User.create({ username, room, active });
   }
@@ -36,7 +36,8 @@ class MysqlUserRepository {
   }
 
   async retrieveById(id: number) {
-    let existingUser = await User.findOne({ where: { id } }, { attributes: ['id', 'username'], raw: true });
+    // let existingUser = await User.findOne({ where: { id } }, { attributes: ['id', 'username'], raw: true });
+    let existingUser = await User.findOne({ where: { id } });
     return existingUser;
   }
 
@@ -47,4 +48,4 @@ class MysqlUserRepository {
   }
 }
 
-export default MysqlUserRepository;
+export default UserRepository;
