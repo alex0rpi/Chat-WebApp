@@ -9,8 +9,7 @@ export interface User {
   uid: number;
   username: string;
 }
-
-export interface activeUser {
-  uid: number;
-  username: string;
+// USed in server\src\models\eventListeners\handshake.ts
+export interface ActiveUser {
+  [key: string]: string;
 }

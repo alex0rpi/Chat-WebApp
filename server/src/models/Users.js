@@ -1,22 +1,25 @@
 export default (sequelize, DataTypes) => {
-  const Users = sequelize.define(
-    'Users',
-    {
-      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      username: { type: DataTypes.STRING, allowNull: false },
-      room: { type: DataTypes.STRING, allowNull: true },
-      active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+  const User = sequelize.define('user', {
+    userId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     },
-    {
-      timestamps: false,
-    }
-  );
+    userName: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    displayName: {
+      type: DataTypes.STRING
+    },
+    password: DataTypes.STRING
+  });
 
-  Users.associate = (models) => {
-    Users.hasMany(models.Messages, {
+  User.associate = (models) => {
+    User.hasMany(models.Message, {
       onDelete: 'cascade',
     });
   };
 
-  return Users;
-};
+  return User;
+}

@@ -1,17 +1,23 @@
 import { Server as HTTPServer } from 'http';
 import { Socket, Server } from 'socket.io';
-import { activeUser } from './Interfaces';
-const { disconnect, handshake, createRoom, enterRoom, newMessage } = require('./event_listeners/');
+import { ActiveUser } from './Interfaces';
+import * as eventListeners from './eventListeners';
 
 export class ServerSocket {
   public static instance: ServerSocket;
   public io: Server;
   public botName = 'Bot `◑_◐´';
-  public activeUsers: activeUser | {};
+  public activeUsers: ActiveUser;
+  /* serverSocket.users is an object of user objects like this, where the key is the user object stringified and the value is his/her socket id:
+  {
+    '{"userId":1,"userName":"admin","displayName":"Admin"}': '1Y2Z3X4W5V6U7T8S9R0Q',
+    '{"userId":2,"userName":"person","displayName":"Person"}': 'TY6Z3X4W5V6U7T8S9PO0',
+    ...
+  } */
 
   constructor(server: HTTPServer) {
     ServerSocket.instance = this; // this is a singleton class, so we set the instance to this class.
-    this.activeUsers = {};
+    this.activeUsers = {}; // {uid: socket.id, uid: socket.id, ...}
     this.io = new Server(server, {
       // initialize the socket.io server
       serveClient: false, // don't serve the client files
@@ -32,24 +38,24 @@ export class ServerSocket {
 
     // !Handle connection event
     socket.on('handshake', (loggedUser, callback) => {
-      handshake(this, socket, loggedUser, callback);
+      eventListeners.handshake(this, socket, loggedUser, callback);
     });
 
-    socket.on('disconnect', () => {
-      disconnect(this, socket);
-    });
+    // socket.on('disconnect', () => {
+    //   eventListeners.disconnect(this, socket);
+    // });
 
-    socket.on('create_room', (roomName) => {
-      createRoom(this, roomName);
-    });
+    // socket.on('create_room', (roomName) => {
+    //   eventListeners.createRoom(this, roomName);
+    // });
 
-    socket.on('enter_room', (userId, roomName) => {
-      enterRoom(this, userId, roomName);
-    });
+    // socket.on('enter_room', (userId, roomName) => {
+    //   eventListeners.enterRoom(this, userId, roomName);
+    // });
 
-    socket.on('new_message', (data) => {
-      newMessage(this, data);
-    });
+    // socket.on('new_message', (data) => {
+    //   eventListeners.newMessage(this, data);
+    // });
   };
 
   GetUidFromSocketId = (id: string) => Object.keys(this.activeUsers).find((uid) => this.activeUsers[uid] === id);
@@ -60,7 +66,7 @@ export class ServerSocket {
    * @param {*} users List of socket id's
    * @param {*} payload any information needed
    */
-  SendMessage = (event: string, users, payload) => {
+  SendMessage = (event: string, users: string[], payload?: any) => {
     console.log(`Emmitting event: ${event} to `, users);
     users.forEach((id) => {
       payload ? this.io.to(id).emit(event, payload) : this.io.to(id).emit(event);
