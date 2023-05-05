@@ -9,3 +9,8 @@ export interface User {
   uid: number;
   username: string;
 }
+
+export interface activeUser {
+  uid: number;
+  username: string;
+}

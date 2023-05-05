@@ -1,10 +1,11 @@
 import 'dotenv/config';
 import http from 'http';
 import express from 'express';
-import { ServerSocket } from './socket';
 import initDB from './models/initModels';
 import userRoutes from './routes/userRoutes';
 import messageRoutes from './routes/messageRoutes';
+import cors from 'cors';
+import { ServerSocket } from './models/socket';
 
 const app = express(); // Express app object can handle http requests but is not suitable for sockets.
 const httpServer = http.createServer(app); // Node http server object is suitable for sockets.
@@ -30,10 +31,11 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 /** CORS handling **/
+app.use(cors()); // TODO: We should configure CORS properly. We should not allow all origins.
 // For the moment we'll use a proxy at client side to avoid CORS issues.
 
-app.use('/user', userRoutes)
-app.use('/message', messageRoutes)
+app.use('/user', userRoutes);
+app.use('/message', messageRoutes);
 
 /** Error handling */
 app.use((req, res, next) => {
@@ -52,7 +54,7 @@ initDB().then(() => {
 
 // ? Passarem el llistat de users actius a través del socket? o bé a través d'una petició http a la API?
 // Suposo que aquesta vegada seria a través de socket, de manera que tothom que escolti el socket rebrà la llista de users actius.
-// Això vol dir que el client haurà de tenir un socket obert per escoltar aquesta informació, cosa que 
+// Això vol dir que el client haurà de tenir un socket obert per escoltar aquesta informació, cosa que
 // passarà quan l'usuari es registri o faci login.
 // Idem amb els missatges.
 // Aleshores, els únics API requests que farà el client seràn per register i login.
