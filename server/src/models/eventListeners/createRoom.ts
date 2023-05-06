@@ -1,7 +1,7 @@
 import { ServerSocket } from '../socket';
 import { roomRepository } from '../../infrastructure/dependecy-injection';
 
-export const createRoom = async (serverSocket: ServerSocket, roomName: string | number) => {
+export const createRoom = async (serverSocket: ServerSocket, roomName: string) => {
   try {
     await roomRepository!.createRoom(roomName);
     const rooms = await roomRepository!.getAllRooms();

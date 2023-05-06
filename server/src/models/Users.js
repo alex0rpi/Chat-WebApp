@@ -9,9 +9,6 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    displayName: {
-      type: DataTypes.STRING
-    },
     password: DataTypes.STRING
   });
 

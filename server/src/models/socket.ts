@@ -10,8 +10,8 @@ export class ServerSocket {
   public activeUsers: ActiveUser;
   /* serverSocket.users is an object of user objects like this, where the key is the user object stringified and the value is his/her socket id:
   {
-    '{"userId":1,"userName":"admin","displayName":"Admin"}': '1Y2Z3X4W5V6U7T8S9R0Q',
-    '{"userId":2,"userName":"person","displayName":"Person"}': 'TY6Z3X4W5V6U7T8S9PO0',
+    '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q',
+    '{"userId":2,"userName":"person"}': 'TY6Z3X4W5V6U7T8S9PO0',
     ...
   } */
 

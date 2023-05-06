@@ -28,7 +28,7 @@ export const enterRoom = async (serverSocket: ServerSocket, userId: number, room
       const data = {
         userId: null,
         roomName,
-        message: `${user.displayName} join the room`,
+        message: `${user.username} join the room`,
       };
 
       newMessage(serverSocket, data);
@@ -39,7 +39,7 @@ export const enterRoom = async (serverSocket: ServerSocket, userId: number, room
       const data = {
         userId: null,
         roomName: oldRoom.roomName,
-        message: `${user.displayName} left the room`,
+        message: `${user.username} left the room`,
       };
 
       newMessage(serverSocket, data);

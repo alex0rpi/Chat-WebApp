@@ -14,10 +14,10 @@ export const registerUser: RequestHandler = async (req, res) => {
     return res.json(error);
   }
   try {
-    let { username, displayName, password } = req.body;
+    let { username, password } = req.body;
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
-    const newUser = userRepository!.create(username, displayName, hashedPw);
+    const newUser = userRepository!.create(username, hashedPw);
     return res.status(200).json({ user: newUser, message: `new user -${username}- created. ` });
   } catch (error: unknown) {
     if (error instanceof Error) return res.status(500).json(error);
@@ -46,7 +46,6 @@ export const loginUser: RequestHandler = async (req, res) => {
       {
         username: existingUser.username,
         userId: existingUser.userId,
-        displayName: existingUser.displayName,
       },
       'chatapp', // this shoule be process.env.JWT_KEY but it's not working with dotenv
       {

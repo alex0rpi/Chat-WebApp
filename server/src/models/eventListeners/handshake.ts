@@ -33,12 +33,11 @@ export const handshake = (
   const uid = JSON.stringify({
     userId: loggedUser.userId,
     userName: loggedUser.userName,
-    displayName: loggedUser.displayName,
   });
-  // this produces a string like this: {"userId":1,"userName":"admin","displayName":"Admin"}
+  // this produces a string like this: {"userId":1,"userName":"admin"}
 
   serverSocket.activeUsers[uid] = socket.id;
-  // serverSocket.users is an obj like: { '{"userId":1,"userName":"admin","displayName":"Admin"}': '1Y2Z3X4W5V6U7T8S9R0Q' }
+  // serverSocket.users is an obj like: { '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q' }
 
   const users = Object.values(serverSocket.activeUsers);
   // convert the obj to an array of socket ids

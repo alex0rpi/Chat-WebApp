@@ -1,5 +1,4 @@
 export const MESSAGES = {
-  DISPLAYNAMEREQUIRED: 'displayName is required',
   USERNAMECONFLICT: 'Sorry, username is already in use',
   USERREQUIRED: 'Username is required',
   MISSINGUSERNAMEORPWD: 'Missing Username or password',

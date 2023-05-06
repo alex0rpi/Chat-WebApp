@@ -1,8 +1,8 @@
 import { User } from '../../models/initModels';
 
 class UserRepository {
-  async create(username: string, displayName: string, password: string) {
-    const newUser = await User.create({ username, displayName, password });
+  async create(username: string, password: string) {
+    const newUser = await User.create({ username, password });
     return newUser;
   }
 
