@@ -1,0 +1,17 @@
+export const MESSAGES = {
+  DISPLAYNAMEREQUIRED: 'displayName is required',
+  USERNAMECONFLICT: 'Sorry, username is already in use',
+  USERREQUIRED: 'Username is required',
+  MISSINGUSERNAMEORPWD: 'Missing Username or password',
+  PASSWORDREQUIRED: 'Password is required',
+  WRONGUSERORPASS: 'Wrong Username or password',
+  ROOMNAMEREQUIRED: 'roomName is required',
+  ROOMREGISTERED: 'Room registered',
+  //   INVALIDTOKEN: 'Invalid token',
+  //   MISSINGTOKEN: 'Missing token',
+  //   MISSINGTOKENHEADER: 'Missing token header',
+  //   TOKENEXPIRED: 'Token expired',
+  //   NOTFOUND: 'Resource not found',
+  ERROR404: 'Not found - 404',
+  //   USERREGISTERED: 'User registered',
+};

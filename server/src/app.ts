@@ -3,7 +3,8 @@ import http from 'http';
 import express from 'express';
 import initDB from './models/initModels';
 import userRoutes from './routes/userRoutes';
-import messageRoutes from './routes/messageRoutes';
+import roomRoutes from './routes/roomRoutes';
+import notFoundController from './middlewares/notFoundController';
 import cors from 'cors';
 import { ServerSocket } from './models/socket';
 
@@ -34,8 +35,10 @@ app.use(express.json());
 app.use(cors()); // TODO: We should configure CORS properly. We should not allow all origins.
 // For the moment we'll use a proxy at client side to avoid CORS issues.
 
-app.use('/user', userRoutes);
-app.use('/message', messageRoutes);
+app.use('/users', userRoutes);
+app.use('/rooms', roomRoutes);
+app.use(notFoundController);
+
 
 /** Error handling */
 app.use((req, res, next) => {

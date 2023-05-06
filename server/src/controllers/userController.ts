@@ -1,50 +1,78 @@
+import 'dotenv/config';
 import { RequestHandler } from 'express';
 import { userRepository } from '../infrastructure/dependecy-injection';
-import { User } from '../models/Interfaces';
-import { v4 } from 'uuid';
+import bcrypt from 'bcrypt';
+import { NotCorrectParamsError } from './helpers/ErrorHandler';
+import { Result, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
-export let activeUsers: User[] = [];
-
-export const createUser: RequestHandler = async (req, res) => {
+export const registerUser: RequestHandler = async (req, res) => {
+  const result: Result = validationResult(req);
+  const errors = result.array();
+  if (errors.length > 0) {
+    const error = new NotCorrectParamsError('Incorrect fields provided', 422, errors);
+    return res.json(error);
+  }
   try {
-    const existingUser = await userRepository?.retrieveByName(req.body.username);
+    let { username, displayName, password } = req.body;
+    const saltRounds = 10;
+    const hashedPw = await bcrypt.hash(password, saltRounds);
+    const newUser = userRepository!.create(username, displayName, hashedPw);
+    return res.status(200).json({ user: newUser, message: `new user -${username}- created. ` });
+  } catch (error: unknown) {
+    if (error instanceof Error) return res.status(500).json(error);
+  }
+};
+
+export const loginUser: RequestHandler = async (req, res) => {
+  const result: Result = validationResult(req);
+  const errors = result.array();
+  if (errors.length > 0) {
+    const error = new NotCorrectParamsError('Incorrect fields provided', 422, errors);
+    return res.json(error);
+  }
+  try {
+    const existingUser = await userRepository!.retrieveByName(req.body);
     if (!existingUser) {
-      const newUser = {
-        username: req.body.username,
-        room: 'welcome',
-        active: true,
-      };
-      await userRepository?.create(newUser.username, newUser.active, newUser.room);
-      const activeUsernamesList = await userRepository?.retrieveUsers('welcome');
-      activeUsers = activeUsernamesList.map((item: { username: string }) => {
-        return {
-          uid: v4(),
-          username: item.username,
-        };
-      });
-      console.log(activeUsers)
-      return res.status(201).send();
+      const error = new NotCorrectParamsError('User not found', 422);
+      return res.json(error);
     }
-    // If user exists and is not active, change active status to true and put in the "welcome" room.
-    await userRepository?.setUserActive(existingUser.username);
-    activeUsers = await userRepository?.retrieveUsers('welcome');
-    return res.status(201).send();
+    const isMatch = await bcrypt.compare(req.body.password, existingUser.password);
+    if (!isMatch) {
+      const error = new NotCorrectParamsError('Incorrect password.', 422);
+      return res.json(error);
+    }
+    const token = jwt.sign(
+      {
+        username: existingUser.username,
+        userId: existingUser.userId,
+        displayName: existingUser.displayName,
+      },
+      'chatapp', // this shoule be process.env.JWT_KEY but it's not working with dotenv
+      {
+        expiresIn: '24h',
+      }
+    );
+    res.setHeader('authorization', 'Bearer ' + token);
+    res.json({ token, user: existingUser });
   } catch (error) {
-    if (error instanceof Error) return res.status(500).json({ message: error.message });
+    if (error instanceof Error) return res.status(500).json(error);
   }
 };
 
-export const getUsers: RequestHandler = async (req, res) => {
-  try {
-    activeUsers = await userRepository?.retrieveUsers();
-    return res.status(200).json(activeUsers);
-  } catch (error) {
-    if (error instanceof Error) return res.status(500).json({ message: error.message });
-  }
-};
+export const logOutUser: RequestHandler = async (req, res) => {};
 
-export const logOutUser: RequestHandler = async (req, res) => {
-  const uid: number = Number(req.params.uid);
-  await userRepository?.setUserLoggedOut(uid);
-  return res.sendStatus(204);
-};
+// export const getUsers: RequestHandler = async (req, res) => {
+//   try {
+//     activeUsers = await userRepository?.retrieveUsers();
+//     return res.status(200).json(activeUsers);
+//   } catch (error) {
+//     if (error instanceof Error) return res.status(500).json({ message: error.message });
+//   }
+// };
+
+// export const logOutUser: RequestHandler = async (req, res) => {
+//   const uid: number = Number(req.params.uid);
+//   await userRepository?.setUserLoggedOut(uid);
+//   return res.sendStatus(204);
+// };
