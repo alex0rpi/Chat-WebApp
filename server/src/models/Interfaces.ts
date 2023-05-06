@@ -1,3 +1,5 @@
+import { JwtPayload } from "jsonwebtoken";
+
 export interface Message {
   text?: string;
   room?: string;
@@ -18,4 +20,9 @@ export interface MessageData {
   userId: number | null;
   roomName: string;
   message: string;
+}
+
+export interface TokenPayloadInterface {
+  username?: string;
+  userId?: number;
 }

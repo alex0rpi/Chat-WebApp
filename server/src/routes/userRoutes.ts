@@ -1,15 +1,16 @@
 import express from 'express';
 import * as userController from '../controllers/userController';
-import { userRegisterValidate } from '../controllers/helpers/userRegisterValidate';
-import { userLoginValidate } from '../controllers/helpers/userLoginValidate';
+import { userValidate } from '../controllers/helpers/userValidate';
 import { validateToken } from '../middlewares/validateToken';
 
 const router = express.Router();
 
-router.post('/register', userRegisterValidate, userController.registerUser);
+router.post('/register', userValidate, userController.registerUser);
 
-router.post('/login', userLoginValidate, userController.loginUser);
+// This API route will also allocate a token to the user who logs in.
+router.post('/login', userValidate, userController.loginUser);
 
+// At some point, the user will use this api route to check if the token is still valid.
 router.post('/tokeninfo', validateToken)
 
 router.post('/logout', userController.logOutUser);

@@ -1,11 +1,10 @@
-export const MESSAGES = {
-  USERNAMECONFLICT: 'Sorry, username is already in use',
+export const ERRMSGS = {
   USERREQUIRED: 'Username is required',
-  MISSINGUSERNAMEORPWD: 'Missing Username or password',
   PASSWORDREQUIRED: 'Password is required',
+  USERNAMECONFLICT: 'Sorry, username is already in use',
+  MISSINGUSERNAMEORPWD: 'Missing Username or password',
   WRONGUSERORPASS: 'Wrong Username or password',
   ROOMNAMEREQUIRED: 'roomName is required',
-  ROOMREGISTERED: 'Room registered',
   //   INVALIDTOKEN: 'Invalid token',
   //   MISSINGTOKEN: 'Missing token',
   //   MISSINGTOKENHEADER: 'Missing token header',

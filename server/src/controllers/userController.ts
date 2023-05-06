@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import { NotCorrectParamsError } from './helpers/ErrorHandler';
 import { Result, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
+import { TokenPayloadInterface } from '../models/Interfaces';
 
 export const registerUser: RequestHandler = async (req, res) => {
   const result: Result = validationResult(req);
@@ -42,11 +43,12 @@ export const loginUser: RequestHandler = async (req, res) => {
       const error = new NotCorrectParamsError('Incorrect password.', 422);
       return res.json(error);
     }
+    const tokenPayload: TokenPayloadInterface = {
+      username: existingUser.username,
+      userId: existingUser.userId,
+    };
     const token = jwt.sign(
-      {
-        username: existingUser.username,
-        userId: existingUser.userId,
-      },
+      tokenPayload,
       'chatapp', // this shoule be process.env.JWT_KEY but it's not working with dotenv
       {
         expiresIn: '24h',
