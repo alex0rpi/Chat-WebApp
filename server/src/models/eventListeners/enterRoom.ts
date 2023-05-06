@@ -3,15 +3,15 @@ import { ServerSocket } from '../socket';
 import { userRepository, roomRepository, userRoomRepository } from '../../infrastructure/dependecy-injection';
 import { newMessage } from './newMessage';
 
-export const enterRoom = async (serverSocket: ServerSocket, userId: number, roomName?: string | number) => {
+export const enterRoom = async (serverSocket: ServerSocket, userId: number, roomName?: string) => {
   try {
     // Retrieve user and room
     const user = await userRepository!.retrieveById(userId);
-    const newRoom = roomName ? await roomRepository!.retrieveRoomByName(roomName) : 0;
+    const newRoom = roomName ? await roomRepository!.retrieveRoomByName(roomName) : "welcome";
 
     // Recupera los datos del room existente
     const oldUserRoom = await userRoomRepository?.findRoomByUserId(userId);
-    const oldRoom = oldUserRoom?.roomId ? await roomRepository!.retrieveRoomById(oldUserRoom.roomId) : 0;
+    const oldRoom = oldUserRoom?.roomId ? await roomRepository!.retrieveRoomById(oldUserRoom.roomId) : "welcome";
 
     // Borra cualquier registro antiguo
     await userRoomRepository!.deleteUserRooms(user.userId);

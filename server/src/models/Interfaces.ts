@@ -16,6 +16,6 @@ export interface ActiveUser {
 
 export interface MessageData {
   userId: number | null;
-  roomName: string | number;
+  roomName: string;
   message: string;
 }

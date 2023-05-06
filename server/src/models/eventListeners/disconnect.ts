@@ -8,7 +8,7 @@ export const disconnect = async (serverSocket:ServerSocket, socket:Socket) => {
 
   if (uid) {
     const user = JSON.parse(uid)
-    enterRoom(serverSocket, user.userId, 0) // enter the user in the lobby
+    enterRoom(serverSocket, user.userId, "welcome") // enter the user in the lobby
 
     // Borra el usuario de la lista de users
     delete serverSocket.activeUsers[uid]

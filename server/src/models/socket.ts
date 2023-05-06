@@ -41,30 +41,30 @@ export class ServerSocket {
       eventListeners.handshake(this, socket, loggedUser, callback);
     });
 
-    // socket.on('disconnect', () => {
-    //   eventListeners.disconnect(this, socket);
-    // });
+    socket.on('disconnect', () => {
+      eventListeners.disconnect(this, socket);
+    });
 
-    // socket.on('create_room', (roomName) => {
-    //   eventListeners.createRoom(this, roomName);
-    // });
+    socket.on('create_room', (roomName) => {
+      eventListeners.createRoom(this, roomName);
+    });
 
-    // socket.on('enter_room', (userId, roomName) => {
-    //   eventListeners.enterRoom(this, userId, roomName);
-    // });
+    socket.on('enter_room', (userId, roomName) => {
+      eventListeners.enterRoom(this, userId, roomName);
+    });
 
-    // socket.on('new_message', (data) => {
-    //   eventListeners.newMessage(this, data);
-    // });
+    socket.on('new_message', (data) => {
+      eventListeners.newMessage(this, data);
+    });
   };
 
   GetUidFromSocketId = (id: string) => Object.keys(this.activeUsers).find((uid) => this.activeUsers[uid] === id);
 
   /**
    * Send a message though the socket
-   * @param {*} name The ename of the event, ex: handshake
-   * @param {*} users List of socket id's
-   * @param {*} payload any information needed
+  //  * @param {*} name The ename of the event, ex: handshake
+  //  * @param {*} users List of socket id's
+  //  * @param {*} payload any information needed
    */
   SendMessage = (event: string, users: string[], payload?: any) => {
     console.log(`Emmitting event: ${event} to `, users);

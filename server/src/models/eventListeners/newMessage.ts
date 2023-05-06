@@ -7,7 +7,7 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
   try {
     const { userId, roomName, message } = data;
     // Recupera el usuario y el room
-    const room = roomName ? await roomRepository!.retrieveRoomByName(roomName) : 0;
+    const room = roomName ? await roomRepository!.retrieveRoomByName(roomName) : "welcome";
 
     // save message on db
     await messageRepository!.createMessage(message, userId, room.roomId);
