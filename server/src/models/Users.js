@@ -10,7 +10,11 @@ export default (sequelize, DataTypes) => {
       unique: true
     },
     password: DataTypes.STRING
-  });
+  },
+    {
+      timestamps: false
+    }
+  );
 
   User.associate = (models) => {
     User.hasMany(models.Message, {

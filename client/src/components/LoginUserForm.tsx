@@ -5,12 +5,13 @@ import { SocketContext } from '../context/SocketContext';
 import UIButton from './UIButton';
 import { FloatingLabel, Form } from 'react-bootstrap';
 import { socket } from '../socket';
+import { Formik } from 'formik';
 
-const NewUserForm = () => {
+const LoginUserForm = () => {
   const { dispatch } = useContext(SocketContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleUserEnter = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onLoginHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (!inputRef.current?.value) {
@@ -35,15 +36,18 @@ const NewUserForm = () => {
 
   return (
     <div className="name-field">
-      <FloatingLabel controlId="floatingInput" label="Your username" className="mb-2 p-0">
-        <Form.Control ref={inputRef} type="username" placeholder="name@example.com" />
-      </FloatingLabel>
-      <FloatingLabel className="d-flex" controlId="floatingPassword" label="Password">
-        <Form.Control type="password" placeholder="Password" />
-        <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
-      </FloatingLabel>
+      <h2>Login</h2>
+      <Formik initialValues={initialValues} validationSchema={signinSchema} onSubmit={onLoginHandler}>
+        <FloatingLabel controlId="floatingInput" label="Your username" className="mb-2 p-0">
+          <Form.Control ref={inputRef} type="username" placeholder="name@example.com" />
+        </FloatingLabel>
+        <FloatingLabel className="d-flex" controlId="floatingPassword" label="Repeat password">
+          <Form.Control type="password" placeholder="Password" />
+          <UIButton btnText="ENTER" clickHandler={handleUserEnter} />
+        </FloatingLabel>
+      </Formik>
     </div>
   );
 };
 
-export default NewUserForm;
+export default LoginUserForm;

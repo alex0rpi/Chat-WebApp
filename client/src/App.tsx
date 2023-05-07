@@ -7,7 +7,11 @@ import {
   ISocketContext,
   IReducerActions,
 } from './context/SocketContext';
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useState } from 'react';
+// import RoomChat from './pages/RoomChat';
+import LoginUserForm from './components/LoginUserForm';
+import RegisterUserForm from './components/RegisterUserForm';
+// import Header_bar from './components/Header_bar';
 
 function App() {
   const [appState, dispatch] = useReducer<React.Reducer<ISocketContext, IReducerActions>>(
@@ -31,9 +35,11 @@ function App() {
       <SocketContext.Provider value={{ appState, dispatch }}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navigate to="/welcome" />} />
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<LoginUserForm />} />
+            <Route path="/register" element={<RegisterUserForm />} />
             <Route path="/welcome" element={<WelcomeChat />} />
-            {/* <Route path="/rooms/someroomname" element={<RoomChat />} /> */}
+            {/* <Route path="/welcome/:roomName" element={<RoomChat />} /> */}
           </Routes>
         </BrowserRouter>
       </SocketContext.Provider>

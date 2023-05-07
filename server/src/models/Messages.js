@@ -8,7 +8,15 @@ export default (sequelize, DataTypes, User, Room) => {
     message: {
       type: DataTypes.STRING
     }
-  })
+  },
+    // on timestamps, only enable createdAt, disable updatedAt
+    {
+      timestamps: true,
+      createdAt: true,
+      updatedAt: false
+    }
+
+  )
 
   return Message
 }

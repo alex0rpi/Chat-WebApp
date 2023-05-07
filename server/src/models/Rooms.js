@@ -11,7 +11,11 @@ export default (sequelize, DataTypes) => {
             allowNull: false,
             collate: 'utf8_bin'
         }
-    });
+    },
+        {
+            timestamps: false
+        }
+    );
     Room.associate = (models) => {
         Room.hasMany(models.Message, {
             onDelete: 'cascade',
