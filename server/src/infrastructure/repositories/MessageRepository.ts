@@ -3,15 +3,15 @@ import { User } from '../../models/initModels';
 
 class MessageRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.
-  async createMessage(message: string, userId: number | null, roomId: string | number) {
+  async createMessage(message: string, userId: number | null, roomId: number) {
     await Message.create({ message, userId, roomId });
   }
 
   // Recover all messages existing in a room.
-  async retrieveRoomMessages(roomId: string | number) {
+  async retrieveRoomMessages(roomId: number) {
     const messageList = await Message.findAll(
       { where: { roomId } },
-      { include: [{ model: User, as: 'user' }] },
+      { include: [{ model: User, as: 'user' }] }, // this should include the username
       { order: [['createdAt', 'ASC']] }
     );
     return messageList;

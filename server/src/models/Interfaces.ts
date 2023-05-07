@@ -1,4 +1,17 @@
-import { JwtPayload } from "jsonwebtoken";
+export interface ActiveUser {
+  [key: string]: string;
+}
+
+export interface TokenPayloadInterface {
+  username?: string;
+  userId?: number;
+}
+
+export interface MessageData {
+  userId: number | null;
+  roomName: string;
+  message: string;
+}
 
 export interface Message {
   text?: string;
@@ -10,19 +23,4 @@ export interface Message {
 export interface User {
   uid: number;
   username: string;
-}
-// USed in server\src\models\eventListeners\handshake.ts
-export interface ActiveUser {
-  [key: string]: string;
-}
-
-export interface MessageData {
-  userId: number | null;
-  roomName: string;
-  message: string;
-}
-
-export interface TokenPayloadInterface {
-  username?: string;
-  userId?: number;
 }

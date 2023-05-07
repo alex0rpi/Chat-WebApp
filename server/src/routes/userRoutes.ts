@@ -1,9 +1,11 @@
 import express from 'express';
 import * as userController from '../controllers/userController';
 import { userValidate } from '../controllers/helpers/userValidate';
-import { validateToken } from '../middlewares/validateToken';
+import { validateUserToken } from '../middlewares/validateUserToken';
 
 const router = express.Router();
+
+//! app.use('/users', userRoutes);
 
 router.post('/register', userValidate, userController.registerUser);
 
@@ -11,7 +13,7 @@ router.post('/register', userValidate, userController.registerUser);
 router.post('/login', userValidate, userController.loginUser);
 
 // At some point, the user will use this api route to check if the token is still valid.
-router.post('/tokeninfo', validateToken)
+router.post('/tokeninfo', validateUserToken)
 
 router.post('/logout', userController.logOutUser);
 

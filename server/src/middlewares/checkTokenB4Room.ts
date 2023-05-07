@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { InvalidTokenError } from '../controllers/helpers/ErrorHandler';
 import { TokenPayloadInterface } from '../models/Interfaces';
 
-export const checkTokenB4RoomCreate: RequestHandler = (req: any, res, next) => {
+export const checkTokenB4Room: RequestHandler = (req: any, res, next) => {
   if (!req.headers['token']) {
     const error = new InvalidTokenError(
       'Authorization failed due to invalid or non existing token',

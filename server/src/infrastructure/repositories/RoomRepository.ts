@@ -9,6 +9,7 @@ class RoomRepository {
   async retrieveRoomByName(roomName: string) {
     let existingRoom = await Room.findOne({ where: { roomName } });
     return existingRoom;
+    // return room object containing roomName and roomId
   }
 
   async retrieveRoomById(roomId: string) {

@@ -19,12 +19,14 @@ export const handshake = (
 
   if (reconnected) {
     console.log('This user has reconnected');
-    const uid = serverSocket.GetUidFromSocketId(socket.id);
-    const users = Object.values(serverSocket.activeUsers);
+    const uid = serverSocket.GetUinfoKeyFromSocketId(socket.id);
 
     if (uid) {
+      const users = Object.values(serverSocket.activeUsers);
+      // convert the obj to an array of socket ids
       console.log('Sending callback for reconnect ...');
       callback(uid, users);
+      // cb func that will be executed on client side, where it will receive the uid (user info consisting of userId and userName), and users array.
       return;
     }
   }
@@ -34,16 +36,17 @@ export const handshake = (
     userId: loggedUser.userId,
     userName: loggedUser.userName,
   });
-  // this produces a string like this: {"userId":1,"userName":"admin"}
 
   serverSocket.activeUsers[uid] = socket.id;
-  // serverSocket.users is an obj like: { '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q' }
+  // serverSocket.activeUsers is an obj like:
+  // { 
+    // '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q' 
+  // }
 
   const users = Object.values(serverSocket.activeUsers);
   // convert the obj to an array of socket ids
   console.log('Sending callback for handshake ...');
   callback(uid, users);
-  // this is the callback function that will be executed on the client side, where it will receive the uid and users array.
 
   // Send new user to all connected users
   serverSocket.SendMessage(

@@ -7,13 +7,15 @@ class UserRepository {
   }
 
   async retrieveByName(username: string) {
-    const existingUser = await User.findOne({ where: { username } });
+    const existingUser = await User.findOne(
+      { where: { username } }, { attributes: ['id', 'username'] });
     return existingUser;
   }
 
   async retrieveById(id: number) {
     // let existingUser = await User.findOne({ where: { id } }, { attributes: ['id', 'username'], raw: true });
-    let existingUser = await User.findOne({ where: { id } });
+    let existingUser = await User.findOne(
+      { where: { id } }, { attributes: ['id', 'username'] });
     return existingUser;
   }
 

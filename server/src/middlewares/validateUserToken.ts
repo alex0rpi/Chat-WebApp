@@ -3,7 +3,7 @@ import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import { InvalidTokenError } from '../controllers/helpers/ErrorHandler';
 
-export const validateToken: RequestHandler = async (req, res, next) => {
+export const validateUserToken: RequestHandler = async (req, res, next) => {
   if (!req.body.token) {
     const error = new InvalidTokenError(
       'Authentication failed due to invalid or non existing token',
