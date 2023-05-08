@@ -4,6 +4,10 @@ export interface User {
   password?: string;
 }
 
+export interface IUserAuthFormProps {
+  setLoggedUser: (user: User | null) => void;
+}
+
 export interface Message {
   messageId?: number;
   roomName?: string;

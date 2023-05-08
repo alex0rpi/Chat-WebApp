@@ -19,17 +19,20 @@ function App() {
       feed it with the state and dispatch objects from the reducer defined */}
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<UserLoginForm/>} />
+          <Route path="/" element={<Navigate to="/welcome/login" />} />
           <Route
-            path="/register"
-            element={<UserRegisterForm/>}
+            path="/welcome/login"
+            element={<UserLoginForm setLoggedUser={setLoggedUser} />}
           />
           <Route
-            path="/welcome"
+            path="/welcome/register"
+            element={<UserRegisterForm setLoggedUser={setLoggedUser} />}
+          />
+          <Route
+            path="/chat/:room"
             element={
               <SocketCtxWrapper loggedUser={loggedUser}>
-                <WelcomeChat/>
+                <WelcomeChat />
               </SocketCtxWrapper>
             }
           />

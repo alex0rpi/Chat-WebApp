@@ -4,8 +4,9 @@ import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { IUserAuthFormProps, User } from '../models/Interfaces';
 
-const UserRegisterForm = () => {
+const UserRegisterForm = (props: IUserAuthFormProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordConfRef = useRef<HTMLInputElement>(null);
@@ -34,7 +35,9 @@ const UserRegisterForm = () => {
         if (loginResponse.ok) {
           const data = await loginResponse.json();
           localStorage.setItem('token', data.payload.token);
-          navigate('/welcome');
+          props.setLoggedUser(data.payload.user as User);
+
+          navigate('/chat/welcome');
         }
       }
     } catch (error: unknown) {
@@ -49,8 +52,8 @@ const UserRegisterForm = () => {
       <FloatingLabel controlId="floatingInput" label="Your username" className="mb-2 p-0">
         <Form.Control
           ref={usernameRef}
-          id="userName"
           name="userName"
+          type="username"
           placeholder="Your username"
         />
       </FloatingLabel>
@@ -59,25 +62,23 @@ const UserRegisterForm = () => {
         <Form.Control
           ref={passwordRef}
           type="password"
-          id="password"
           name="password"
           placeholder="Password"
         />
       </FloatingLabel>
       {/* --------------- */}
-      <FloatingLabel className="d-flex" controlId="floatingPassword" label="Confirm password">
+      <FloatingLabel className="d-flex" controlId="floatingconfirmPassword" label="Confirm password">
         <Form.Control
           ref={passwordConfRef}
           type="password"
           placeholder="Password"
-          id="passwordConfirmation"
           name="passwordConfirmation"
         />
         <Button size="sm" variant="primary" type="submit" onClick={onRegisterHandler}>
           Submit
         </Button>
       </FloatingLabel>
-      <Link to="/login">Already registered? Login</Link>
+      <Link to="/welcome/login">Already registered? Login</Link>
     </div>
   );
 };

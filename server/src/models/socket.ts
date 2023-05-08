@@ -45,16 +45,16 @@ export class ServerSocket {
       eventListeners.disconnect(this, socket);
     });
 
-    socket.on('create_room', (roomName) => {
-      eventListeners.createRoom(this, roomName);
-    });
-
     socket.on('enter_room', (userId, roomName) => {
       eventListeners.enterRoom(this, userId, roomName);
     });
 
     socket.on('new_message', (data) => {
       eventListeners.newMessage(this, data);
+    });
+
+    socket.on('create_room', (roomName) => {
+      eventListeners.createRoom(this, roomName);
     });
   };
 
@@ -68,7 +68,7 @@ export class ServerSocket {
   //  * @param {*} payload any information needed
    */
   SendMessage = (event: string, users: string[], payload?: string[] | string) => {
-    console.log(`Emmitting event: #${event}# to `, users);
+    console.log(`Server emits event: #${event}# to `, users);
     users.forEach((id) => {
       payload ? this.io.to(id).emit(event, payload) : this.io.to(id).emit(event);
     });

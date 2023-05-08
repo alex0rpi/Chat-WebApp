@@ -7,12 +7,7 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
   try {
     const { userId, roomName, message } = data;
     // Retrieve room where msg came from
-    let room: Room;
-    if (roomName) {
-      room = await roomRepository!.retrieveRoomByName(roomName);
-    } else {
-      room = { roomId: 0, roomName: 'welcome' };
-    }
+    let room: Room = await roomRepository!.retrieveRoomByName(roomName);
 
     console.log(room);
 

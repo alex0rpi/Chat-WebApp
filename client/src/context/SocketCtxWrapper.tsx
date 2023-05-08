@@ -61,8 +61,9 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
   const SendHandshake = async (): Promise<void> => {
     console.log('Sending handshake to server ...');
 
-    socket.emit('handshake', loggedUser, async (uid: string, users: string[]) => {
+    socket.emit('handshake', loggedUser, (uid: string, users: string[]) => {
       // console.info('User handshake callback message received')
+      // This function is called when the server responds with the current user id and the list of connected users
       dispatch({ type: 'update_current_uid', payload: uid });
       dispatch({ type: 'update_logged_users', payload: users });
 
@@ -74,11 +75,11 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     socket.connect();
     dispatch({ type: 'update_socket', payload: socket });
     StartListeners();
-    void SendHandshake();
+    SendHandshake(); // precedir amb un void per indicar que no ens interessa el què retorni.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) return <p>... Loading Socket IO</p>;
+  if (loading) return <p>Loading Socket IO...</p>;
 
   return (
     <SocketContextProvider value={{ appState, dispatch }}>{children}</SocketContextProvider>

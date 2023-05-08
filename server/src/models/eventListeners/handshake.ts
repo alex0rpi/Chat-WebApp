@@ -31,7 +31,8 @@ export const handshake = (
     }
   }
 
-  // Register logged user
+  // If it is a new connection, add it to the active users list
+  console.log(loggedUser);
   const uid = JSON.stringify({
     userId: loggedUser.userId,
     userName: loggedUser.userName,
@@ -39,8 +40,8 @@ export const handshake = (
 
   serverSocket.activeUsers[uid] = socket.id;
   // serverSocket.activeUsers is an obj like:
-  // { 
-    // '{"userId":1,"userName":"Alex"}': '1Y2Z3X4W5V6U7T8S9R0Q' 
+  // {
+  // '{"userId":1,"userName":"Alex"}': '1Y2Z3X4W5V6U7T8S9R0Q'
   // }
 
   const users = Object.values(serverSocket.activeUsers); // convert the obj to array of socketIds
@@ -51,7 +52,7 @@ export const handshake = (
   serverSocket.SendMessage(
     'user_connected',
     users.filter((id) => id !== socket.id),
-    users
+    users // array of socket ids of all connected users
   );
   //this sends the message to all connected users, except the one that just connected.
 };

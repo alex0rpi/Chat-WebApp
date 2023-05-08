@@ -4,8 +4,9 @@ import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { IUserAuthFormProps, User } from '../models/Interfaces';
 
-const UserLoginForm = () => {
+const UserLoginForm = (props: IUserAuthFormProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ const UserLoginForm = () => {
       if (loginResponse.ok) {
         const data = await loginResponse.json();
         localStorage.setItem('token', data.payload.token);
-        // setLoggedUser(data.payload.user as User);
-        navigate('/welcome');
+        props.setLoggedUser(data.payload.user as User);
+        navigate('/chat/welcome');
       }
     } catch (error: unknown) {
       if (error instanceof Error) alert(error.message);
@@ -49,7 +50,7 @@ const UserLoginForm = () => {
           Submit
         </Button>
       </FloatingLabel>
-      <Link to="/register">Click here to register</Link>
+      <Link to="/welcome/register">Click here to register</Link>
     </div>
   );
 };

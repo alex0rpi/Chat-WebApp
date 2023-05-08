@@ -43,9 +43,6 @@ body {
   border-bottom: 3px solid rgb(58, 108, 144);
 }
 
-.name-field {
-}
-
 .room-list {
   border: 2px solid rgb(11, 61, 97);
   grid-column: 1/1;
@@ -75,15 +72,69 @@ body {
   overflow: auto;
 }
 
-.chat-box p {
+.chat-box .message {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid rgb(30, 110, 140); */
+  margin: 5px 3px;
+  height: auto;
+  width: auto;
+  overflow-wrap: break-word;
+  border-radius: 10px;
+  background-color: #a7bbc9;
+}
+
+.chat-box .message p {
+  text-align: left;
+  margin: 0.25rem 0.5rem 0;
+  padding: 0;
+  width: auto;
+  font-size: 0.9rem;
+  /* font-weight: bold; */
+  color: rgb(30, 110, 140);
+  border-radius: 0px 0px 6px 0px;
+}
+
+.chat-box .ownMsg {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid rgb(30, 110, 140); */
+  margin: 5px 3px;
+  height: auto;
+  width: auto;
+  overflow-wrap: break-word;
+  border-radius: 10px;
+  background-color: #8ec4ea;
+}
+
+.chat-box .ownMsg p {
+  font-weight: bold;
   text-align: right;
   margin: 0.25rem 0.5rem 0;
   padding: 0;
   width: auto;
-  font-size: 1rem;
+  font-size: 0.9rem;
   /* font-weight: bold; */
   color: rgb(30, 110, 140);
   border-radius: 0px 0px 6px 0px;
+}
+
+.chat-box strong {
+  text-align: end;
+}
+
+small {
+  font-size: 0.7rem;
+}
+
+.ownMsg .msg-text {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.message .msg-text {
+  display: flex;
+  flex-direction: row;
 }
 
 .user-list {
@@ -125,7 +176,8 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #bbcbd9;
+  border-radius: 50%;
 }
 
 /* Handle */

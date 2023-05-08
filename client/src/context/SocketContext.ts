@@ -6,7 +6,7 @@ import { Room } from '../models/Interfaces';
 // State types
 export interface ISocketContext {
   socket: Socket | undefined;
-  current_uid: string; // the id of the current user
+  current_uid: string; // the id of the current user, e.g. '1Y2Z3X4W5V6U7T8S9R0Q'
   logged_users: string[]; // ['name1', 'name2', 'name3']
   rooms?: Room[];
 }
