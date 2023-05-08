@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Message, User } from '../models/Interfaces';
 import { useParams } from 'react-router-dom';
@@ -9,8 +9,9 @@ const ChatBox = () => {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const { appState } = useContext(SocketContext);
-  const { socket, current_uid } = appState;
+  const { socket, current_uid, logged_users } = appState;
 
+  console.log(logged_users)
   const user = JSON.parse(current_uid) as User;
   console.log(user);
 
@@ -35,8 +36,16 @@ const ChatBox = () => {
     });
   }, [room, socket]);
 
+  // Scroll to the bottom of the chat-box
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <div className="chat-box">
+    <div className="chat-box" ref={messagesEndRef}>
       {messages.map((msgItem, index) => {
         return (
           <div
@@ -44,9 +53,11 @@ const ChatBox = () => {
             className={`${msgItem.userId === user.userId ? 'ownMsg' : 'message'}`}
           >
             <small>{msgItem.createdAt}</small>
-            <div className="msg-text">
-              {msgItem.userId === user.userId && <span>You: </span>}
-              <p>{msgItem.message}</p>
+            <div>
+              <p>
+                {msgItem.userId === user.userId && <span>You: </span>}
+                {msgItem.message}
+              </p>
             </div>
           </div>
         );

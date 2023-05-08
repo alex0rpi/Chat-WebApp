@@ -123,11 +123,15 @@ body {
   text-align: end;
 }
 
-small {
-  font-size: 0.7rem;
+.small {
+  font-size: 0.6rem;
 }
 
-.ownMsg .msg-text {
+.ownMsg span {
+  font-weight: normal;
+}
+
+/* .ownMsg .msg-text {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -135,7 +139,7 @@ small {
 .message .msg-text {
   display: flex;
   flex-direction: row;
-}
+} */
 
 .user-list {
   border: 2px solid rgb(11, 61, 97);
