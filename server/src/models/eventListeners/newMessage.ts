@@ -1,13 +1,20 @@
 import { ServerSocket } from '../socket';
 import { messageRepository, roomRepository } from '../../infrastructure/dependecy-injection';
-import { MessageData } from '../Interfaces';
+import { MessageData, Room } from '../Interfaces';
 
 export const newMessage = async (serverSocket: ServerSocket, data: MessageData) => {
   if (!data.message) return false;
   try {
     const { userId, roomName, message } = data;
     // Retrieve room where msg came from
-    const room = roomName ? await roomRepository!.retrieveRoomByName(roomName) : 'welcome';
+    let room: Room;
+    if (roomName) {
+      room = await roomRepository!.retrieveRoomByName(roomName);
+    } else {
+      room = { roomId: 0, roomName: 'welcome' };
+    }
+
+    console.log(room);
 
     // save message on db
     await messageRepository!.createMessage(message, userId, room.roomId);

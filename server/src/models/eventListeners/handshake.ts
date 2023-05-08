@@ -40,11 +40,10 @@ export const handshake = (
   serverSocket.activeUsers[uid] = socket.id;
   // serverSocket.activeUsers is an obj like:
   // { 
-    // '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q' 
+    // '{"userId":1,"userName":"Alex"}': '1Y2Z3X4W5V6U7T8S9R0Q' 
   // }
 
-  const users = Object.values(serverSocket.activeUsers);
-  // convert the obj to an array of socket ids
+  const users = Object.values(serverSocket.activeUsers); // convert the obj to array of socketIds
   console.log('Sending callback for handshake ...');
   callback(uid, users);
 

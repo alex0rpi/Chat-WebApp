@@ -3,7 +3,7 @@ export interface ActiveUser {
 }
 
 export interface TokenPayloadInterface {
-  username?: string;
+  userName?: string;
   userId?: number;
 }
 
@@ -11,6 +11,11 @@ export interface MessageData {
   userId: number | null;
   roomName: string;
   message: string;
+}
+
+export interface Room {
+  roomId: number;
+  roomName: string;
 }
 
 export interface Message {

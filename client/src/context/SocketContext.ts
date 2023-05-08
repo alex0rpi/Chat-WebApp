@@ -1,45 +1,52 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
-import { Message, User } from '../models/Interfaces';
+import { Room } from '../models/Interfaces';
 
 // State types
 export interface ISocketContext {
-  socket: Socket | null;
-  current_uid: number | null; // the id of the current user
-  logged_users: User[]; // ['name1', 'name2', 'name3']
-  messages: Message[]; // list of all the messages (in a room or in the welcome chat)
+  socket: Socket | undefined;
+  current_uid: string; // the id of the current user
+  logged_users: string[]; // ['name1', 'name2', 'name3']
+  rooms?: Room[];
 }
 
 export interface IReducerActions {
-  type: 'update_socket' | 'remove_socket' | 'update_logged_users' | 'remove_user' | 'update_messages';
-  // | 'update_rooms'
-  // | 'remove_room';
-  payload: number | string | string[] | User[] | Message | Socket | null; // types admited by reducer.
+  type:
+    | 'update_socket'
+    | 'update_current_uid'
+    | 'update_logged_users'
+    | 'remove_user'
+    | 'change_room';
+  payload: string | string[] | Socket; // types admited by reducer.
 }
-export const reducerFunction = (state: ISocketContext, action: IReducerActions): ISocketContext => {
+export const reducerFunction = (
+  state: ISocketContext,
+  action: IReducerActions
+): ISocketContext => {
   if (action.type === 'update_socket') {
     // payload is a socket object
     return { ...state, socket: action.payload as Socket };
   }
-  if (action.type === 'remove_socket') {
-    return { ...state, socket: null };
+  if (action.type === 'update_current_uid') {
+    return { ...state, current_uid: action.payload as string };
   }
   if (action.type === 'update_logged_users') {
-    const updatedUsers = action.payload; // array of User objects
-    console.log(updatedUsers);
-    return { ...state, logged_users: updatedUsers as User[] };
+    return { ...state, logged_users: action.payload as string[] };
   }
   if (action.type === 'remove_user') {
-    return { ...state, logged_users: [] };
+    return {
+      ...state,
+      logged_users: state.logged_users.filter(
+        (socketId) => socketId !== (action.payload as string)
+      ),
+    };
   }
-  /* if (action.type === 'remove_user') {
-    const updatedUsers = state.logged_users.filter((user) => user.uid !== state.current_uid);
-    return { ...state, logged_users: updatedUsers };
-  } */
-  if (action.type === 'update_messages') {
-    const updatedMessages: Message[] = [...state.messages, action.payload as Message];
-    return { ...state, messages: updatedMessages };
+  if (action.type === 'change_room') {
+    return {
+      ...state,
+      rooms: action.payload as unknown as Room[],
+    };
   }
   return state;
 };
@@ -52,13 +59,15 @@ export interface ISocketContextProps {
 }
 
 export const initialSocketContext: ISocketContext = {
-  socket: null,
-  current_uid: null,
+  socket: undefined,
+  current_uid: '',
   logged_users: [],
-  messages: [],
+  rooms: [],
 }; // this is the default state of the context
 
 export const SocketContext = createContext<ISocketContextProps>({
   appState: initialSocketContext,
   dispatch: () => {},
 });
+
+export const SocketContextProvider = SocketContext.Provider;

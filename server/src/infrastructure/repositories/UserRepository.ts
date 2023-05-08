@@ -1,43 +1,46 @@
 import { User } from '../../models/initModels';
 
 class UserRepository {
-  async create(username: string, password: string) {
-    const newUser = await User.create({ username, password });
+  async create(userName: string, password: string) {
+    const newUser = await User.create({ userName, password });
     return newUser;
   }
 
-  async retrieveByName(username: string) {
+  async retrieveByName(userName: string) {
     const existingUser = await User.findOne(
-      { where: { username } }, { attributes: ['id', 'username'] });
+      { where: { userName } },
+      { attributes: ['userId', 'userName'] }
+    );
     return existingUser;
   }
 
-  async retrieveById(id: number) {
-    // let existingUser = await User.findOne({ where: { id } }, { attributes: ['id', 'username'], raw: true });
+  async retrieveById(userId: number) {
     let existingUser = await User.findOne(
-      { where: { id } }, { attributes: ['id', 'username'] });
+      { where: { userId } },
+      { attributes: ['userId', 'userName'] }
+    );
     return existingUser;
   }
 
   // async retrieveUsers(room?: string) {
   //   if (room) {
   //     const users = await User.findAll({
-  //       attributes: ['username'],
+  //       attributes: ['userName'],
   //       where: { room, active: true },
   //       raw: true,
   //     });
   //     return users;
   //   }
   //   const users = await User.findAll({
-  //     attributes: ['username'],
+  //     attributes: ['userName'],
   //     where: { active: true },
   //     raw: true,
   //   });
   //   return users;
   // }
 
-  // async setUserActive(username: string) {
-  //   await User.update({ active: true }, { where: { username } });
+  // async setUserActive(userName: string) {
+  //   await User.update({ active: true }, { where: { userName } });
   // }
 
   // async setUserLoggedOut(uid: number) {

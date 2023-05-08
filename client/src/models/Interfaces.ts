@@ -1,11 +1,26 @@
-export interface Message {
-  text?: string;
-  room?: string;
-  UserId: string;
-  created_at: string; // string because we'll be fetching JSON data, which does not admit Date objects.
+export interface User {
+  userId?: number;
+  userName: string;
+  password?: string;
 }
 
-export interface User {
-  uid: number;
-  username: string;
+export interface Message {
+  messageId?: number;
+  roomName?: string;
+  userId?: number;
+  message: string;
+  createdAt?: string;
+  updatedAt?: string;
+  user?: User;
+}
+
+export interface Room {
+  roomId?: number;
+  roomName: string;
+  users?: User[];
+}
+
+export interface RegisterForm extends User {
+  passwordConfirmation?: string;
+  formError?: string;
 }

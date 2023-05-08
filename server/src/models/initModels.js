@@ -4,7 +4,7 @@ import mysqlConfig from '../db/configMysql';
 import _Users from './Users';
 import _Messages from './Messages';
 import _Rooms from './Rooms'
-import _UserRoom from './users_rooms'
+import _UserRoom from './Users_Rooms'
 
 import { designDB } from '../db/createMysqldb';
 

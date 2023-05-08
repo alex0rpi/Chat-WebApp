@@ -7,13 +7,14 @@
 import { Button } from 'react-bootstrap';
 
 interface ButtonProps {
+  type: 'button' | 'submit' | 'reset' | undefined;
   btnText: string;
   clickHandler: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const UIButton = (props: ButtonProps) => {
   return (
-    <Button size="sm" variant="primary" type="button" onClick={props.clickHandler}>
+    <Button size="sm" variant="primary" type={props.type} onClick={props.clickHandler}>
       {props.btnText}
     </Button>
   );

@@ -15,11 +15,13 @@ export const registerUser: RequestHandler = async (req, res) => {
     return res.json(error);
   }
   try {
-    let { username, password } = req.body;
+    let { userName, password } = req.body;
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
-    const newUser = userRepository!.create(username, hashedPw);
-    return res.status(200).json({ user: newUser, message: `new user -${username}- created. ` });
+    const newUser = userRepository!.create(userName, hashedPw);
+    return res
+      .status(200)
+      .json({ payload: newUser, message: `new user -${userName}- created. ` });
   } catch (error: unknown) {
     if (error instanceof Error) return res.status(500).json(error);
   }
@@ -33,18 +35,19 @@ export const loginUser: RequestHandler = async (req, res) => {
     return res.json(error);
   }
   try {
-    const existingUser = await userRepository!.retrieveByName(req.body);
+    let { userName, password } = req.body;
+    const existingUser = await userRepository!.retrieveByName(userName);
     if (!existingUser) {
       const error = new NotCorrectParamsError('User not found', 422);
       return res.json(error);
     }
-    const isMatch = await bcrypt.compare(req.body.password, existingUser.password);
+    const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
       const error = new NotCorrectParamsError('Incorrect password.', 422);
       return res.json(error);
     }
     const tokenPayload: TokenPayloadInterface = {
-      username: existingUser.username,
+      userName: existingUser.userName,
       userId: existingUser.userId,
     };
     const token = jwt.sign(
@@ -55,7 +58,12 @@ export const loginUser: RequestHandler = async (req, res) => {
       }
     );
     res.setHeader('authorization', 'Bearer ' + token);
-    res.json({ token, user: existingUser });
+    return res.json({
+      payload: {
+        token,
+        user: existingUser,
+      },
+    });
   } catch (error) {
     if (error instanceof Error) return res.status(500).json(error);
   }

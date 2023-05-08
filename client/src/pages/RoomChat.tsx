@@ -1,5 +1,5 @@
 import ContainerChatWindow from '../layout/ContainerChatWindow';
-import NewUserForm from '../components/LoginUserForm';
+import NewUserForm from '../components/UserLoginForm';
 import ChatBox from '../components/ChatBox';
 import MessageInput from '../components/MessageInput';
 import RoomListBox from '../components/RoomListBox';
