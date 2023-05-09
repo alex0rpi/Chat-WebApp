@@ -3,12 +3,14 @@
 import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Button, Form } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
 import { User } from '../models/Interfaces';
 
-const MessageInput = () => {
+interface MessageInputProps {
+  currentRoom: string | undefined;
+}
+
+const MessageInput = (props: MessageInputProps) => {
   const { appState } = useContext(SocketContext);
-  const { room } = useParams();
   const msgInputRef = useRef<HTMLInputElement>(null);
 
   const { current_uid, socket } = appState;
@@ -23,7 +25,7 @@ const MessageInput = () => {
     }
     const data = {
       userId: user.userId,
-      roomName: room,
+      roomName: props.currentRoom,
       message: msgInputRef.current?.value,
     };
     console.log(data);

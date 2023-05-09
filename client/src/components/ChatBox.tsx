@@ -1,34 +1,34 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Message, User } from '../models/Interfaces';
-import { useParams } from 'react-router-dom';
 
-const ChatBox = () => {
-  const { room } = useParams(); // in case I am in a room, indicated at the url
-  console.log(room);
+interface ChatBoxProps {
+  currentRoom: string | undefined;
+}
 
+const ChatBox = (props: ChatBoxProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { appState } = useContext(SocketContext);
   const { socket, current_uid, logged_users } = appState;
 
-  console.log(logged_users)
+  // console.log(logged_users);
   const user = JSON.parse(current_uid) as User;
-  console.log(user);
+  // console.log(user);
 
   // Enter room
   useEffect(() => {
-    socket?.emit('enter_room', user.userId, room);
+    socket?.emit('enter_room', user.userId, props.currentRoom);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Updated messages list
   useEffect(() => {
     socket?.on('update_messages', (roomName, newMessages) => {
-      if (roomName === room) {
+      if (roomName === props.currentRoom) {
         setMessages(newMessages);
       }
     });
-  }, [room, socket]);
+  }, [props.currentRoom, socket]);
 
   // Scroll to the bottom of the chat-box
   const messagesEndRef = useRef<HTMLDivElement>(null);

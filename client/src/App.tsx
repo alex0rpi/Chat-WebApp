@@ -29,7 +29,7 @@ function App() {
             element={<UserRegisterForm setLoggedUser={setLoggedUser} />}
           />
           <Route
-            path="/chat/:room"
+            path="/chat/:currentRoom"
             element={
               <SocketCtxWrapper loggedUser={loggedUser}>
                 <WelcomeChat />
