@@ -35,8 +35,8 @@ export const enterRoom = async (
     // The user is in the new room ###########################
 
     // ! Now we prepare to inform the other users in the entered room and the ones of the previous room.
-    // Get the list of users of the previous room and the current room.
 
+    // Get the list all rooms with their users
     const rooms = await roomRepository!.getAllRoomsAndUsers();
 
     if (roomName) {

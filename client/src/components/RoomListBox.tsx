@@ -25,6 +25,20 @@ const RoomListBox = (props: RoomListProps) => {
     return roomItem;
   });
 
+  // Select the last element of the sortedRooms array, with the document selector
+
+  // scroll to the last created room
+/*   useEffect(() => {
+    const lastRoom = document.querySelector('.room-list > div:last-child');
+    if (lastRoom) {
+      lastRoom.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
+  }, [roomList]); */
+
   return (
     <div className="room-list">
       <div className="d-grid gap-1">

@@ -9,7 +9,7 @@ interface ChatBoxProps {
 const ChatBox = (props: ChatBoxProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { appState } = useContext(SocketContext);
-  const { socket, current_uid, logged_users } = appState;
+  const { socket, current_uid } = appState;
 
   // console.log(logged_users);
   const user = JSON.parse(current_uid) as User;
@@ -44,7 +44,7 @@ const ChatBox = (props: ChatBoxProps) => {
         return (
           <div
             key={index}
-            className={`${msgItem.userId === user.userId ? 'ownMsg' : 'message'}`}
+            className={`${msgItem.userId === user.userId ? 'ownMsg' : 'message'} ${msgItem.userId === null && 'serverMsg'}`}
           >
             <small>{msgItem.createdAt}</small>
             <div>
