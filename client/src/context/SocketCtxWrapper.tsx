@@ -21,7 +21,7 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
 
   const [loading, setLoading] = useState(true);
 
-  // * Put in motion some initial function in a useEffect: StartListeners, SendHandshake
+  // * Put in motion some initial function in a useEffect: StartListeners, SendIntegrate
 
   const StartListeners = (): void => {
     /** User connected event */
@@ -39,7 +39,7 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     /** Connection / reconnection listeners */
     socket.io.on('reconnect', (attempt) => {
       console.log(`Reconnected on attempt: ${attempt}`);
-      void SendHandshake();
+      void SendIntegrate();
     });
 
     socket.io.on('reconnect_attempt', (attempt) => {
@@ -58,11 +58,11 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     });
   };
 
-  const SendHandshake = async (): Promise<void> => {
-    console.log('Sending handshake to server ...');
+  const SendIntegrate = async (): Promise<void> => {
+    console.log('Sending Integrate to server ...');
 
-    socket.emit('handshake', loggedUser, (uid: string, users: string[]) => {
-      // console.info('User handshake callback message received')
+    socket.emit('integrate', loggedUser, (uid: string, users: string[]) => {
+      // console.info('User integrate callback message received')
       // This function is called when the server responds with the current user id and the list of connected users
       dispatch({ type: 'update_current_uid', payload: uid });
       dispatch({ type: 'update_logged_users', payload: users });
@@ -75,7 +75,7 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     socket.connect();
     dispatch({ type: 'update_socket', payload: socket });
     StartListeners();
-    SendHandshake(); // precedir amb un void per indicar que no ens interessa el què retorni.
+    SendIntegrate(); // precedir amb un void per indicar que no ens interessa el què retorni.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

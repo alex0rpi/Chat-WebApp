@@ -1,10 +1,12 @@
+import moment from 'moment';
 import { Message } from '../../models/initModels';
 import { User } from '../../models/initModels';
 
 class MessageRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.
   async createMessage(message: string, userId: number | null, roomId: number) {
-    await Message.create({ message, userId, roomId });
+    const msgDate = moment().format('YYYY-MM-DD, HH:mm:ss');
+    await Message.create({ message, createdAt: msgDate, userId, roomId });
   }
 
   // Recover all messages existing in a room.

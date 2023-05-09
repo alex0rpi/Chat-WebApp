@@ -2,17 +2,17 @@ import { Socket } from 'socket.io';
 import { ServerSocket } from '../socket';
 import { ActiveUser } from '../Interfaces';
 
-interface HandshakeCallback {
+interface IntegrateCallback {
   (uid: string, users: string[]): void;
 }
 
-export const handshake = (
+export const integrate = (
   serverSocket: ServerSocket,
   socket: Socket,
   loggedUser: ActiveUser,
-  callback: HandshakeCallback
+  callback: IntegrateCallback
 ) => {
-  console.log('Handshake recieved from ' + socket.id);
+  console.log('Integrate recieved from ' + socket.id);
 
   // Check if this is a reconnection
   const reconnected = Object.values(serverSocket.activeUsers).includes(socket.id);
@@ -45,7 +45,7 @@ export const handshake = (
   // }
 
   const users = Object.values(serverSocket.activeUsers); // convert the obj to array of socketIds
-  console.log('Sending callback for handshake ...');
+  console.log('Sending callback for integrate ...');
   callback(uid, users);
 
   // Send new user to all connected users

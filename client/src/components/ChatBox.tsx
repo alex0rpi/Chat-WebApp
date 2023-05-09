@@ -15,12 +15,6 @@ const ChatBox = () => {
   const user = JSON.parse(current_uid) as User;
   console.log(user);
 
-  // Listen for messages from server
-
-  // appState.socket?.on('message', ({ message }) => {
-  // dispatch({ type: 'update_messages', payload: message });
-  // });
-
   // Enter room
   useEffect(() => {
     socket?.emit('enter_room', user.userId, room);

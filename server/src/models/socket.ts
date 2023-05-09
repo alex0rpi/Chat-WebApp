@@ -1,7 +1,7 @@
 import { Server as HTTPServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { ActiveUser } from './Interfaces';
-import * as eventListeners from './eventListeners';
+import * as eventListeners from './eventListeners-Emitters';
 
 export class ServerSocket {
   public static instance: ServerSocket;
@@ -37,8 +37,8 @@ export class ServerSocket {
     console.info('Life signs received from: ' + socket.id);
 
     // !Handle connection event
-    socket.on('handshake', (loggedUser, callback) => {
-      eventListeners.handshake(this, socket, loggedUser, callback);
+    socket.on('integrate', (loggedUser, callback) => {
+      eventListeners.integrate(this, socket, loggedUser, callback);
     });
 
     socket.on('disconnect', () => {
@@ -63,7 +63,7 @@ export class ServerSocket {
 
   /**
    * Send a message though the socket
-  //  * @param {*} name The ename of the event, ex: handshake
+  //  * @param {*} name The ename of the event, ex: integrate
   //  * @param {*} users List of socket id's
   //  * @param {*} payload any information needed
    */

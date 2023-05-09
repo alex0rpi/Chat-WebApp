@@ -1,4 +1,4 @@
-export { handshake } from './handshake';
+export { integrate } from './integrate';
 export { disconnect } from './disconnect';
 export { createRoom } from './createRoom';
 export { enterRoom } from './enterRoom';
