@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Socket } from 'socket.io-client';
-import { Room } from '../models/Interfaces';
+import { Room } from '../Interfaces/Interfaces';
 
 interface NewRoomFormProps {
   socket: Socket | undefined;

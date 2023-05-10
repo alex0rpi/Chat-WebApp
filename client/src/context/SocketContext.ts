@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
-import { Room, User } from '../models/Interfaces';
+import { Room, User } from '../Interfaces/Interfaces';
 
 // State types
 export interface ISocketContext {

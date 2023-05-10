@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap';
 import ContainerChatWindow from '../layout/ContainerChatWindow';
 import { useEffect, useState, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
-import { Room, User } from '../models/Interfaces';
+import { Room, User } from '../Interfaces/Interfaces';
 import { useNavigate, useParams } from 'react-router-dom';
 import NewRoomForm from '../components/NewRoomForm';
 
@@ -51,8 +51,13 @@ const WelcomeChat = () => {
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
-      <ChatBox roomList={rooms}   currentRoom={currentRoom} />
-      <RoomListBox socket={socket} roomList={rooms} currentRoom={currentRoom} />
+      <ChatBox roomList={rooms} currentRoom={currentRoom} />
+      <RoomListBox
+        socket={socket}
+        roomList={rooms}
+        currentRoom={currentRoom}
+        currentUser={currentUser}
+      />
       <ConnectedUsersBox
         currentUser={currentUser}
         currentRoom={currentRoom}

@@ -1,5 +1,8 @@
 import { ServerSocket } from '../socket';
-import { messageRepository, roomRepository } from '../../infrastructure/dependecy-injection';
+import {
+  messageRepository,
+  roomRepository,
+} from '../../infrastructure/dependecy-injection';
 import { MessageData, Room } from '../Interfaces';
 
 export const newMessage = async (serverSocket: ServerSocket, data: MessageData) => {
@@ -16,6 +19,7 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
 
     // Get all updated messages for this room, including their respective user info.
     const messages = await messageRepository!.retrieveRoomMessages(room.roomId);
+    console.log(messages[messages.length - 1]);
 
     // Send updated messages to all users in the room
     serverSocket.io.emit('update_messages', room.roomName, messages);

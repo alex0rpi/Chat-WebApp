@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { IUserAuthFormProps, User } from '../models/Interfaces';
+import { IUserAuthFormProps, User } from '../Interfaces/Interfaces';
 
 const UserRegisterForm = (props: IUserAuthFormProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);

@@ -17,5 +17,17 @@ export default (sequelize, DataTypes, User, Room) => {
       timestamps: false,
     }
   )
+
+  Message.associate = (models) => {
+    Message.belongsTo(models.User, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+    });
+
+    Message.belongsTo(models.Room, {
+      foreignKey: 'roomId',
+      onDelete: 'CASCADE',
+    });
+  }
   return Message
 }

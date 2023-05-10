@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useEffect, useReducer, useState } from 'react';
-import { User } from '../models/Interfaces';
+import { User } from '../Interfaces/Interfaces';
 import { initialSocketContext, SocketContextProvider, reducerFunction } from './SocketContext';
 import { useSocket } from '../hooks/useSocketHook';
 

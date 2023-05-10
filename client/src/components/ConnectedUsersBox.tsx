@@ -3,7 +3,7 @@
 // at a room chat
 
 import { Button } from 'react-bootstrap';
-import { Room, User } from '../models/Interfaces';
+import { Room, User } from '../Interfaces/Interfaces';
 
 interface ConnectedUsersBoxProps {
   currentUser: User;

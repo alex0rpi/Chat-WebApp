@@ -3,7 +3,7 @@
 import { useRef, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Button, Form } from 'react-bootstrap';
-import { User } from '../models/Interfaces';
+import { User } from '../Interfaces/Interfaces';
 
 interface MessageInputProps {
   currentRoom: string | undefined;

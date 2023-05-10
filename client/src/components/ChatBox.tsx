@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SocketContext } from '../context/SocketContext';
-import { Message, Room, User } from '../models/Interfaces';
+import { Message, Room, User } from '../Interfaces/Interfaces';
 
 interface ChatBoxProps {
   currentRoom: string | undefined;
@@ -74,6 +74,7 @@ const ChatBox = (props: ChatBoxProps) => {
                 {msgItem.userId === user.userId && <span>You: </span>}
                 {msgItem.userId !== null && msgItem.userId !== user.userId && (
                   <span>{roomUsersObject![msgItem.userId!]}: </span>
+                  // <span>{msgItem.user?.userName}: </span>
                 )}
                 {msgItem.message}
               </p>
