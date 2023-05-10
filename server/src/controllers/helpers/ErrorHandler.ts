@@ -17,3 +17,4 @@ export class InvalidTokenError extends Error {
     this.code = code;
   }
 }
+

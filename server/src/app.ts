@@ -7,6 +7,7 @@ import roomRoutes from './routes/roomRoutes';
 import notFoundController from './middlewares/notFoundController';
 import cors from 'cors';
 import { ServerSocket } from './models/socket';
+import { errorMiddleware } from './middlewares/errorMiddleware';
 
 const app = express(); // Express app object can handle http requests but is not suitable for sockets.
 const httpServer = http.createServer(app); // Node http server object is suitable for sockets.
@@ -17,7 +18,9 @@ new ServerSocket(httpServer);
 
 /** Log the request */
 app.use((req, res, next) => {
-  console.info(`METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
+  console.info(
+    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
+  );
 
   res.on('finish', () => {
     console.info(
@@ -39,15 +42,7 @@ app.use('/users', userRoutes);
 app.use('/rooms', roomRoutes);
 app.use(notFoundController);
 
-
-/** Error handling */
-app.use((req, res, next) => {
-  const error = new Error('Not found');
-
-  res.status(404).json({
-    message: error.message,
-  });
-});
+app.use(errorMiddleware);
 
 /** Listen */
 const PORT = process.env.PORT || 5000;
