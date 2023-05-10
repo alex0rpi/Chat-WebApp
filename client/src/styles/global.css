@@ -129,9 +129,11 @@ small {
   text-align: center;
   font-style: italic;
   font-size: 0.8rem;
+  margin: 0 auto;
 }
-.chat-box .serverMsg {
-  /* margin: 0; */
+
+.chat-box .serverMsg hr {
+  margin: 0 auto;
 }
 
 /****** Users List ******/

@@ -18,7 +18,7 @@ export interface IReducerActions {
     | 'update_logged_users'
     | 'remove_user'
     | 'change_room';
-  payload: string | string[] | Socket; // types admited by reducer.
+  payload: string | string[] | Socket | null; // types admited by reducer.
 }
 export const reducerFunction = (
   state: ISocketContext,

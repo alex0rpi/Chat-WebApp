@@ -13,11 +13,12 @@ import NewRoomForm from '../components/NewRoomForm';
 const WelcomeChat = () => {
   const { currentRoom } = useParams(); // in case I am in a room, indicated at the url
   const [rooms, setRooms] = useState<Room[]>([]);
-  const { appState } = useContext(SocketContext);
+  const { appState, dispatch } = useContext(SocketContext);
   const { socket, current_uid } = appState;
 
   const currentUser = JSON.parse(current_uid) as User;
 
+  // If someone enters the room
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
       const { rooms: roomsReceived } = data; // all existing rooms
@@ -26,7 +27,7 @@ const WelcomeChat = () => {
     });
   }, [currentRoom, socket]);
 
-  // Detect update_rooms event from server
+  // If a new room is created
   useEffect(() => {
     socket?.on('update_rooms', (updatedRooms) => {
       console.log(updatedRooms);
@@ -37,8 +38,8 @@ const WelcomeChat = () => {
   const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     alert('You are about to disconnect from the chat.');
-    // appState.socket?.disconnect();
-    // dispatch({ type: 'remove_user', payload: null });
+    appState.socket?.disconnect();
+    dispatch({ type: 'remove_user', payload: null });
   };
 
   return (
@@ -47,9 +48,12 @@ const WelcomeChat = () => {
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
-      <ChatBox currentRoom={currentRoom} />
-      <RoomListBox roomList={rooms} currentRoom={currentRoom} />
-      <ConnectedUsersBox currentUser={currentUser} currentRoom={currentRoom} roomList={rooms}
+      <ChatBox roomList={rooms} currentRoom={currentRoom} />
+      <RoomListBox socket={socket} roomList={rooms} currentRoom={currentRoom} />
+      <ConnectedUsersBox
+        currentUser={currentUser}
+        currentRoom={currentRoom}
+        roomList={rooms}
       />
       <MessageInput currentRoom={currentRoom} />
     </ContainerChatWindow>

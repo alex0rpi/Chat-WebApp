@@ -1,15 +1,35 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SocketContext } from '../context/SocketContext';
-import { Message, User } from '../models/Interfaces';
+import { Message, Room, User } from '../models/Interfaces';
 
 interface ChatBoxProps {
   currentRoom: string | undefined;
+  roomList: Room[];
 }
 
 const ChatBox = (props: ChatBoxProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { appState } = useContext(SocketContext);
   const { socket, current_uid } = appState;
+
+  const roomUsers: User[] | undefined = props.roomList.find(
+    (roomObj) => roomObj.roomName === props.currentRoom
+  )?.users; //array with the users Objects of the current room
+  console.log(roomUsers);
+  /*   [
+    {"userId": 1, "userName": "user1" },
+    {"userId": 2, "userName": "user2" },
+  ] */
+
+  const roomUsersObject = roomUsers?.reduce<{ [key: number]: string }>(
+    (acc, userItem) => {
+      acc[userItem.userId] = userItem.userName;
+      return acc;
+    },
+    {}
+  );
+
+  console.log(roomUsersObject);
 
   // console.log(logged_users);
   const user = JSON.parse(current_uid) as User;
@@ -44,14 +64,20 @@ const ChatBox = (props: ChatBoxProps) => {
         return (
           <div
             key={index}
-            className={`${msgItem.userId === user.userId ? 'ownMsg' : 'message'} ${msgItem.userId === null && 'serverMsg'}`}
+            className={`${msgItem.userId === user.userId ? 'ownMsg' : 'message'} ${
+              msgItem.userId === null && 'serverMsg'
+            }`}
           >
             <small>{msgItem.createdAt}</small>
             <div>
               <p>
                 {msgItem.userId === user.userId && <span>You: </span>}
+                {msgItem.userId !== null && msgItem.userId !== user.userId && (
+                  <span>{roomUsersObject![msgItem.userId!]}: </span>
+                )}
                 {msgItem.message}
               </p>
+              {msgItem.userId === null && <hr />}
             </div>
           </div>
         );

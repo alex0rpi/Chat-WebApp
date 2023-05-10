@@ -1,10 +1,12 @@
 // This component will only be visible at the welcome chat, once the user is identified.
 import { Button } from 'react-bootstrap';
 import { Room } from '../models/Interfaces';
+import { Socket } from 'socket.io-client';
 
 interface RoomListProps {
   roomList: Room[];
   currentRoom: string | undefined;
+  socket: Socket | undefined;
 }
 
 const RoomListBox = (props: RoomListProps) => {
@@ -25,19 +27,9 @@ const RoomListBox = (props: RoomListProps) => {
     return roomItem;
   });
 
-  // Select the last element of the sortedRooms array, with the document selector
-
-  // scroll to the last created room
-/*   useEffect(() => {
-    const lastRoom = document.querySelector('.room-list > div:last-child');
-    if (lastRoom) {
-      lastRoom.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest',
-      });
-    }
-  }, [roomList]); */
+  const onRoomClick = () => {
+    alert('You are about to change the room.');
+  };
 
   return (
     <div className="room-list">
@@ -50,6 +42,7 @@ const RoomListBox = (props: RoomListProps) => {
                 variant={room.roomName === currentRoom ? 'primary' : 'secondary'}
                 size="sm"
                 className="text-truncate"
+                onClick={onRoomClick}
               >
                 {room.roomName}
               </Button>

@@ -31,9 +31,9 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     });
 
     /** User Disconnected event */
-    socket.on('user_disconnected', (uid: string) => {
+    socket.on('user_disconnected', (socketid: string) => {
       // console.info('User disconnected message received')
-      dispatch({ type: 'remove_user', payload: uid });
+      dispatch({ type: 'remove_user', payload: socketid });
     });
 
     /** Connection / reconnection listeners */

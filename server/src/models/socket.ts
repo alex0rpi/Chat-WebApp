@@ -1,7 +1,7 @@
 import { Server as HTTPServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { ActiveUser } from './Interfaces';
-import * as eventListeners from './eventListeners-Emitters';
+import * as evListenersEmitters from './evListeners-Emitters';
 
 export class ServerSocket {
   public static instance: ServerSocket;
@@ -38,23 +38,23 @@ export class ServerSocket {
 
     // !Handle connection event
     socket.on('integrate', (loggedUser, callback) => {
-      eventListeners.integrate(this, socket, loggedUser, callback);
+      evListenersEmitters.integrate(this, socket, loggedUser, callback);
     });
 
     socket.on('disconnect', () => {
-      eventListeners.disconnect(this, socket);
+      evListenersEmitters.disconnect(this, socket);
     });
 
     socket.on('enter_room', (userId, roomName) => {
-      eventListeners.enterRoom(this, userId, roomName);
+      evListenersEmitters.enterRoom(this, userId, roomName);
     });
 
     socket.on('new_message', (data) => {
-      eventListeners.newMessage(this, data);
+      evListenersEmitters.newMessage(this, data);
     });
 
     socket.on('create_room', (roomName) => {
-      eventListeners.createRoom(this, roomName);
+      evListenersEmitters.createRoom(this, roomName);
     });
   };
 
