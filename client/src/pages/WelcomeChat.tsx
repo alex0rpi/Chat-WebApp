@@ -7,10 +7,11 @@ import ContainerChatWindow from '../layout/ContainerChatWindow';
 import { useEffect, useState, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Room, User } from '../models/Interfaces';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import NewRoomForm from '../components/NewRoomForm';
 
 const WelcomeChat = () => {
+  const navigate = useNavigate();
   const { currentRoom } = useParams(); // in case I am in a room, indicated at the url
   const [rooms, setRooms] = useState<Room[]>([]);
   const { appState, dispatch } = useContext(SocketContext);
@@ -40,6 +41,8 @@ const WelcomeChat = () => {
     alert('You are about to disconnect from the chat.');
     appState.socket?.disconnect();
     dispatch({ type: 'remove_user', payload: null });
+    localStorage.removeItem('token');
+    navigate('/welcome/login');
   };
 
   return (
@@ -48,7 +51,7 @@ const WelcomeChat = () => {
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
-      <ChatBox roomList={rooms} currentRoom={currentRoom} />
+      <ChatBox roomList={rooms}   currentRoom={currentRoom} />
       <RoomListBox socket={socket} roomList={rooms} currentRoom={currentRoom} />
       <ConnectedUsersBox
         currentUser={currentUser}

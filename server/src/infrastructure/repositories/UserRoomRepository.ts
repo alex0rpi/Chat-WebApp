@@ -7,7 +7,7 @@ class UserRoomRepository {
     // Returns a room object containing userId and roomId.
   }
 
-  //   Delete rooms containing userId
+  //   Delete room entries containing userId (when a user disconnects)
   async deleteUserRooms(userId: string | number) {
     await UserRoom.destroy({ where: { userId } });
   }

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
-import { Room } from '../models/Interfaces';
+import { Room, User } from '../models/Interfaces';
 
 // State types
 export interface ISocketContext {
   socket: Socket | undefined;
   current_uid: string; // the id of the current user, e.g. '1Y2Z3X4W5V6U7T8S9R0Q'
-  logged_users: string[]; // ['name1', 'name2', 'name3']
+  logged_users: string[]; // '{{"userId":1,"userName":"Alex"},{"userId":2,"userName":"Bulma"}}'
   rooms?: Room[];
 }
 

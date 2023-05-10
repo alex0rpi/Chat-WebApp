@@ -39,7 +39,7 @@ const RoomListBox = (props: RoomListProps) => {
             return (
               <Button
                 key={room.roomId}
-                variant={room.roomName === currentRoom ? 'primary' : 'secondary'}
+                variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
                 size="sm"
                 className="text-truncate"
                 onClick={onRoomClick}

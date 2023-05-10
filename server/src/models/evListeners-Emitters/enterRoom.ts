@@ -15,12 +15,10 @@ export const enterRoom = async (
 ) => {
   try {
     // Retrieve user and next room where he/she wants to enter
-    const user = await userRepository!.retrieveById(userId); //id & userName
+    const user = await userRepository!.retrieveById(userId);  // userId & userName
     let nextRoom;
     if (roomName) {
       nextRoom = await roomRepository!.retrieveRoomByName(roomName);
-    } else {
-      nextRoom = { roomId: 1, roomName: 'welcome' };
     }
 
     // Get the previous room where the user was in, if any
@@ -34,9 +32,9 @@ export const enterRoom = async (
 
     // The user is in the new room ###########################
 
-    // ! Now we prepare to inform the other users in the entered room and the ones of the previous room.
+    // ! Now we prepare to inform the other users in the entered room and the ones of the previous room, and provide data.
 
-    // Get the list all rooms with their users
+    //* Get the list all rooms with their users
     const rooms = await roomRepository!.getAllRoomsAndUsers();
 
     if (roomName) {
