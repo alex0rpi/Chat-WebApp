@@ -38,7 +38,7 @@ const WelcomeChat = () => {
 
   const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    alert('You are about to disconnect from the chat.');
+    // alert('You are about to disconnect from the chat.');
     appState.socket?.disconnect();
     dispatch({ type: 'remove_user', payload: null });
     localStorage.removeItem('token');

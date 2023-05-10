@@ -5,10 +5,10 @@ import {
   roomRepository,
   userRoomRepository,
 } from '../../infrastructure/dependecy-injection';
+import { newMessage } from './newMessage';
 
 export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => {
-  const userToDisconnect = serverSocket.GetUinfoKeyFromSocketId(socket.id);
-  // get the whole user object from the socket id
+  const userToDisconnect = serverSocket.GetUinfoKeyFromSocketId(socket.id); // get theuser object from the socket id
   /* {
     userId: loggedUser.userId,
     userName: loggedUser.userName
@@ -17,8 +17,14 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
   const userInfoToDisconnect = JSON.parse(userToDisconnect!);
 
   if (userInfoToDisconnect) {
-    // const user = JSON.parse(userToDisconnect);
-    // enterRoom(serverSocket, user.userId, 'welcome'); // enter the user in the welcome chat room
+    // Get the room were the disconnect came from
+    const userRoom = await userRoomRepository?.findRoomByUserId(
+      userInfoToDisconnect.userId
+    );
+    // Returns a room object containing userId and roomId.
+
+    // retrieve room name from room id
+    const userRoomObject = await roomRepository?.retrieveRoomById(userRoom!.roomId);
 
     // Borra el usuario de la lista de users actius
     await userRoomRepository!.deleteUserRooms(userInfoToDisconnect.userId);
@@ -33,8 +39,14 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
     const users = Object.keys(serverSocket.activeUsers);
     //* users here is an array of user objects but it is stringified.
     //* Abans era Object.values (socketid), ara passo keys, que tenen més info rellevant: userId i userName
-    serverSocket.io.emit('update_user_room', { users, rooms });
-    // serverSocket.SendMessage('user_disconnected', users, socket.id);
+ 
     // send the users array to all remaining connected users.
+    const data = {
+      userId: null,
+      roomName: userRoomObject.roomName,
+      message: `${userInfoToDisconnect.userName} is gone bye bye 👋🏻👋🏻`,
+    };
+    newMessage(serverSocket, data);
+    serverSocket.io.emit('update_user_room', { users, rooms });
   }
 };
