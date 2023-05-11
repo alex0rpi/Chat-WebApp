@@ -15,9 +15,9 @@ export const checkTokenB4Room: RequestHandler = (req: any, res, next) => {
 
   const userToken = req.headers['token']?.toString().split(' ')[1];
   //   let tokenPayload: TokenInterface = {};
-  let tokenPayload: any; // *No funciona el TokenPayloadInterface
+  let tokenPayload: any; // No funciona el TokenPayloadInterface
   try {
-    tokenPayload = jwt.verify(userToken, 'chatapp'); //* change to env variable
+    tokenPayload = jwt.verify(userToken, 'chatapp'); // change to env variable
     if (!tokenPayload) {
       const error = new InvalidTokenError(
         'Authorization failed due to invalid or non existing token',

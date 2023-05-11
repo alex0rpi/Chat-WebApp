@@ -13,7 +13,7 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
   const navigate = useNavigate();
 
   const onRegisterHandler = async (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
   ): Promise<void> => {
     event.preventDefault();
     // todo: afegir validació dels inputs en algun moment (Amb bootstrap? manualment?)
@@ -26,7 +26,7 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
         body: JSON.stringify({ userName, password }),
       });
       if (response.ok) {
-        // *If registered, login the user and add it to the context
+        // If registered, login the user and add it to the context
         const loginResponse = await fetch('/api/users/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -42,6 +42,12 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
       }
     } catch (error: unknown) {
       if (error instanceof Error) alert("Something's wrong, please check your data.");
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onRegisterHandler(event);
     }
   };
 
@@ -67,12 +73,17 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
         />
       </FloatingLabel>
       {/* --------------- */}
-      <FloatingLabel className="d-flex" controlId="floatingconfirmPassword" label="Confirm password">
+      <FloatingLabel
+        className="d-flex"
+        controlId="floatingconfirmPassword"
+        label="Confirm password"
+      >
         <Form.Control
           ref={passwordConfRef}
           type="password"
           placeholder="Password"
           name="passwordConfirmation"
+          onKeyDown={handleKeyDown}
         />
         <Button size="sm" variant="primary" type="submit" onClick={onRegisterHandler}>
           Submit

@@ -17,7 +17,9 @@ const MessageInput = (props: MessageInputProps) => {
 
   const user = JSON.parse(current_uid) as User;
 
-  const handleSendMsg = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSendMsg = async (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
+  ) => {
     event.preventDefault();
     if (!msgInputRef.current?.value || msgInputRef.current?.value.trim() === '') {
       alert('No message to send!');
@@ -33,10 +35,17 @@ const MessageInput = (props: MessageInputProps) => {
     socket?.emit('new_message', data);
     msgInputRef.current.value = '';
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSendMsg(event);
+    }
+  };
+
   return (
     <div className="msg-field">
       <Form.Group className="my-0 p-2 d-flex" controlId="">
-        <Form.Control ref={msgInputRef} type="text" />
+        <Form.Control ref={msgInputRef} type="text" onKeyDown={handleKeyDown} />
         <Button size="sm" variant="primary" type="submit" onClick={handleSendMsg}>
           Send
         </Button>

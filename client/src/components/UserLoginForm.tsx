@@ -10,7 +10,10 @@ const UserLoginForm = (props: IUserAuthFormProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const onLoginHandler = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+
+  const onLoginHandler = async (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
+  ): Promise<void> => {
     event.preventDefault();
     // todo: afegir validació dels inputs en algun moment (Amb bootstrap? manualment?)
     const userName = usernameRef.current?.value;
@@ -28,7 +31,13 @@ const UserLoginForm = (props: IUserAuthFormProps) => {
         navigate('/chat/welcome');
       }
     } catch (error: unknown) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) alert("Something's wrong, please check your data.");
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onLoginHandler(event);
     }
   };
 
@@ -45,6 +54,7 @@ const UserLoginForm = (props: IUserAuthFormProps) => {
           type="password"
           placeholder="Password"
           name="password"
+          onKeyDown={handleKeyDown}
         />
         <Button size="sm" variant="primary" type="submit" onClick={onLoginHandler}>
           Submit

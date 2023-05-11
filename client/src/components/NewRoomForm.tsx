@@ -15,7 +15,9 @@ const NewRoomForm = (props: NewRoomFormProps) => {
 
   const roomRef = useRef<HTMLInputElement>(null);
 
-  const handleRoomCreate = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleRoomCreate = (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
+  ) => {
     event.preventDefault();
     const newRoomInput: string = roomRef.current?.value || '';
     if (newRoomInput.trim() === '') {
@@ -31,6 +33,12 @@ const NewRoomForm = (props: NewRoomFormProps) => {
     }
   };
 
+  const handleKeyEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleRoomCreate(event);
+    }
+  };
+
   return (
     <div className="room-field">
       <Form.Group>
@@ -40,6 +48,7 @@ const NewRoomForm = (props: NewRoomFormProps) => {
             type="text"
             className="p-1 mx-0"
             placeholder="Add new room"
+            onKeyDown={handleKeyEnter}
           />
           <Button
             type="submit"
