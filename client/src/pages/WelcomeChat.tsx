@@ -45,17 +45,24 @@ const WelcomeChat = () => {
     navigate('/welcome/login');
   };
 
+  const onRoomClickHandler = (nextRoom: string) => {
+    // alert('You are about to change the room.');
+    navigate(`/chat/${nextRoom}`);
+    socket?.emit('enter_room', nextRoom);
+  };
+
   return (
     <ContainerChatWindow>
       <NewRoomForm socket={socket} setRooms={setRooms} />
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
-      <ChatBox roomList={rooms} currentRoom={currentRoom} />
+      <ChatBox roomList={rooms} />
       <RoomListBox
         socket={socket}
         roomList={rooms}
         currentRoom={currentRoom}
+        onRoomClick={onRoomClickHandler}
         currentUser={currentUser}
       />
       <ConnectedUsersBox

@@ -15,7 +15,7 @@ export const enterRoom = async (
 ) => {
   try {
     // Retrieve user and next room where he/she wants to enter
-    const user = await userRepository!.retrieveById(userId);  // userId & userName
+    const user = await userRepository!.retrieveById(userId); // userId & userName
     let nextRoom;
     if (roomName) {
       nextRoom = await roomRepository!.retrieveRoomByName(roomName);
@@ -36,10 +36,11 @@ export const enterRoom = async (
 
     //* Get the list all rooms with their users
     const rooms = await roomRepository!.getAllRoomsAndUsers();
-
+    debugger;
     if (roomName) {
       const data = {
         userId: null,
+        userName: null,
         roomName, // this is the new current room being informed of the new arrival.
         message: `${user.userName} joined the room👏🏻`,
       };
@@ -51,6 +52,7 @@ export const enterRoom = async (
       // Previous room will be informed as long as it is not the "welcome" room.
       const data = {
         userId: null,
+        userName: null,
         roomName: previousRoom.roomName,
         message: `${user.userName} is gone bye bye 👋🏻👋🏻`,
       };

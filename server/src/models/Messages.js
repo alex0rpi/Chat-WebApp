@@ -11,6 +11,10 @@ export default (sequelize, DataTypes, User, Room) => {
     // I prefer to manually specify the createdAt field.
     createdAt: {
       type: DataTypes.STRING,
+    },
+    userName: {
+      type: DataTypes.STRING,
+      allowNull: true,
     }
   },
     {

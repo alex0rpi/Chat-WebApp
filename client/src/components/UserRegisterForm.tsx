@@ -41,7 +41,7 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
         }
       }
     } catch (error: unknown) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) alert("Something's wrong, please check your data.");
     }
   };
 

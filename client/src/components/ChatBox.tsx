@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Message, Room, User } from '../Interfaces/Interfaces';
+import { useParams } from 'react-router-dom';
 
 interface ChatBoxProps {
-  currentRoom: string | undefined;
   roomList: Room[];
 }
 
@@ -11,9 +11,10 @@ const ChatBox = (props: ChatBoxProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { appState } = useContext(SocketContext);
   const { socket, current_uid } = appState;
+  const { currentRoom } = useParams();
 
   const roomUsers: User[] | undefined = props.roomList.find(
-    (roomObj) => roomObj.roomName === props.currentRoom
+    (roomObj) => roomObj.roomName === currentRoom
   )?.users; //array with the users Objects of the current room
   console.log(roomUsers);
   /*   [
@@ -37,18 +38,18 @@ const ChatBox = (props: ChatBoxProps) => {
 
   // Enter room
   useEffect(() => {
-    socket?.emit('enter_room', user.userId, props.currentRoom);
+    socket?.emit('enter_room', user.userId, currentRoom);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentRoom]);
 
   // Updated messages list
   useEffect(() => {
     socket?.on('update_messages', (roomName, newMessages) => {
-      if (roomName === props.currentRoom) {
+      if (roomName === currentRoom) {
         setMessages(newMessages);
       }
     });
-  }, [props.currentRoom, socket]);
+  }, [currentRoom, socket]);
 
   // Scroll to the bottom of the chat-box
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -61,6 +62,7 @@ const ChatBox = (props: ChatBoxProps) => {
   return (
     <div className="chat-box" ref={messagesEndRef}>
       {messages.map((msgItem, index) => {
+        console.log(msgItem);
         return (
           <div
             key={index}
@@ -73,8 +75,8 @@ const ChatBox = (props: ChatBoxProps) => {
               <p>
                 {msgItem.userId === user.userId && <span>You: </span>}
                 {msgItem.userId !== null && msgItem.userId !== user.userId && (
-                  <span>{roomUsersObject![msgItem.userId!]}: </span>
-                  // <span>{msgItem.user?.userName}: </span>
+                  // <span>{roomUsersObject![msgItem.userId!]}: </span>
+                  <span>{msgItem.userName}: </span>
                 )}
                 {msgItem.message}
               </p>

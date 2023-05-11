@@ -39,10 +39,11 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
     const users = Object.keys(serverSocket.activeUsers);
     //* users here is an array of user objects but it is stringified.
     //* Abans era Object.values (socketid), ara passo keys, que tenen més info rellevant: userId i userName
- 
+
     // send the users array to all remaining connected users.
     const data = {
       userId: null,
+      userName: null,
       roomName: userRoomObject.roomName,
       message: `${userInfoToDisconnect.userName} is gone bye bye 👋🏻👋🏻`,
     };

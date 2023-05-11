@@ -8,14 +8,12 @@ import { MessageData, Room } from '../Interfaces';
 export const newMessage = async (serverSocket: ServerSocket, data: MessageData) => {
   if (!data.message) return false;
   try {
-    const { userId, roomName, message } = data;
+    const { userId, userName, roomName, message } = data;
     // Retrieve room where msg came from
     let room: Room = await roomRepository!.retrieveRoomByName(roomName);
 
-    console.log(room);
-
     // save message on db
-    await messageRepository!.createMessage(message, userId, room.roomId);
+    await messageRepository!.createMessage(userId, userName, room.roomId, message);
 
     // Get all updated messages for this room, including their respective user info.
     const messages = await messageRepository!.retrieveRoomMessages(room.roomId);

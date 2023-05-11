@@ -2,20 +2,17 @@
 import { Button } from 'react-bootstrap';
 import { Room, User } from '../Interfaces/Interfaces';
 import { Socket } from 'socket.io-client';
-import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface RoomListProps {
+  socket: Socket | undefined;
   roomList: Room[];
   currentRoom: string | undefined;
-  socket: Socket | undefined;
+  onRoomClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   currentUser: User | undefined;
 }
 
 const RoomListBox = (props: RoomListProps) => {
-  const { currentRoom, roomList, socket } = props;
-  const roomButtonRef = useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
+  const { currentRoom, roomList, onRoomClick } = props;
 
   /* show and sort rooms alphabetically */
   /* place the welcome room on the first place */
@@ -32,14 +29,10 @@ const RoomListBox = (props: RoomListProps) => {
     return roomItem;
   });
 
-  const onRoomClick = () => {
-    // alert('You are about to change the room.');
-    navigate(`/chat/${roomButtonRef.current?.innerText}`);
-    socket?.emit(
-      'enter_room',
-      props.currentUser?.userId,
-      roomButtonRef.current?.innerText
-    );
+  const onRoomChange = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const nextRoom = event.currentTarget.innerText;
+    onRoomClick(nextRoom);
   };
 
   return (
@@ -49,12 +42,12 @@ const RoomListBox = (props: RoomListProps) => {
           sortedRooms.map((room) => {
             return (
               <Button
-                ref={roomButtonRef}
+                // ref={roomButtonRef}
                 key={room.roomId}
                 variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
                 size="sm"
                 className="text-truncate"
-                onClick={onRoomClick}
+                onClick={onRoomChange}
               >
                 {room.roomName}
               </Button>

@@ -10,11 +10,10 @@ export interface IUserAuthFormProps {
 export interface Message {
   messageId?: number;
   roomName?: string;
-  userId?: number;
   message: string;
   createdAt?: string;
-  updatedAt?: string;
-  user?: User;
+  userId?: number;
+  userName: string | null;
 }
 
 export interface Room {

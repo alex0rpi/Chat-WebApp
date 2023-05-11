@@ -5,9 +5,10 @@ import { useState } from 'react';
 // import RoomChat from './pages/RoomChat';
 import UserLoginForm from './components/UserLoginForm';
 import UserRegisterForm from './components/UserRegisterForm';
+import { User } from './Interfaces/Interfaces';
 
 function App() {
-  const [loggedUser, setLoggedUser] = useState(null);
+  const [loggedUser, setLoggedUser] = useState<User | null>(null);
 
   // todo: Check if user is already logged
 

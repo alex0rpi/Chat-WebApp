@@ -9,6 +9,7 @@ export interface TokenPayloadInterface {
 
 export interface MessageData {
   userId: number | null;
+  userName: string | null;
   roomName: string;
   message: string;
 }

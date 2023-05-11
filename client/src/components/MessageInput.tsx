@@ -25,6 +25,7 @@ const MessageInput = (props: MessageInputProps) => {
     }
     const data = {
       userId: user.userId,
+      userName: user.userName,
       roomName: props.currentRoom,
       message: msgInputRef.current?.value,
     };
