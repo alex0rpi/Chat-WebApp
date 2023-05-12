@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { SocketContext } from '../context/SocketContext';
-import { Message, Room, User } from '../Interfaces/Interfaces';
+import { Message, User } from '../Interfaces/Interfaces';
 import { useParams } from 'react-router-dom';
 
 const ChatBox = () => {
@@ -10,7 +10,6 @@ const ChatBox = () => {
   const { currentRoom } = useParams();
 
   const user = JSON.parse(current_uid) as User;
-  // console.log(user);
 
   // Enter room
   useEffect(() => {

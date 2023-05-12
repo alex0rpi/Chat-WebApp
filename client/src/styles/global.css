@@ -8,12 +8,12 @@ body {
 
 .container {
   position: relative;
-  height: 75vh;
+  height: 65vh;
   width: 750px;
   max-width: 90%;
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 30% 60% 10%;
+  grid-template-rows: 15% 70% 15%;
   grid-column-gap: 10px;
 }
 
@@ -29,9 +29,7 @@ body {
 .header_bar {
   grid-column-start: 1;
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  grid-column-end: 4;
-  grid-row: 1/2;
+  margin-bottom: 0.25rem;
   border-bottom: 3px solid rgb(58, 108, 144);
 }
 

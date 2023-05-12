@@ -33,7 +33,6 @@ const ConnectedUsersBox = (props: ConnectedUsersBoxProps) => {
 
   return (
     <div className="user-list">
-      {/* <h6>Connected ({usersInWelcomeChat})</h6> */}
       <div className="d-grid gap-1">
         {room?.users &&
           room.users.length > 0 &&
