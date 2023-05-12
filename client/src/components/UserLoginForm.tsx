@@ -1,23 +1,23 @@
 // Only visible at the beggining, once the user enters the app to identify itself.
 
-import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { RegisterFormProps, User } from '../Interfaces/Interfaces';
+import { LoginForm, LoginFormProps, User } from '../Interfaces/Interfaces';
+import { Formik } from 'formik';
+import { loginSchema } from '../validation/loginSchema';
 
-const UserLoginForm = (props: RegisterFormProps) => {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+const UserLoginForm = (props: LoginFormProps) => {
+  const { setLoggedUser } = props;
   const navigate = useNavigate();
+  const initialValues: LoginForm = {
+    userName: '',
+    password: '',
+    formError: null,
+  };
 
-  const onLoginHandler = async (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
-  ): Promise<void> => {
-    event.preventDefault();
-    // todo: afegir validació dels inputs en algun moment (Amb bootstrap? manualment?)
-    const userName = usernameRef.current?.value;
-    const password = passwordRef.current?.value;
+  const onLoginHandler = async (values: LoginForm) => {
+    const { userName, password } = values;
     try {
       const loginResponse = await fetch('/api/users/login', {
         method: 'POST',
@@ -27,7 +27,7 @@ const UserLoginForm = (props: RegisterFormProps) => {
       if (loginResponse.ok) {
         const data = await loginResponse.json();
         localStorage.setItem('token', data.payload.token);
-        props.setLoggedUser(data.payload.user as User);
+        setLoggedUser(data.payload.user as User);
         navigate('/chat/welcome');
       }
     } catch (error: unknown) {
@@ -35,32 +35,70 @@ const UserLoginForm = (props: RegisterFormProps) => {
     }
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      onLoginHandler(event);
-    }
-  };
-
   return (
     <div className="name-field">
       <h2>Login</h2>
 
-      <FloatingLabel controlId="floatingInput" label="Your username" className="mb-2 p-0">
-        <Form.Control ref={usernameRef} name="userName" placeholder="Your username" />
-      </FloatingLabel>
-      <FloatingLabel className="d-flex" controlId="floatingPassword" label="Password">
-        <Form.Control
-          ref={passwordRef}
-          type="password"
-          placeholder="Password"
-          name="password"
-          onKeyDown={handleKeyDown}
-        />
-        <Button size="sm" variant="primary" type="submit" onClick={onLoginHandler}>
-          Submit
-        </Button>
-      </FloatingLabel>
-      <Link to="/welcome/register">Click here to register</Link>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginSchema}
+        onSubmit={onLoginHandler}
+      >
+        {(formik) => {
+          console.log('Formik props', formik);
+          return (
+            <Form noValidate onSubmit={formik.handleSubmit}>
+              <FloatingLabel
+                controlId="username"
+                label="Your username"
+                className="mb-2 p-0"
+              >
+                <Form.Control
+                  type="text"
+                  name="userName"
+                  placeholder="Your username"
+                  isValid={formik.touched.userName && !formik.errors.userName}
+                  isInvalid={formik.touched.userName && !!formik.errors.userName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.userName}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.userName}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+              <FloatingLabel
+                controlId="password"
+                label="Password"
+                className="d-flex mb-2 p-0"
+              >
+                <Form.Control
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  isValid={formik.touched.password && !formik.errors.password}
+                  isInvalid={formik.touched.password && !!formik.errors.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
+                />
+                <Button
+                  size="sm"
+                  variant="primary"
+                  type="submit"
+                  disabled={!formik.isValid || formik.isSubmitting}
+                >
+                  Submit
+                </Button>
+              </FloatingLabel>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.password}
+              </Form.Control.Feedback>
+            </Form>
+          );
+        }}
+      </Formik>
+      <Link to="/welcome/register">I am not yet registered🔑</Link>
     </div>
   );
 };

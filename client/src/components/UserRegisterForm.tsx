@@ -1,6 +1,5 @@
 // Only visible at the beggining, once the user enters the app to identify itself.
 
-// import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -17,13 +16,9 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
     confirmPassword: '',
     formError: null,
   };
-  // const usernameRef = useRef<HTMLInputElement>(null);
-  // const passwordRef = useRef<HTMLInputElement>(null);
-  // const passwordConfRef = useRef<HTMLInputElement>(null);
+
   //* Register handler ------------------------------------------------------ *//
   const onRegisterHandler = async (values: RegisterForm) => {
-    // const userName = usernameRef.current?.value;
-    // const password = passwordRef.current?.value;
     const { userName, password } = values;
     try {
       const response = await fetch('/api/users/register', {
@@ -46,7 +41,6 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
         }
       }
     } catch (error: unknown) {
-      // if (error instanceof Error) alert("Something's wrong, please check your data.");
       console.log(error);
     }
   };
@@ -70,7 +64,6 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
                 className="mb-2 p-0"
               >
                 <Form.Control
-                  // ref={usernameRef}
                   type="text"
                   name="userName"
                   placeholder="Your username"
@@ -80,13 +73,12 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
                   onBlur={formik.handleBlur}
                   value={formik.values.userName}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.userName}
+                </Form.Control.Feedback>
               </FloatingLabel>
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.userName}
-              </Form.Control.Feedback>
               <FloatingLabel controlId="password" label="Password" className="mb-2 p-0">
                 <Form.Control
-                  // ref={passwordRef}
                   type="password"
                   name="password"
                   placeholder="Password"
@@ -106,7 +98,6 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
                 label="Confirm password"
               >
                 <Form.Control
-                  // ref={passwordConfRef}
                   type="password"
                   name="confirmPassword"
                   placeholder="Confirm Password"
@@ -133,7 +124,7 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
           );
         }}
       </Formik>
-      <Link to="/welcome/login">Already registered? Login</Link>
+      <Link to="/welcome/login">Already registered? Login🔑</Link>
     </div>
   );
 };

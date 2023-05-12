@@ -1,5 +1,3 @@
-import { FormikHelpers } from 'formik';
-
 export interface User {
   userId?: number;
   userName: string;
@@ -10,8 +8,14 @@ export interface RegisterForm extends User {
   confirmPassword?: string;
   formError?: string | null;
 }
+export interface LoginForm extends User {
+  formError?: string | null;
+}
 
 export interface RegisterFormProps {
+  setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+export interface LoginFormProps {
   setLoggedUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
