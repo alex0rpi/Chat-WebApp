@@ -31,7 +31,7 @@ const MessageInput = (props: MessageInputProps) => {
       roomName: props.currentRoom,
       message: msgInputRef.current?.value,
     };
-    console.log(data);
+    // console.log(data);
     socket?.emit('new_message', data);
     msgInputRef.current.value = '';
   };

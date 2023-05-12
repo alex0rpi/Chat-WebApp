@@ -7,7 +7,7 @@ interface RoomListProps {
   socket: Socket | undefined;
   roomList: Room[];
   currentRoom: string | undefined;
-  onRoomClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onRoomClick: (nextRoom: string) => void;
   currentUser: User | undefined;
 }
 

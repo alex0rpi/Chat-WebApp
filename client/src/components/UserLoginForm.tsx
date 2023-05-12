@@ -4,9 +4,9 @@ import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { IUserAuthFormProps, User } from '../Interfaces/Interfaces';
+import { RegisterFormProps, User } from '../Interfaces/Interfaces';
 
-const UserLoginForm = (props: IUserAuthFormProps) => {
+const UserLoginForm = (props: RegisterFormProps) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();

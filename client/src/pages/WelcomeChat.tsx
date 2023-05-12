@@ -23,7 +23,7 @@ const WelcomeChat = () => {
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
       const { rooms: roomsReceived } = data; // all existing rooms
-      console.log(roomsReceived);
+      // console.log(roomsReceived);
       setRooms(roomsReceived);
     });
   }, [currentRoom, socket]);
@@ -31,7 +31,7 @@ const WelcomeChat = () => {
   // If a new room is created
   useEffect(() => {
     socket?.on('update_rooms', (updatedRooms) => {
-      console.log(updatedRooms);
+      // console.log(updatedRooms);
       setRooms(updatedRooms); // all existing rooms
     });
   }, [socket]);
@@ -57,7 +57,7 @@ const WelcomeChat = () => {
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
-      <ChatBox roomList={rooms} />
+      <ChatBox />
       <RoomListBox
         socket={socket}
         roomList={rooms}

@@ -3,36 +3,12 @@ import { SocketContext } from '../context/SocketContext';
 import { Message, Room, User } from '../Interfaces/Interfaces';
 import { useParams } from 'react-router-dom';
 
-interface ChatBoxProps {
-  roomList: Room[];
-}
-
-const ChatBox = (props: ChatBoxProps) => {
+const ChatBox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { appState } = useContext(SocketContext);
   const { socket, current_uid } = appState;
   const { currentRoom } = useParams();
 
-  const roomUsers: User[] | undefined = props.roomList.find(
-    (roomObj) => roomObj.roomName === currentRoom
-  )?.users; //array with the users Objects of the current room
-  console.log(roomUsers);
-  /*   [
-    {"userId": 1, "userName": "user1" },
-    {"userId": 2, "userName": "user2" },
-  ] */
-
-  const roomUsersObject = roomUsers?.reduce<{ [key: number]: string }>(
-    (acc, userItem) => {
-      acc[userItem.userId] = userItem.userName;
-      return acc;
-    },
-    {}
-  );
-
-  console.log(roomUsersObject);
-
-  // console.log(logged_users);
   const user = JSON.parse(current_uid) as User;
   // console.log(user);
 
@@ -75,7 +51,6 @@ const ChatBox = (props: ChatBoxProps) => {
               <p>
                 {msgItem.userId === user.userId && <span>You: </span>}
                 {msgItem.userId !== null && msgItem.userId !== user.userId && (
-                  // <span>{roomUsersObject![msgItem.userId!]}: </span>
                   <span>{msgItem.userName}: </span>
                 )}
                 {msgItem.message}

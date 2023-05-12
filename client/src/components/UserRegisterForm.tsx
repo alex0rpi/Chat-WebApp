@@ -1,24 +1,30 @@
 // Only visible at the beggining, once the user enters the app to identify itself.
 
-import { useRef } from 'react';
+// import { useRef } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { IUserAuthFormProps, User } from '../Interfaces/Interfaces';
+import { RegisterForm, RegisterFormProps, User } from '../Interfaces/Interfaces';
+import { Formik } from 'formik';
+import { registerSchema } from '../validation/registerSchema';
 
-const UserRegisterForm = (props: IUserAuthFormProps) => {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const passwordConfRef = useRef<HTMLInputElement>(null);
+const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
+  const { setLoggedUser } = props;
   const navigate = useNavigate();
-
-  const onRegisterHandler = async (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
-  ): Promise<void> => {
-    event.preventDefault();
-    // todo: afegir validació dels inputs en algun moment (Amb bootstrap? manualment?)
-    const userName = usernameRef.current?.value;
-    const password = passwordRef.current?.value;
+  const initialValues: RegisterForm = {
+    userName: '',
+    password: '',
+    confirmPassword: '',
+    formError: null,
+  };
+  // const usernameRef = useRef<HTMLInputElement>(null);
+  // const passwordRef = useRef<HTMLInputElement>(null);
+  // const passwordConfRef = useRef<HTMLInputElement>(null);
+  //* Register handler ------------------------------------------------------ *//
+  const onRegisterHandler = async (values: RegisterForm) => {
+    // const userName = usernameRef.current?.value;
+    // const password = passwordRef.current?.value;
+    const { userName, password } = values;
     try {
       const response = await fetch('/api/users/register', {
         method: 'POST',
@@ -35,19 +41,13 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
         if (loginResponse.ok) {
           const data = await loginResponse.json();
           localStorage.setItem('token', data.payload.token);
-          props.setLoggedUser(data.payload.user as User);
-
+          setLoggedUser(data.payload.user as User);
           navigate('/chat/welcome');
         }
       }
     } catch (error: unknown) {
-      if (error instanceof Error) alert("Something's wrong, please check your data.");
-    }
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      onRegisterHandler(event);
+      // if (error instanceof Error) alert("Something's wrong, please check your data.");
+      console.log(error);
     }
   };
 
@@ -55,40 +55,84 @@ const UserRegisterForm = (props: IUserAuthFormProps) => {
     <div className="name-field">
       <h2>Register</h2>
 
-      <FloatingLabel controlId="floatingInput" label="Your username" className="mb-2 p-0">
-        <Form.Control
-          ref={usernameRef}
-          name="userName"
-          type="username"
-          placeholder="Your username"
-        />
-      </FloatingLabel>
-      {/* --------------- */}
-      <FloatingLabel controlId="floatingPassword" label="Password" className="mb-2 p-0">
-        <Form.Control
-          ref={passwordRef}
-          type="password"
-          name="password"
-          placeholder="Password"
-        />
-      </FloatingLabel>
-      {/* --------------- */}
-      <FloatingLabel
-        className="d-flex"
-        controlId="floatingconfirmPassword"
-        label="Confirm password"
+      <Formik
+        initialValues={initialValues}
+        validationSchema={registerSchema}
+        onSubmit={onRegisterHandler}
       >
-        <Form.Control
-          ref={passwordConfRef}
-          type="password"
-          placeholder="Password"
-          name="passwordConfirmation"
-          onKeyDown={handleKeyDown}
-        />
-        <Button size="sm" variant="primary" type="submit" onClick={onRegisterHandler}>
-          Submit
-        </Button>
-      </FloatingLabel>
+        {(formik) => {
+          console.log('Formik props', formik);
+          return (
+            <Form noValidate onSubmit={formik.handleSubmit}>
+              <FloatingLabel
+                controlId="username"
+                label="Your username"
+                className="mb-2 p-0"
+              >
+                <Form.Control
+                  // ref={usernameRef}
+                  type="text"
+                  name="userName"
+                  placeholder="Your username"
+                  isValid={formik.touched.userName && !formik.errors.userName}
+                  isInvalid={formik.touched.userName && !!formik.errors.userName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.userName}
+                />
+              </FloatingLabel>
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.userName}
+              </Form.Control.Feedback>
+              <FloatingLabel controlId="password" label="Password" className="mb-2 p-0">
+                <Form.Control
+                  // ref={passwordRef}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  isValid={formik.touched.password && !formik.errors.password}
+                  isInvalid={formik.touched.password && !!formik.errors.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.password}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.password}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+              <FloatingLabel
+                className="d-flex"
+                controlId="confirmPassword"
+                label="Confirm password"
+              >
+                <Form.Control
+                  // ref={passwordConfRef}
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  isValid={
+                    formik.touched.confirmPassword && !formik.errors.confirmPassword
+                  }
+                  isInvalid={
+                    formik.touched.confirmPassword && !!formik.errors.confirmPassword
+                  }
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.confirmPassword}
+                />
+                <Button
+                  size="sm"
+                  variant="primary"
+                  type="submit"
+                  disabled={!formik.isValid || formik.isSubmitting}
+                >
+                  Submit
+                </Button>
+              </FloatingLabel>
+            </Form>
+          );
+        }}
+      </Formik>
       <Link to="/welcome/login">Already registered? Login</Link>
     </div>
   );
