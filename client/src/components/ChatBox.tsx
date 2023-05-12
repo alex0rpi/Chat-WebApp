@@ -37,7 +37,6 @@ const ChatBox = () => {
   return (
     <div className="chat-box" ref={messagesEndRef}>
       {messages.map((msgItem, index) => {
-        console.log(msgItem);
         return (
           <div
             key={index}
