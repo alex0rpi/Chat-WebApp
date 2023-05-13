@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import config from './config'; //sanitized env variables
 import http from 'http';
 import express from 'express';
 import initDB from './models/initModels';
@@ -45,7 +45,7 @@ app.use(notFoundController);
 app.use(errorMiddleware);
 
 /** Listen */
-const PORT = process.env.PORT || 5000;
+const PORT = config.PORT || 5000;
 initDB().then(() => {
   httpServer.listen(PORT, () => console.info('🚀🚀Server is running on port', PORT));
 });

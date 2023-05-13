@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import config from '../config'
 import { RequestHandler } from 'express';
 import { userRepository } from '../infrastructure/dependecy-injection';
 import bcrypt from 'bcrypt';
@@ -52,7 +52,7 @@ export const loginUser: RequestHandler = async (req, res) => {
     };
     const token = jwt.sign(
       tokenPayload,
-      'chatapp', // this shoule be process.env.JWT_KEY but it's not working with dotenv
+      config.SECRET, // this shoule be process.env.JWT_KEY but it's not working with dotenv
       {
         expiresIn: '24h',
       }

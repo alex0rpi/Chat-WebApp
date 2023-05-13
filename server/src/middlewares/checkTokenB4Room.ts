@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import config from '../config';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import { InvalidTokenError } from '../controllers/helpers/ErrorHandler';
@@ -17,7 +17,7 @@ export const checkTokenB4Room: RequestHandler = (req: any, res, next) => {
   //   let tokenPayload: TokenInterface = {};
   let tokenPayload: any; // No funciona el TokenPayloadInterface
   try {
-    tokenPayload = jwt.verify(userToken, 'chatapp'); // change to env variable
+    tokenPayload = jwt.verify(userToken, config.SECRET); // change to env variable
     if (!tokenPayload) {
       const error = new InvalidTokenError(
         'Authorization failed due to invalid or non existing token',
