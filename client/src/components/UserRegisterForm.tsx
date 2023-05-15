@@ -55,7 +55,7 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
         onSubmit={onRegisterHandler}
       >
         {(formik) => {
-          console.log('Formik props', formik);
+          // console.log('Formik props', formik);
           return (
             <Form noValidate onSubmit={formik.handleSubmit}>
               <FloatingLabel

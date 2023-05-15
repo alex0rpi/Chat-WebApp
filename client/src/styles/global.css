@@ -54,6 +54,24 @@ body {
   overflow: auto;
 }
 
+.room-list .roomListItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+
+.room-list .roomListItem span {
+  font-weight: bold;
+  color: #636363
+}
+
+.room-list .roomListItem .room-button {
+  margin-left: 3px;
+  flex-grow: 1;
+}
+
 /****** Chat messages ******/
 .chat-box {
   border: 2px solid rgb(11, 61, 97);

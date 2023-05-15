@@ -32,6 +32,9 @@ const RoomListBox = (props: RoomListProps) => {
   const onRoomChange = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const nextRoom = event.currentTarget.innerText;
+    if (nextRoom === currentRoom) {
+      return;
+    }
     onRoomClick(nextRoom);
   };
 
@@ -40,17 +43,22 @@ const RoomListBox = (props: RoomListProps) => {
       <div className="d-grid gap-1">
         {sortedRooms &&
           sortedRooms.map((room) => {
+            const connectedUsers: number = room.users!.length;
             return (
-              <Button
-                // ref={roomButtonRef}
-                key={room.roomId}
-                variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
-                size="sm"
-                className="text-truncate"
-                onClick={onRoomChange}
-              >
-                {room.roomName}
-              </Button>
+              <div className="roomListItem">
+                <span>
+                  {connectedUsers! > 0 && connectedUsers}
+                </span>
+                <Button
+                  key={room.roomId}
+                  variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
+                  size="sm"
+                  className="text-truncate room-button"
+                  onClick={onRoomChange}
+                >
+                  {room.roomName}
+                </Button>
+              </div>
             );
           })}
       </div>

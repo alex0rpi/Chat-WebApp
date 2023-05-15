@@ -45,7 +45,7 @@ const UserLoginForm = (props: LoginFormProps) => {
         onSubmit={onLoginHandler}
       >
         {(formik) => {
-          console.log('Formik props', formik);
+          // console.log('Formik props', formik);
           return (
             <Form noValidate onSubmit={formik.handleSubmit}>
               <FloatingLabel
