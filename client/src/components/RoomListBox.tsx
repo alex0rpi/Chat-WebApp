@@ -45,12 +45,9 @@ const RoomListBox = (props: RoomListProps) => {
           sortedRooms.map((room) => {
             const connectedUsers: number = room.users!.length;
             return (
-              <div className="roomListItem">
-                <span>
-                  {connectedUsers! > 0 && connectedUsers}
-                </span>
+              <div className="roomListItem" key={room.roomId}>
+                <span>{connectedUsers! > 0 && connectedUsers}</span>
                 <Button
-                  key={room.roomId}
                   variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
                   size="sm"
                   className="text-truncate room-button"

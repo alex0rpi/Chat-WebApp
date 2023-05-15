@@ -11,7 +11,7 @@ import { newMessage } from './newMessage';
 export const enterRoom = async (
   serverSocket: ServerSocket,
   userId: number,
-  roomName?: string
+  roomName: string
 ) => {
   try {
     // Retrieve user and next room where he/she wants to enter

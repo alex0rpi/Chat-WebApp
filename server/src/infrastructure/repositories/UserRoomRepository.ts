@@ -1,14 +1,14 @@
 import { UserRoom } from '../../models/initModels';
 
 class UserRoomRepository {
-  async findRoomByUserId(userId: string | number) {
+  async findRoomByUserId(userId: number) {
     const room = await UserRoom.findOne({ where: { userId } });
     return room;
     // Returns a room object containing userId and roomId.
   }
 
   //   Delete room entries containing userId (when a user disconnects)
-  async deleteUserRooms(userId: string | number) {
+  async deleteUserRooms(userId: number) {
     await UserRoom.destroy({ where: { userId } });
   }
 
