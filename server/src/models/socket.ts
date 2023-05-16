@@ -45,8 +45,8 @@ export class ServerSocket {
       evListenersEmitters.disconnect(this, socket);
     });
 
-    socket.on('enter_room', (userId, roomName) => {
-      evListenersEmitters.enterRoom(this, userId, roomName);
+    socket.on('enter_room', (data) => {
+      evListenersEmitters.enterRoom(this, data);
     });
 
     socket.on('new_message', (data) => {

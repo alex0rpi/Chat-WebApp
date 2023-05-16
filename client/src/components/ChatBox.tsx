@@ -13,13 +13,20 @@ const ChatBox = () => {
 
   // Enter room
   useEffect(() => {
-    socket?.emit('enter_room', user.userId, currentRoom);
+    const data = {
+      userId: user.userId,
+      roomName: currentRoom,
+    };
+    socket?.emit('enter_room', data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRoom]);
 
   // Updated messages list
   useEffect(() => {
-    socket?.on('update_messages', (roomName, newMessages) => {
+    socket?.on('update_messages', (data) => {
+      const { roomName, newMessages } = data;
+      console.log('roomName received on update_messages:', roomName);
+      console.log('newMessages received on update_messages: ', newMessages);
       if (roomName === currentRoom) {
         setMessages(newMessages);
       }

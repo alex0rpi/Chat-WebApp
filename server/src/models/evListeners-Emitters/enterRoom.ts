@@ -5,38 +5,33 @@ import {
   userRoomRepository,
 } from '../../infrastructure/dependecy-injection';
 import { newMessage } from './newMessage';
+import { enterRoomData } from '../Interfaces';
 
 // When a user enters a room, he/she is removed from the previous one, so, several things happen.
 
-export const enterRoom = async (
-  serverSocket: ServerSocket,
-  userId: number,
-  roomName: string
-) => {
+export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData) => {
+  const { userId, roomName } = data;
+  console.log('enterRoom data received from client:', userId, roomName);
   try {
-    // Retrieve user and next room where he/she wants to enter
+    // Retrieve user
     const user = await userRepository!.retrieveById(userId); // userId & userName
-    let nextRoom;
-    if (roomName) {
-      nextRoom = await roomRepository!.retrieveRoomByName(roomName);
-    }
 
     // Get the previous room where the user was in, if any
     const previousRoom = await userRoomRepository?.findRoomByUserId(userId); // returns an object
+    console.log('reviousRoom: ', previousRoom);
 
     // Delete current user from any other previous rooms he/she was in.
     if (previousRoom) await userRoomRepository!.deleteUserRooms(user.userId);
 
+    // Retrieve next room where he/she wants to enter
+    const nextRoom = await roomRepository!.retrieveRoomByName(roomName);
+
     // Add user to the new room at the userRoom table (which is the one that contains the userId and the roomId)
-    if (nextRoom) await userRoomRepository!.addUserToRoom(userId, nextRoom.roomId);
+    await userRoomRepository!.addUserToRoom(userId, nextRoom.roomId);
 
     // The user is in the new room ###########################
 
-    // ! Now we prepare to inform the other users in the entered room and the ones of the previous room, and provide data.
-
-    //* Get the list all rooms with their users
-    const rooms = await roomRepository!.getAllRoomsAndUsers();
-    debugger;
+    // ! Inform other users in the new room and the ones of the previous room too----------------------
     if (roomName) {
       const data = {
         userId: null,
@@ -59,7 +54,10 @@ export const enterRoom = async (
 
       newMessage(serverSocket, data);
     }
+    // ! Users have been informed ---------------------------------------------------------------------
 
+    //* Get the list all rooms with their users
+    const rooms = await roomRepository!.getAllRoomsAndUsers();
     serverSocket.io.emit('update_user_room', { user, nextRoom, rooms });
     // Emit this information to the client side so proper updates are made.
   } catch (err) {

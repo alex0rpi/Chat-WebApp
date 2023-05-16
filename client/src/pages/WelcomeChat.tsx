@@ -48,7 +48,11 @@ const WelcomeChat = () => {
   const onRoomClickHandler = (nextRoom: string) => {
     // alert('You are about to change the room.');
     navigate(`/chat/${nextRoom}`);
-    socket?.emit('enter_room', nextRoom);
+    const data = {
+      userId: currentUser.userId,
+      roomName: nextRoom,
+    };
+    socket?.emit('enter_room', data);
   };
 
   return (

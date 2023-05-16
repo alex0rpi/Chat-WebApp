@@ -8,7 +8,7 @@ class MessageRepository {
     userId: number | null,
     userName: string | null,
     roomId: number,
-    message: string,
+    message: string
   ) {
     const msgDate = moment().format('YYYY-MM-DD, HH:mm:ss');
     await Message.create({ message, createdAt: msgDate, userId, roomId, userName });
@@ -16,15 +16,14 @@ class MessageRepository {
 
   // Recover all messages existing in a room.
   async retrieveRoomMessages(roomId: number) {
-    const messageList = await Message.findAll(
-      { where: { roomId } },
-      { include: [{ model: User, as: 'user', where: { userId: User.userId } }] }, // this should include the username
-      { order: [['createdAt', 'ASC']] }
-    );
+    const messageList = await Message.findAll({
+      where: { roomId },
+      order: [['createdAt', 'ASC']],
+      attributes: ['messageId', 'message', 'createdAt', 'userName', 'userId', 'roomId'],
+    });
     return messageList;
     //this query, along with the messages it includes the user who wrote it (as: 'user')
   }
-
 }
 
 export default MessageRepository;

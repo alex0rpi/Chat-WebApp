@@ -19,6 +19,11 @@ export interface Room {
   roomName: string;
 }
 
+export interface enterRoomData {
+  userId: number;
+  roomName: string;
+}
+
 export interface Message {
   text?: string;
   room?: string;
