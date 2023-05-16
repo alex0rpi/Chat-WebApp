@@ -1,6 +1,5 @@
 import { Socket } from 'socket.io';
 import { ServerSocket } from '../socket';
-// import { enterRoom } from './enterRoom';
 import {
   roomRepository,
   userRoomRepository,
@@ -8,7 +7,8 @@ import {
 import { newMessage } from './newMessage';
 
 export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => {
-  const userToDisconnect = serverSocket.GetUinfoKeyFromSocketId(socket.id); // get theuser object from the socket id
+  const userToDisconnect = serverSocket.GetUinfoKeyFromSocketId(socket.id);
+  // get the user object from the socket id
   /* {
     userId: loggedUser.userId,
     userName: loggedUser.userName
@@ -24,7 +24,7 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
     // Returns a room object containing userId and roomId.
 
     // retrieve room name from room id
-    const userRoomObject = await roomRepository?.retrieveRoomById(userRoom!.roomId);
+    const userRoomObject = await roomRepository?.retrieveRoomById(userRoom.roomId);
 
     // Borra el usuario de la lista de users actius
     await userRoomRepository!.deleteUserRooms(userInfoToDisconnect.userId);
@@ -47,7 +47,7 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
       roomName: userRoomObject.roomName,
       message: `${userInfoToDisconnect.userName} is gone bye bye 👋🏻👋🏻`,
     };
-    newMessage(serverSocket, data);
+    await newMessage(serverSocket, data);
     serverSocket.io.emit('update_user_room', { users, rooms });
   }
 };

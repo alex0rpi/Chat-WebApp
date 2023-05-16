@@ -21,7 +21,7 @@ const WelcomeChat = () => {
 
   const currentUser = JSON.parse(current_uid) as User;
 
-  // *When I log into the app
+  // *When I log into the app after login/register
   useEffect(() => {
     const data = {
       userId: currentUser.userId,
@@ -34,18 +34,21 @@ const WelcomeChat = () => {
   // *If anyone enters the room
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
-      const { rooms: roomsReceived } = data; 
+      const { users, rooms: roomsReceived } = data;
       // all existing rooms with their users
+      dispatch({ type: 'update_logged_users', payload: users });
       setRooms(roomsReceived);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRoom, socket]);
 
-  // *If someone writes a messages in current room
+  // *If someone writes a message
   useEffect(() => {
     socket?.on('update_messages', (data) => {
       const { roomName, newMessages } = data;
       console.log('roomName received on update_messages:', roomName);
       console.log('newMessages received on update_messages: ', newMessages);
+      console.log(roomName === currentRoom);
       if (roomName === currentRoom) {
         setMessages(newMessages);
       }

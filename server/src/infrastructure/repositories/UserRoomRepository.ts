@@ -2,7 +2,9 @@ import { UserRoom } from '../../models/initModels';
 
 class UserRoomRepository {
   async findRoomByUserId(userId: number) {
-    const room = await UserRoom.findOne({ where: { userId } });
+    console.log('userId:', userId);
+    const room = await UserRoom.findOne({ where: { userId }, raw: true });
+    // raw: true returns an object instead of an instance.
     return room;
     // Returns a room object containing userId and roomId.
   }

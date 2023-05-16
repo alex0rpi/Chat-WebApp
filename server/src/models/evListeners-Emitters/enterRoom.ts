@@ -10,17 +10,21 @@ import { enterRoomData } from '../Interfaces';
 // When a user enters a room, he/she is removed from the previous one, so, several things happen.
 
 export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData) => {
-  debugger;
   const { userId, roomName } = data;
   try {
     // Retrieve user
     const user = await userRepository!.retrieveById(userId); // userId & userName
 
     // Get the previous room where the user was in, if any
-    const previousRoom = await userRoomRepository!.findRoomByUserId(userId); // returns an object
+    const previousRoom = await userRoomRepository!.findRoomByUserId(user.userId); // returns an object
 
     // Delete current user from any other previous rooms he/she was in.
-    if (previousRoom !== null) await userRoomRepository!.deleteUserRooms(user.userId);
+    let previousRoomObj = null;
+    if (previousRoom) {
+      await userRoomRepository!.deleteUserRooms(user.userId);
+      // Retrieve previous room object
+      previousRoomObj = await roomRepository!.retrieveRoomById(previousRoom.roomId);
+    }
 
     // Retrieve next room where he/she wants to enter
     const nextRoom = await roomRepository!.retrieveRoomByName(roomName);
@@ -37,16 +41,16 @@ export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData)
       roomName: nextRoom.roomName, // this is the new current room being informed of the new arrival.
       message: `${user.userName} joined the room👏🏻`,
     };
-    newMessage(serverSocket, nextRoomData);
-
-    if (previousRoom !== null) {
+    await newMessage(serverSocket, nextRoomData); // *afegit await aquí
+    if (previousRoomObj) {
       const previousRoomData = {
         userId: null,
         userName: null,
-        roomName: previousRoom.roomName,
+        roomName: previousRoomObj.roomName,
         message: `${user.userName} is gone bye bye 👋🏻👋🏻`,
       };
-      newMessage(serverSocket, previousRoomData);
+      await newMessage(serverSocket, previousRoomData); // *afegit await aquí
+      // *Algo pasa con este segundo mensage
     }
     // ! Users have been informed ---------------------------------------------------------------------
 

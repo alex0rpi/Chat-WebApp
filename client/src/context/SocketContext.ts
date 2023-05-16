@@ -50,7 +50,6 @@ export const initialSocketContext: ISocketContext = {
   socket: undefined,
   current_uid: '',
   logged_users: [],
-  rooms: [],
 }; // this is the default state of the context
 
 export const SocketContext = createContext<ISocketContextProps>({
