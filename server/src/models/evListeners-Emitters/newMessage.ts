@@ -11,6 +11,7 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
     // Retrieve room object where msg came from
     debugger;
     const room = await roomRepository!.retrieveRoomByName(roomName);
+    // *AQUI AL DEBUGGER SEMBLA QUE HI HA UN PROBLEMA, NO PROGRESSA i va directe al catch.
     console.log(room);
 
     // save message on db

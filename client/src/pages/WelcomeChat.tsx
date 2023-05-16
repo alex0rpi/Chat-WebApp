@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap';
 import ContainerChatWindow from '../layout/ContainerChatWindow';
 import { useEffect, useState, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
-import { Room, User } from '../Interfaces/Interfaces';
+import { Message, Room, User } from '../Interfaces/Interfaces';
 import { useNavigate, useParams } from 'react-router-dom';
 import NewRoomForm from '../components/NewRoomForm';
 
@@ -14,11 +14,14 @@ const WelcomeChat = () => {
   const navigate = useNavigate();
   const { currentRoom } = useParams(); // in case I am in a room, indicated at the url
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+
   const { appState, dispatch } = useContext(SocketContext);
   const { socket, current_uid } = appState;
 
   const currentUser = JSON.parse(current_uid) as User;
 
+  // *When I log into the app
   useEffect(() => {
     const data = {
       userId: currentUser.userId,
@@ -28,15 +31,28 @@ const WelcomeChat = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // !abans tenia només currentRoom a les dependències
 
-  // If someone enters the room
+  // *If anyone enters the room
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
-      const { rooms: roomsReceived } = data; // all existing rooms with their users
+      const { rooms: roomsReceived } = data; 
+      // all existing rooms with their users
       setRooms(roomsReceived);
     });
   }, [currentRoom, socket]);
 
-  // If a new room is created
+  // *If someone writes a messages in current room
+  useEffect(() => {
+    socket?.on('update_messages', (data) => {
+      const { roomName, newMessages } = data;
+      console.log('roomName received on update_messages:', roomName);
+      console.log('newMessages received on update_messages: ', newMessages);
+      if (roomName === currentRoom) {
+        setMessages(newMessages);
+      }
+    });
+  }, [currentRoom, socket]);
+
+  // *If a new room is created
   useEffect(() => {
     socket?.on('update_rooms', (updatedRooms) => {
       // console.log(updatedRooms);
@@ -69,7 +85,7 @@ const WelcomeChat = () => {
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
-      <ChatBox />
+      <ChatBox messages={messages} />
       <RoomListBox
         roomList={rooms}
         currentRoom={currentRoom}

@@ -15,6 +15,4 @@ router.post('/login', userValidate, userController.loginUser);
 // At some point, the user will use this api route to check if the token is still valid.
 router.post('/tokeninfo', validateUserToken)
 
-router.post('/logout', userController.logOutUser);
-
 export default router;
