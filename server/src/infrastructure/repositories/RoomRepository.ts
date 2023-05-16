@@ -7,7 +7,7 @@ class RoomRepository {
   }
 
   async retrieveRoomByName(roomName: string) {
-    let existingRoom = await Room.findOne({ where: { roomName } });
+    const existingRoom = await Room.findOne({ where: { roomName } });
     return existingRoom
     // return room object containing roomName and roomId
   }
@@ -26,6 +26,7 @@ class RoomRepository {
     const rooms = await Room.findAll({
       include: [{ model: User }],
     });
+    console.log(rooms)
     return rooms;
   } 
   // returns an array of objects, each object is a room with its users.

@@ -6,11 +6,12 @@ import {
 import { MessageData, Room } from '../Interfaces';
 
 export const newMessage = async (serverSocket: ServerSocket, data: MessageData) => {
-  if (!data.message) return false;
+  const { userId, userName, roomName, message } = data;
   try {
-    const { userId, userName, roomName, message } = data;
     // Retrieve room object where msg came from
-    let room: Room = await roomRepository!.retrieveRoomByName(roomName);
+    debugger;
+    const room = await roomRepository!.retrieveRoomByName(roomName);
+    console.log(room);
 
     // save message on db
     await messageRepository!.createMessage(userId, userName, room.roomId, message);
@@ -20,7 +21,7 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
 
     // Send updated messages to all users in the room
     serverSocket.io.emit('update_messages', {
-      roomName: room.roomName,
+      roomName,
       newMessages: messages,
     });
   } catch (err) {

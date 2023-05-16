@@ -10,18 +10,17 @@ import { enterRoomData } from '../Interfaces';
 // When a user enters a room, he/she is removed from the previous one, so, several things happen.
 
 export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData) => {
+  debugger;
   const { userId, roomName } = data;
-  console.log('enterRoom data received from client:', userId, roomName);
   try {
     // Retrieve user
     const user = await userRepository!.retrieveById(userId); // userId & userName
 
     // Get the previous room where the user was in, if any
-    const previousRoom = await userRoomRepository?.findRoomByUserId(userId); // returns an object
-    console.log('reviousRoom: ', previousRoom);
+    const previousRoom = await userRoomRepository!.findRoomByUserId(userId); // returns an object
 
     // Delete current user from any other previous rooms he/she was in.
-    if (previousRoom) await userRoomRepository!.deleteUserRooms(user.userId);
+    if (previousRoom !== null) await userRoomRepository!.deleteUserRooms(user.userId);
 
     // Retrieve next room where he/she wants to enter
     const nextRoom = await roomRepository!.retrieveRoomByName(roomName);
@@ -32,27 +31,22 @@ export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData)
     // The user is in the new room ###########################
 
     // ! Inform other users in the new room and the ones of the previous room too----------------------
-    if (roomName) {
-      const data = {
-        userId: null,
-        userName: null,
-        roomName, // this is the new current room being informed of the new arrival.
-        message: `${user.userName} joined the room👏🏻`,
-      };
+    const nextRoomData = {
+      userId: null,
+      userName: null,
+      roomName: nextRoom.roomName, // this is the new current room being informed of the new arrival.
+      message: `${user.userName} joined the room👏🏻`,
+    };
+    newMessage(serverSocket, nextRoomData);
 
-      newMessage(serverSocket, data);
-    }
-
-    if (previousRoom !== 'welcome' && nextRoom === 'welcome') {
-      // Previous room will be informed as long as it is not the "welcome" room.
-      const data = {
+    if (previousRoom !== null) {
+      const previousRoomData = {
         userId: null,
         userName: null,
         roomName: previousRoom.roomName,
         message: `${user.userName} is gone bye bye 👋🏻👋🏻`,
       };
-
-      newMessage(serverSocket, data);
+      newMessage(serverSocket, previousRoomData);
     }
     // ! Users have been informed ---------------------------------------------------------------------
 

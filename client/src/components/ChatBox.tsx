@@ -19,7 +19,7 @@ const ChatBox = () => {
     };
     socket?.emit('enter_room', data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentRoom]);
+  }, []); // !abans tenia només currentRoom a les dependències
 
   // Updated messages list
   useEffect(() => {

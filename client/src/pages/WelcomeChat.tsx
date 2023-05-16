@@ -22,8 +22,7 @@ const WelcomeChat = () => {
   // If someone enters the room
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
-      const { rooms: roomsReceived } = data; // all existing rooms
-      // console.log(roomsReceived);
+      const { rooms: roomsReceived } = data; // all existing rooms with their users
       setRooms(roomsReceived);
     });
   }, [currentRoom, socket]);
@@ -63,7 +62,6 @@ const WelcomeChat = () => {
       </div>
       <ChatBox />
       <RoomListBox
-        socket={socket}
         roomList={rooms}
         currentRoom={currentRoom}
         onRoomClick={onRoomClickHandler}

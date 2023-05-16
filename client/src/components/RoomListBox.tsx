@@ -1,10 +1,8 @@
 // This component will only be visible at the welcome chat, once the user is identified.
 import { Button } from 'react-bootstrap';
 import { Room, User } from '../Interfaces/Interfaces';
-import { Socket } from 'socket.io-client';
 
 interface RoomListProps {
-  socket: Socket | undefined;
   roomList: Room[];
   currentRoom: string | undefined;
   onRoomClick: (nextRoom: string) => void;
