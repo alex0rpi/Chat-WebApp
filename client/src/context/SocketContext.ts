@@ -1,23 +1,16 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
-import { Room, User } from '../Interfaces/Interfaces';
 
 // State types
 export interface ISocketContext {
   socket: Socket | undefined;
   current_uid: string; // the id of the current user, e.g. '1Y2Z3X4W5V6U7T8S9R0Q'
   logged_users: string[]; // '{{"userId":1,"userName":"Alex"},{"userId":2,"userName":"Bulma"}}'
-  rooms?: Room[];
 }
 
 export interface IReducerActions {
-  type:
-    | 'update_socket'
-    | 'update_current_uid'
-    | 'update_logged_users'
-    | 'remove_user'
-    | 'change_room';
+  type: 'update_socket' | 'update_current_uid' | 'update_logged_users' | 'remove_user';
   payload: string | string[] | Socket | null; // types admited by reducer.
 }
 export const reducerFunction = (
@@ -42,12 +35,7 @@ export const reducerFunction = (
       ),
     };
   }
-  if (action.type === 'change_room') {
-    return {
-      ...state,
-      rooms: action.payload as unknown as Room[],
-    };
-  }
+
   return state;
 };
 
