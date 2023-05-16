@@ -34,21 +34,13 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
         body: JSON.stringify({ userName, password }),
       });
       if (response.ok) {
-        // If registered, login the user and add it to the context
-        const loginResponse = await fetch('/api/users/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userName, password }),
-        });
-        if (loginResponse.ok) {
-          const data = await loginResponse.json();
-          localStorage.setItem('token', data.payload.token);
-          setLoggedUser(data.payload.user as User);
-          navigate('/chat/welcome');
-        }
+        const data = await response.json();
+        localStorage.setItem('token', data.payload.token);
+        setLoggedUser(data.payload.user as User);
+        navigate('/chat/welcome');
       }
     } catch (error: unknown) {
-      console.log(error);
+      if (error instanceof Error) console.log(error);
     }
   };
 

@@ -1,4 +1,4 @@
-import config from '../config'
+import config from '../config';
 import { RequestHandler } from 'express';
 import { userRepository } from '../infrastructure/dependecy-injection';
 import bcrypt from 'bcrypt';
@@ -18,10 +18,23 @@ export const registerUser: RequestHandler = async (req, res) => {
     let { userName, password } = req.body;
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
-    const newUser = userRepository!.create(userName, hashedPw);
-    return res
-      .status(200)
-      .json({ payload: newUser, message: `new user -${userName}- created. ` });
+    const newUser = await userRepository!.create(userName, hashedPw);
+
+    const tokenPayload: TokenPayloadInterface = {
+      userName: newUser.userName,
+      userId: newUser.userId,
+    };
+    const token = jwt.sign(tokenPayload, config.SECRET, {
+      expiresIn: '24h',
+    });
+    res.setHeader('authorization', 'Bearer ' + token);
+    return res.json({
+      payload: {
+        token,
+        user: newUser,
+        message: `new user -${userName}- created. `,
+      },
+    });
   } catch (error: unknown) {
     if (error instanceof Error) return res.status(500).json(error);
   }
@@ -50,13 +63,9 @@ export const loginUser: RequestHandler = async (req, res) => {
       userName: existingUser.userName,
       userId: existingUser.userId,
     };
-    const token = jwt.sign(
-      tokenPayload,
-      config.SECRET, // this shoule be process.env.JWT_KEY but it's not working with dotenv
-      {
-        expiresIn: '24h',
-      }
-    );
+    const token = jwt.sign(tokenPayload, config.SECRET, {
+      expiresIn: '24h',
+    });
     res.setHeader('authorization', 'Bearer ' + token);
     return res.json({
       payload: {
