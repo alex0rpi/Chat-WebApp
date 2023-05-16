@@ -19,7 +19,14 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
 
   //* Register handler ------------------------------------------------------ *//
   const onRegisterHandler = async (values: RegisterForm) => {
-    const { userName, password } = values;
+    const userName = values.userName.trim();
+    const password = values.password?.trim();
+    if (!userName || !password) {
+      values.userName = '';
+      values.password = '';
+      values.confirmPassword = '';
+      return alert("That's cheating😿! Please fill the form");
+    }
     try {
       const response = await fetch('/api/users/register', {
         method: 'POST',
