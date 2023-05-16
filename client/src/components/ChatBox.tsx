@@ -11,7 +11,7 @@ const ChatBox = () => {
 
   const user = JSON.parse(current_uid) as User;
 
-  // Updated messages list
+  // If someone writes a messages in current room
   useEffect(() => {
     socket?.on('update_messages', (data) => {
       const { roomName, newMessages } = data;
