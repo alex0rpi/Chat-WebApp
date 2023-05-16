@@ -19,6 +19,15 @@ const WelcomeChat = () => {
 
   const currentUser = JSON.parse(current_uid) as User;
 
+  useEffect(() => {
+    const data = {
+      userId: currentUser.userId,
+      roomName: currentRoom,
+    };
+    socket?.emit('enter_room', data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // !abans tenia només currentRoom a les dependències
+
   // If someone enters the room
   useEffect(() => {
     socket?.on('update_user_room', (data) => {

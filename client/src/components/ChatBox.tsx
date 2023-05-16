@@ -11,16 +11,6 @@ const ChatBox = () => {
 
   const user = JSON.parse(current_uid) as User;
 
-  // Enter room
-  useEffect(() => {
-    const data = {
-      userId: user.userId,
-      roomName: currentRoom,
-    };
-    socket?.emit('enter_room', data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // !abans tenia només currentRoom a les dependències
-
   // Updated messages list
   useEffect(() => {
     socket?.on('update_messages', (data) => {
