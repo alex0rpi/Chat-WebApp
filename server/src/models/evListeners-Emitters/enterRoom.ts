@@ -6,11 +6,18 @@ import {
 } from '../../infrastructure/dependecy-injection';
 import { newMessage } from './newMessage';
 import { enterRoomData } from '../Interfaces';
+import { Socket } from 'socket.io';
 
 // When a user enters a room, he/she is removed from the previous one, so, several things happen.
 
-export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData) => {
+export const enterRoom = async (
+  serverSocket: ServerSocket,
+  socket: Socket,
+  data: enterRoomData
+) => {
   const { userId, roomName } = data;
+  socket.join(roomName);
+
   try {
     // Retrieve user
     const user = await userRepository!.retrieveById(userId); // userId & userName
@@ -43,6 +50,8 @@ export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData)
         roomName: previousRoomObj.roomName,
         message: `${user.userName} is gone bye bye 👋🏻👋🏻`,
       };
+      socket.leave(previousRoomObj.roomName);
+
       await newMessage(serverSocket, previousRoomData);
     }
 
