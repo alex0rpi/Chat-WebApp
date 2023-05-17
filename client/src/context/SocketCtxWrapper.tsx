@@ -64,23 +64,21 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
 
   const SendIntegrate = async (): Promise<void> => {
     console.log('Sending Integrate to server ...');
-
     socket.emit(
-      'integrate',
-      loggedUser,
-      async (current_uid: string, logged_users: string[]) => {
+      'integrate', // please integrate me in the chat and send me the rooms and users.
+      loggedUser, // provided at login/register.
+      (current_uid: string, logged_users: string[]) => {
         // console.info('User integrate callback message received')
         // This function is called when the server responds with the current user id and the list of connected users
         dispatch({ type: 'update_current_uid', payload: current_uid });
         dispatch({ type: 'update_logged_users', payload: logged_users });
-
         setLoading(false);
       }
     );
   };
 
   useEffect(() => {
-    socket.connect();
+    socket.connect(); // The socket object obtained from useSocket is CONNECTED.
     dispatch({ type: 'update_socket', payload: socket });
     StartListeners();
     void SendIntegrate(); // precedir amb un void per indicar que no ens interessa el què retorni.

@@ -20,7 +20,7 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
 
     // Send updated messages to all users in the room
     //* una idea era agegir el .to() però llavors tampoc s'enviarà els newMessages a l'usuari que ha enviat el missatge.
-    serverSocket.io.emit('update_messages', {
+    serverSocket.io.to(room.roomName).emit('update_messages', {
       roomName: room.roomName,
       newMessages: messages,
     });

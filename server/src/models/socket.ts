@@ -38,6 +38,7 @@ export class ServerSocket {
 
     // !Handle connection event
     socket.on('integrate', (loggedUser, callback) => {
+      socket.join('welcome'); // ?join the welcome room
       evListenersEmitters.integrate(this, socket, loggedUser, callback);
     });
 
@@ -46,6 +47,7 @@ export class ServerSocket {
     });
 
     socket.on('enter_room', (data) => {
+      socket.join(data.roomName); // ?join the roomName specified
       evListenersEmitters.enterRoom(this, data);
     });
 
@@ -69,8 +71,8 @@ export class ServerSocket {
    */
   SendMessage = (event: string, users: string[], payload?: string[] | string) => {
     console.log(`Server emits event: #${event}# to `, users);
-    users.forEach((id) => {
-      payload ? this.io.to(id).emit(event, payload) : this.io.to(id).emit(event);
-    });
+    payload
+      ? this.io.to('welcome').emit(event, payload)
+      : this.io.to('welcome').emit(event);
   };
 }

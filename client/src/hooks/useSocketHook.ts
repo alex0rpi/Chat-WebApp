@@ -5,7 +5,7 @@ export const useSocket = (
   uri: string,
   opts?: Partial<ManagerOptions & SocketOptions> | undefined
 ): Socket => {
-  const socketRef = useRef(io(uri, opts));
+  const socketRef = useRef(io(uri, opts)); // the socket object is created here.
   //   useRef so it survives re-renders of the component that calls useSocket.
   const socket = socketRef.current;
 
