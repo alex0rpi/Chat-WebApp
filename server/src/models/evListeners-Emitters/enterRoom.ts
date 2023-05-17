@@ -35,13 +35,7 @@ export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData)
     // The user is in the new room ###########################
 
     // ! Inform other users in the new room and the ones of the previous room too----------------------
-    const nextRoomData = {
-      userId: null,
-      userName: null,
-      roomName: nextRoom.roomName, // this is the new current room being informed of the new arrival.
-      message: `${user.userName} joined the room👏🏻`,
-    };
-    await newMessage(serverSocket, nextRoomData); // *afegit await aquí
+
     if (previousRoomObj) {
       const previousRoomData = {
         userId: null,
@@ -49,9 +43,16 @@ export const enterRoom = async (serverSocket: ServerSocket, data: enterRoomData)
         roomName: previousRoomObj.roomName,
         message: `${user.userName} is gone bye bye 👋🏻👋🏻`,
       };
-      await newMessage(serverSocket, previousRoomData); // *afegit await aquí
-      // *Algo pasa con este segundo mensage
+      await newMessage(serverSocket, previousRoomData);
     }
+
+    const nextRoomData = {
+      userId: null,
+      userName: null,
+      roomName: nextRoom.roomName, // this is the new current room being informed of the new arrival.
+      message: `${user.userName} joined the room👏🏻`,
+    };
+    await newMessage(serverSocket, nextRoomData);
     // ! Users have been informed ---------------------------------------------------------------------
 
     //* Get the list all rooms with their users

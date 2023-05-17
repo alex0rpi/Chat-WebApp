@@ -26,7 +26,6 @@ class RoomRepository {
     const rooms = await Room.findAll({
       include: [{ model: User }],
     });
-    console.log(rooms)
     return rooms;
   } 
   // returns an array of objects, each object is a room with its users.

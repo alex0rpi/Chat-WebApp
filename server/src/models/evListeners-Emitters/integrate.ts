@@ -32,7 +32,7 @@ export const integrate = (
   }
 
   // If it is a new connection, add it to the active users list
-  console.log(loggedUser);
+  // console.log(loggedUser);
   const current_uid = JSON.stringify({
     userId: loggedUser.userId,
     userName: loggedUser.userName,
