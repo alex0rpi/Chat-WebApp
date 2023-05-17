@@ -20,11 +20,17 @@ This project constitutes the final project of a Backend Nodejs bootcamp that I d
 
 ## Improvement opportunities 📈
 
-This project allowed me to throw myself in the pool and try many different technologies, almost entirely in Typescript, which is a language I'm quite new to. Although I believe I've achieved the desired functional result and mostly fulfilled the bootcamp requirements, there is room for improvement for this app:
+This project allowed me to throw myself in the pool and try many different technologies, almost entirely in Typescript, which is quite new to me. Although I believe I've achieved the desired functional result and fulfilled most of the bootcamp requirements, there is significant room for improvement for this app. To mention a few potential improvements:
+* The app should be dockerized. I'm still learning how to use docker and docker-compose.
 * I wasn't able to configure the sequelize models in typescript. That's why these are the only pure javascript files in the project. Ideally, these files at well could've been implemented in typescript.
 * Implement a more robust error handling and validation system. Mine here is still quite basic.
 * Study the implementation of hexagonal architecture. At least in the backend.
 * Client side is rather simplistic, so it could be improved as well.
+* At the moment the rooms can only be created but not deleted. This could be a nice feature to add and manage whether there are users in that in a room to be deleted or not.
+* Users don't have a profile picture nor can send files or pictures. Multer could be used to implement this feature.
+* Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.
+
+These are just a few enhancements that I can think of right now. I'm sure there are many more. Feel free to contribute to this project if you want to.
 
 ## Languages and Technologies 👦•💻
 
