@@ -52,10 +52,6 @@ export class ServerSocket {
     socket.on('new_message', (data) => {
       evListenersEmitters.newMessage(this, data);
     });
-
-    socket.on('create_room', (roomName) => {
-      evListenersEmitters.createRoom(this, roomName);
-    });
   };
 
   GetUinfoKeyFromSocketId = (id: string) =>

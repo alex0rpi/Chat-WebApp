@@ -5,12 +5,11 @@ import { Room, User } from '../Interfaces/Interfaces';
 interface RoomListProps {
   roomList: Room[];
   currentRoom: string | undefined;
-  onRoomClick: (nextRoom: string) => void;
   currentUser: User | undefined;
 }
 
 const RoomListBox = (props: RoomListProps) => {
-  const { currentRoom, roomList, onRoomClick } = props;
+  const { currentRoom, roomList } = props;
 
   /* show and sort rooms alphabetically */
   /* place the welcome room on the first place */
@@ -27,15 +26,6 @@ const RoomListBox = (props: RoomListProps) => {
     return roomItem;
   });
 
-  const onRoomChange = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const nextRoom = event.currentTarget.innerText;
-    if (nextRoom === currentRoom) {
-      return;
-    }
-    onRoomClick(nextRoom);
-  };
-
   return (
     <div className="room-list">
       <div className="d-grid gap-1">
@@ -49,7 +39,6 @@ const RoomListBox = (props: RoomListProps) => {
                   variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
                   size="sm"
                   className="text-truncate room-button"
-                  onClick={onRoomChange}
                 >
                   {room.roomName}
                 </Button>

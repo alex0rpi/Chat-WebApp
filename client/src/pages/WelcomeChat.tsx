@@ -8,7 +8,6 @@ import { useEffect, useState, useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Message, Room, User } from '../Interfaces/Interfaces';
 import { useNavigate, useParams } from 'react-router-dom';
-import NewRoomForm from '../components/NewRoomForm';
 
 const WelcomeChat = () => {
   const navigate = useNavigate();
@@ -72,19 +71,8 @@ const WelcomeChat = () => {
     navigate('/welcome/login');
   };
 
-  const onRoomClickHandler = (nextRoom: string) => {
-    // alert('You are about to change the room.');
-    navigate(`/chat/${nextRoom}`);
-    const data = {
-      userId: currentUser.userId,
-      roomName: nextRoom,
-    };
-    socket?.emit('enter_room', data);
-  };
-
   return (
     <ContainerChatWindow>
-      <NewRoomForm socket={socket} setRooms={setRooms} />
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
@@ -92,7 +80,6 @@ const WelcomeChat = () => {
       <RoomListBox
         roomList={rooms}
         currentRoom={currentRoom}
-        onRoomClick={onRoomClickHandler}
         currentUser={currentUser}
       />
       <ConnectedUsersBox
