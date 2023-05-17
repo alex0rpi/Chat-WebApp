@@ -9,7 +9,6 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
   const { userId, userName, roomName, message } = data;
   try {
     // Retrieve room object where msg came from
-    debugger;
     const room = await roomRepository!.retrieveRoomByName(roomName);
     // save message on db
     await messageRepository!.createMessage(userId, userName, room.roomId, message);
