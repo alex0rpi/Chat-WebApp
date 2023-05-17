@@ -12,7 +12,8 @@ import NewRoomForm from '../components/NewRoomForm';
 
 const WelcomeChat = () => {
   const navigate = useNavigate();
-  const { currentRoom } = useParams(); // in case I am in a room, indicated at the url
+  //const { currentRoom } = useParams(); // in case I am in a room, indicated at the url
+  const [currentRoom, setCurrentRoom] = useState('welcome'); // in case I am in a room, indicated at the url
   const [rooms, setRooms] = useState<Room[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -28,6 +29,7 @@ const WelcomeChat = () => {
       roomName: currentRoom,
     };
     socket?.emit('enter_room', data);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // !abans tenia només currentRoom a les dependències
 
@@ -43,17 +45,33 @@ const WelcomeChat = () => {
   }, [currentRoom, socket]);
 
   // *If someone writes a message
-  useEffect(() => {
+  /*   useEffect(() => {
+    console.log(currentRoom);
     socket?.on('update_messages', (data) => {
       const { roomName, newMessages } = data;
       console.log('roomName received on update_messages:', roomName);
       console.log('newMessages received on update_messages: ', newMessages);
       console.log(roomName === currentRoom);
+      // eslint-disable-next-line no-debugger
+      debugger
       if (roomName === currentRoom) {
         setMessages(newMessages);
       }
     });
-  }, [currentRoom, socket]);
+  }, [currentRoom, socket]); */
+  const handleUpdateMessage = () => {
+    socket?.on('update_messages', (data) => {
+      const { roomName, newMessages } = data;
+      console.log('roomName received on update_messages:', roomName);
+      console.log('newMessages received on update_messages: ', newMessages);
+      console.log(roomName === currentRoom);
+      // eslint-disable-next-line no-debugger
+      debugger;
+      if (roomName === currentRoom) {
+        setMessages(newMessages);
+      }
+    });
+  };
 
   // *If a new room is created
   useEffect(() => {
@@ -73,13 +91,26 @@ const WelcomeChat = () => {
   };
 
   const onRoomClickHandler = (nextRoom: string) => {
+  
     // alert('You are about to change the room.');
-    navigate(`/chat/${nextRoom}`);
     const data = {
       userId: currentUser.userId,
       roomName: nextRoom,
     };
     socket?.emit('enter_room', data);
+    setCurrentRoom(nextRoom);
+
+    socket?.on('update_messages', (data) => {
+      const { roomName, newMessages } = data;
+      console.log('roomName received on update_messages:', roomName);
+      console.log('newMessages received on update_messages: ', newMessages);
+      console.log(roomName === currentRoom);
+
+      if (roomName === nextRoom) {
+        setMessages(newMessages);
+      }
+    });
+    //navigate(`/chat/${nextRoom}`);
   };
 
   return (
@@ -100,7 +131,7 @@ const WelcomeChat = () => {
         currentRoom={currentRoom}
         roomList={rooms}
       />
-      <MessageInput currentRoom={currentRoom} />
+      <MessageInput handleUpdateMessage={handleUpdateMessage} currentRoom={currentRoom} />
     </ContainerChatWindow>
   );
 };

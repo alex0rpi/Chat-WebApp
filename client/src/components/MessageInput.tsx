@@ -7,6 +7,7 @@ import { User } from '../Interfaces/Interfaces';
 
 interface MessageInputProps {
   currentRoom: string | undefined;
+  handleUpdateMessage: () => void;
 }
 
 const MessageInput = (props: MessageInputProps) => {
@@ -33,6 +34,7 @@ const MessageInput = (props: MessageInputProps) => {
     };
     // console.log(data);
     socket?.emit('new_message', data);
+    props.handleUpdateMessage();
     msgInputRef.current.value = '';
   };
 
