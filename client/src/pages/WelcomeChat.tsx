@@ -69,7 +69,7 @@ const WelcomeChat = () => {
     appState.socket?.disconnect();
     dispatch({ type: 'remove_user', payload: null });
     localStorage.removeItem('token');
-    navigate('/welcome/login');
+    navigate('/gatochat/login');
   };
 
   const onRoomClickHandler = (nextRoom: string) => {

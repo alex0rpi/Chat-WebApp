@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { RequestHandler } from 'express';
 import { InvalidTokenError } from '../controllers/helpers/ErrorHandler';
-import config from '../config' //sanitized env variables
+import config from '../config'; //sanitized env variables
 
 export const validateUserToken: RequestHandler = async (req, res, next) => {
   if (!req.body.token) {
@@ -21,6 +21,7 @@ export const validateUserToken: RequestHandler = async (req, res, next) => {
       );
       return res.json(error);
     }
-    res.status(200).json({ payload: decodedToken });
+    console.log('token verified');
+    return res.status(200).json({ message: 'Token is valid' });
   } catch (err) {}
 };

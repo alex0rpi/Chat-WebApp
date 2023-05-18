@@ -41,7 +41,7 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
         navigate('/chat/welcome');
       }
     } catch (error: unknown) {
-      if (error instanceof Error) console.log(error);
+      if (error instanceof Error) alert(error.message);
     }
   };
 
@@ -133,7 +133,7 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
           );
         }}
       </Formik>
-      <Link to="/welcome/login">Already registered? Login🔑</Link>
+      <Link to="/gatochat/login">Already registered? Login🔑</Link>
     </div>
   );
 };

@@ -16,6 +16,11 @@ export const registerUser: RequestHandler = async (req, res) => {
   }
   try {
     let { userName, password } = req.body;
+    const existingUser = await userRepository!.retrieveByName(userName);
+    if (existingUser) {
+      const error = new NotCorrectParamsError('User already exists', 400);
+      return res.json(error);
+    }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
     const newUser = await userRepository!.create(userName, hashedPw);
@@ -25,7 +30,7 @@ export const registerUser: RequestHandler = async (req, res) => {
       userId: newUser.userId,
     };
     const token = jwt.sign(tokenPayload, config.SECRET, {
-      expiresIn: '24h',
+      expiresIn: '1h',
     });
     res.setHeader('authorization', 'Bearer ' + token);
     return res.json({
@@ -64,7 +69,7 @@ export const loginUser: RequestHandler = async (req, res) => {
       userId: existingUser.userId,
     };
     const token = jwt.sign(tokenPayload, config.SECRET, {
-      expiresIn: '24h',
+      expiresIn: '1h',
     });
     res.setHeader('authorization', 'Bearer ' + token);
     return res.json({

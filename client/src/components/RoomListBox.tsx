@@ -1,6 +1,7 @@
 // This component will only be visible at the welcome chat, once the user is identified.
 import { Button } from 'react-bootstrap';
 import { Room, User } from '../Interfaces/Interfaces';
+import { useNavigate } from 'react-router-dom';
 
 interface RoomListProps {
   roomList: Room[];
@@ -10,6 +11,8 @@ interface RoomListProps {
 }
 
 const RoomListBox = (props: RoomListProps) => {
+  const navigate = useNavigate();
+
   const { currentRoom, roomList, onRoomClick } = props;
 
   /* show and sort rooms alphabetically */
@@ -27,10 +30,21 @@ const RoomListBox = (props: RoomListProps) => {
     return roomItem;
   });
 
-  const onRoomChange = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onRoomChange = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const nextRoom = event.currentTarget.innerText;
     if (nextRoom === currentRoom) {
+      return;
+    }
+    // *Make a fetch request to check the token
+    const response = await fetch('/api/users/tokeninfo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: localStorage.getItem('token') }),
+    });
+    if (!response.ok) {
+      alert('You are not authorized, please log in or register.');
+      navigate('/gatochat/login');
       return;
     }
     onRoomClick(nextRoom);

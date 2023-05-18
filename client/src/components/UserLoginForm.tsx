@@ -108,7 +108,7 @@ const UserLoginForm = (props: LoginFormProps) => {
           );
         }}
       </Formik>
-      <Link to="/welcome/register">I am not yet registered🔑</Link>
+      <Link to="/gatochat/register">I am not yet registered🔑</Link>
     </div>
   );
 };

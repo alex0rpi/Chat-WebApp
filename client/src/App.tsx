@@ -18,13 +18,13 @@ function App() {
       <Header_bar />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/welcome/login" />} />
+          <Route path="/" element={<Navigate to="/gatochat/login" />} />
           <Route
-            path="/welcome/login"
+            path="/gatochat/login"
             element={<UserLoginForm setLoggedUser={setLoggedUser} />}
           />
           <Route
-            path="/welcome/register"
+            path="/gatochat/register"
             element={<UserRegisterForm setLoggedUser={setLoggedUser} />}
           />
           <Route
@@ -35,7 +35,7 @@ function App() {
                   <WelcomeChat />
                 </SocketCtxWrapper>
               ) : (
-                <Navigate to="/welcome/login" />
+                <Navigate to="/gatochat/login" />
               )
             }
           />

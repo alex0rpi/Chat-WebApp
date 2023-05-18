@@ -4,6 +4,7 @@ import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { Socket } from 'socket.io-client';
 import { Room } from '../Interfaces/Interfaces';
+import { useNavigate } from 'react-router-dom';
 
 interface NewRoomFormProps {
   socket: Socket | undefined;
@@ -11,11 +12,12 @@ interface NewRoomFormProps {
 }
 
 const NewRoomForm = (props: NewRoomFormProps) => {
+  const navigate = useNavigate();
   const { socket } = props;
 
   const roomRef = useRef<HTMLInputElement>(null);
 
-  const handleRoomCreate = (
+  const handleRoomCreate = async (
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
   ) => {
     event.preventDefault();
@@ -26,6 +28,17 @@ const NewRoomForm = (props: NewRoomFormProps) => {
       return;
     }
     if (newRoomInput !== null) {
+      // *Make a fetch request to check the token
+      const response = await fetch('/api/users/tokeninfo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: localStorage.getItem('token') }),
+      });
+      if (!response.ok) {
+        alert('You are not authorized, please log in or register.');
+        navigate('/gatochat/login');
+        return;
+      }
       const newRoomName = roomRef.current?.value;
       socket?.emit('create_room', newRoomName);
       // reset the newRoomInput field

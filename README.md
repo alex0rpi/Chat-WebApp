@@ -24,8 +24,8 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Users can create new rooms by writting a name in the newRoom input above the room list.
 - After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
 - A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.</br><hr>
-  Among the limitations of this app, some of them are:
-
+  
+  __What the app doesn't allow__ (at least for now)__:__
 * _Open private conversation with other users._ Since all rooms are public to all registered users.
 * _Send files or pictures._
 * _Delete rooms._ </br>
