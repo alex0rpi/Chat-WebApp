@@ -7,13 +7,14 @@ interface RoomListProps {
   roomList: Room[];
   currentRoom: string | undefined;
   onRoomClick: (nextRoom: string) => void;
+  onRoomDelete: (roomToDelete: string) => void;
   currentUser: User | undefined;
 }
 
 const RoomListBox = (props: RoomListProps) => {
   const navigate = useNavigate();
 
-  const { currentRoom, roomList, onRoomClick } = props;
+  const { currentRoom, roomList, onRoomClick, onRoomDelete } = props;
 
   /* show and sort rooms alphabetically */
   /* place the welcome room on the first place */
@@ -50,6 +51,32 @@ const RoomListBox = (props: RoomListProps) => {
     onRoomClick(nextRoom);
   };
 
+  const deleteRoomHandler = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+    roomName: string
+  ) => {
+    if (confirm(`Confirm delete room ${roomName}`)) {
+      alert(`Room ${roomName} deleted`);
+      event.preventDefault();
+      if (roomName === currentRoom) {
+        return;
+      }
+      // *Make a fetch request to check the token
+      const response = await fetch('/api/users/tokeninfo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: localStorage.getItem('token') }),
+      });
+      if (!response.ok) {
+        alert('You are not authorized, please log in or register.');
+        navigate('/gatochat/login');
+        return;
+      }
+      // execute function on parent component
+      onRoomDelete(roomName)
+    }
+  };
+
   return (
     <div className="room-list">
       <div className="d-grid gap-1">
@@ -67,6 +94,14 @@ const RoomListBox = (props: RoomListProps) => {
                 >
                   {room.roomName}
                 </Button>
+                {room.roomName !== 'welcome' && room.users?.length === 0 && (
+                  <button
+                    className="deleteRoomBtn"
+                    onClick={(event) => deleteRoomHandler(event, room.roomName)}
+                  >
+                    ❌
+                  </button>
+                )}
               </div>
             );
           })}
