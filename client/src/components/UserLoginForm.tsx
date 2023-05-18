@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { LoginForm, LoginFormProps, User } from '../Interfaces/Interfaces';
 import { Formik } from 'formik';
 import { loginSchema } from '../validation/loginSchema';
-import { useEffect, useRef } from 'react';
 
 const UserLoginForm = (props: LoginFormProps) => {
   const { setLoggedUser } = props;
@@ -36,14 +35,6 @@ const UserLoginForm = (props: LoginFormProps) => {
     }
   };
 
-  // Auto-focus input when the user enters the chat
-  const userInputRef = useRef<HTMLInputElement | null>(null);
-  useEffect(() => {
-    if (userInputRef.current) {
-      userInputRef.current.focus();
-    }
-  }, []);
-
   return (
     <div className="name-field">
       <h2>Login</h2>
@@ -63,7 +54,6 @@ const UserLoginForm = (props: LoginFormProps) => {
                 className="mb-2 p-0"
               >
                 <Form.Control
-                  ref={userInputRef}
                   type="text"
                   name="userName"
                   placeholder="Your username"

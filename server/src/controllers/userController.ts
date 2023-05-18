@@ -19,7 +19,7 @@ export const registerUser: RequestHandler = async (req, res) => {
     const existingUser = await userRepository!.retrieveByName(userName);
     if (existingUser) {
       const error = new NotCorrectParamsError('User already exists', 400);
-      return res.json(error);
+      return res.json({error});
     }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
