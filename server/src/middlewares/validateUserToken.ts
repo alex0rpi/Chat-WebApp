@@ -13,12 +13,14 @@ export const validateUserToken: RequestHandler = async (req, res, next) => {
   }
   try {
     /*Authorization: 'Bearer TOKEN' so, the token is part of the authorization string that comes with the header.*/
-    const decodedToken = jwt.verify(req.body.token, config.SECRET); //* change to env variable
+    const decodedToken = jwt.verify(req.body.token, config.SECRET);
+    // This will also check token expiry
     if (!decodedToken) {
       const error = new InvalidTokenError(
         'Authentication failed due to invalid or non existing token',
         403
       );
+      console.log('token is not valid')
       return res.json(error);
     }
     console.log('token verified');

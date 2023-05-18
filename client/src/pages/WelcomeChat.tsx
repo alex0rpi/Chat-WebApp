@@ -46,9 +46,9 @@ const WelcomeChat = () => {
   useEffect(() => {
     socket?.on('update_messages', (data) => {
       const { roomName, newMessages } = data;
-      console.log('roomName received on update_messages:', roomName);
-      console.log('newMessages received on update_messages: ', newMessages);
-      console.log(roomName === currentRoom);
+      // console.log('roomName received on update_messages:', roomName);
+      // console.log('newMessages received on update_messages: ', newMessages);
+      // console.log(roomName === currentRoom);
       if (roomName === currentRoom) {
         setMessages(newMessages);
       }
