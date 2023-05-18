@@ -39,27 +39,6 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
       // console.info('User disconnected message received')
       dispatch({ type: 'remove_user', payload: socketid });
     });
-
-    /** Connection / reconnection listeners */
-    socket.io.on('reconnect', (attempt) => {
-      console.log(`Reconnected on attempt: ${attempt}`);
-      void SendIntegrate();
-    });
-
-    socket.io.on('reconnect_attempt', (attempt) => {
-      console.log(`Reconnection Attempt: ${attempt}`);
-    });
-
-    socket.io.on('reconnect_error', (error) => {
-      console.info('Reconnection error: ', error);
-    });
-
-    socket.io.on('reconnect_failed', () => {
-      console.info('Reconnection failure.');
-      alert(
-        'We were unable to connect you to the chat.  Please make sure your internet connection is stable or try again later.'
-      );
-    });
   };
 
   const SendIntegrate = async (): Promise<void> => {
@@ -87,7 +66,17 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) return <p>Loading Socket IO...</p>;
+  if (loading) {
+    return (
+      <>
+        <p>Loading Socket IO...</p>
+        <div className="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <SocketContextProvider value={{ appState, dispatch }}>

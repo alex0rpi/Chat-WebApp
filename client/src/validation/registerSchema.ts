@@ -2,9 +2,9 @@ import * as Yup from 'yup';
 
 export const registerSchema = Yup.object().shape({
   userName: Yup.string()
-    .min(2, 'At least two chars')
+    .min(2, 'At least two characters')
     .max(50, 'Too Long!')
-    .required('Required'),
+    .required('Required😾'),
   password: Yup.string()
     .required('Password is required')
     .min(5, 'Password is too short - should be 5 chars minimum.'),
