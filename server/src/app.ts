@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 /** CORS handling **/
-app.use(cors()); // TODO: We should configure CORS properly. We should not allow all origins.
+app.use(cors()); // ! We should configure CORS properly. We should not allow all origins.
 // For the moment we'll use a proxy at client side to avoid CORS issues.
 
 app.use('/users', userRoutes);

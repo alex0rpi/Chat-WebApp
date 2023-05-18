@@ -11,10 +11,6 @@ import Header_bar from './components/Header_bar';
 function App() {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
 
-  // todo: Check if user is already logged
-
-  // const isLoggedIn = loggedUser !== null;
-
   return (
     <div className="App">
       {/* Apply the Provider property of the Socket Context to the app and
@@ -34,9 +30,13 @@ function App() {
           <Route
             path="/chat/:currentRoom"
             element={
-              <SocketCtxWrapper loggedUser={loggedUser}>
-                <WelcomeChat />
-              </SocketCtxWrapper>
+              loggedUser ? (
+                <SocketCtxWrapper loggedUser={loggedUser}>
+                  <WelcomeChat />
+                </SocketCtxWrapper>
+              ) : (
+                <Navigate to="/welcome/login" />
+              )
             }
           />
         </Routes>
