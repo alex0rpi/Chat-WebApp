@@ -7,6 +7,7 @@ import UserLoginForm from './components/UserLoginForm';
 import UserRegisterForm from './components/UserRegisterForm';
 import { User } from './Interfaces/Interfaces';
 import Header_bar from './components/Header_bar';
+import NotFound from './components/NotFound';
 
 function App() {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
@@ -39,6 +40,7 @@ function App() {
               )
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

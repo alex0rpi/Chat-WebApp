@@ -19,7 +19,7 @@ This project constitutes the final project of a Backend Nodejs bootcamp that I d
 
 The chat is a web application that allows users to create rooms and chat with other users in real time.
 
-- First users must register
+- First users must register.
 - After registering they are redirected to the welcome chat where the input msg is autofocused and they can start chatting with other users in that room.
 - Users can create new rooms by writting a name in the newRoom input above the room list.
 - After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
