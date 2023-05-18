@@ -1,6 +1,6 @@
 # Chat-WebApp 💻🖥
 
-This is a web chat that uses SocketIO to communicate between clients and server. It also uses ReactJS for the frontend and NodeJS for the backend.
+This is a web chat that uses SocketIO to communicate between clients and server. It also uses ReactJS with Vite for the frontend and NodeJS with Express for the backend.
 
 ## Personal note 📝🙍🏻‍♂️
 
@@ -13,6 +13,7 @@ This project constitutes the final project of a Backend Nodejs bootcamp that I d
 - Combining Bootstrap styling with Formik and Yup validation on client side.
 - Ended up using quite a few of useStates (e.g. for rooms, messages, loggedUser etc.). At some point I wasn't sure what to store in the context, so the app has a mix of both. At least I think it was beneficial for learning purposes but I'm sure there are better practices to apply.
 - I big wall I hit was the fact that as users created and joined different chat rooms, messages started being sent everywhere and where no longer segregated to the room they where created in. I thought I could solve this by filtering on the client side by the message roomName but it didn't work out. What did the trick was to use additional socketIO functionalities on server side like **.join(roomName)**, **.leave(roomName)** and **.to(roomName)** to be more precise about where the users are connected and where should the messages be targetted from the server side.
+- JSON web token is used to authorize users once they're logged in. User token is then verified over and again once a user tries either to create a room, either to join an existing room. If the token is not valid, the user is redirected to the login page.
 
 ## Working principles of this chat 📝
 
@@ -26,6 +27,7 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Users can delete rooms (except the welcome room) as long as they're empty of users</br><hr>
 
   **What the app doesn't allow** (at least for now)**:**
+
 * _Open private conversation with other users._ Since all rooms are public to all registered users.
 * _Send files or pictures._
 * _Delete neither rooms that contain users nor the 'welcome' room in any case._ </br>
@@ -40,18 +42,19 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Make sure you fill correctly the variables in the config.env file, otherwise the server won't run. Put a correct mysql username (MYSQL_USER) and password \* (MYSQL_PWD), and a correct database name (MYSQL_NAME). You can change the PORT if you want.
 - npm start to run the backend.
 - Open http://localhost:3000/ in your browser.
-- Have fun🎊🎉
+- Have fun🎊🎉 cat lovers🐈.
 
 ## Improvement opportunities 📈
 
 Although I believe I've achieved the desired functional result and fulfilled most of the bootcamp requirements, there is significant room for improvement for this app. To mention a few potential improvements:
 
 - The app should be dockerized. I'm still learning how to use docker and docker-compose.
+- JSON web token implementation is a bit trivial and superficial. Users are assigned a token at login/register and then it is stored in the local storage, which is not the most secure practice. I'm still learning how to implement a more robust authentication system.
 - I wasn't able to configure the sequelize models in typescript. That's why these are the only pure javascript files in the project. Ideally, these files at well could've been implemented in typescript.
 - Implement a more robust error handling and validation system. Mine here is still quite basic.
 - Study the implementation of hexagonal architecture. At least in the backend.
 - Client side is rather simplistic, so it could be improved as well. Adding framer motion animations would be a nice touch.
-- It could be a nice feature to add deleteRooms with users inside and redirect them all somewhere else.
+- It could be a nice feature to add deleteRooms with users inside and redirect them all somewhere else. Also, the fact that any user can delete any room is not the best practice. Ideally, only the creator of the room should be able to delete it (for example).
 - Users don't have a profile picture nor can send files or pictures. Multer could be used to implement this feature.
 - Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.</br>
   These are just a few enhancements that I can think of right now. I'm sure there are many more. Feel free to contribute to this project if you want to.
