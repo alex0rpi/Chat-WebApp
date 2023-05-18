@@ -44,7 +44,7 @@ const ConnectedUsersBox = (props: ConnectedUsersBoxProps) => {
                 size="sm"
                 className="text-truncate"
               >
-                👦{user.userName}
+                🐱{user.userName}
               </Button>
             );
           })}

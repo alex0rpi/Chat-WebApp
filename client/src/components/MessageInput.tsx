@@ -1,6 +1,6 @@
 // This input component will be visible:
 // at welcome chat once the user is identified AND at a room chat
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useEffect } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Button, Form } from 'react-bootstrap';
 import { User } from '../Interfaces/Interfaces';
@@ -41,6 +41,13 @@ const MessageInput = (props: MessageInputProps) => {
       handleSendMsg(event);
     }
   };
+
+  // Auto-focus input when the user enters the chat
+  useEffect(() => {
+    if (msgInputRef.current) {
+      msgInputRef.current.focus();
+    }
+  }, [props.currentRoom]);
 
   return (
     <div className="msg-field">
