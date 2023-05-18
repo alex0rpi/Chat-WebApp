@@ -7,13 +7,13 @@ This is a web chat that uses SocketIO to communicate between clients and server.
 This project constitutes the final project of a Backend Nodejs bootcamp that I did at the Barcelona Cibern@rium (https://cibernarium.barcelonactiva.cat/). This project allowed me to throw myself into the pool and try many different technologies, almost entirely in Typescript, which is quite new to me. I would lie If I said that I didn't struggle. Every technology gave me its own headaches. To mention a few difficulties I had:
 
 - Set up the sequelize models in typescript.
-- Decide how many tables should the db have.
-- Manage routing in react.
-- Decide where and how to set the event emitters and listeners in the react frontend.
+- Manage routing in react, since react-router had significant changes from v5 to v6.
+- Setup the first 'connection' event emitters and listeners in the socket context to connect at the start and listen for the socketIO server reply and update the context accordingly.
+- Decide where and how to set the event emitters and listeners in the react frontend. Ended up using several useEffect hooks for each necessity and grouping them in the welcomeChat, father component, instead of placing them in each child component.
 - Setup the context in react and what to store there.
-- Setup the first event emitters and listeners in the socket context to connect at the start and listen for the socketIO server reply and update the context accordingly.
+- Combining Bootstrap styling with Formik and Yup validation on client side.
 - Ended up using quite a few of useStates (e.g. for rooms, messages, loggedUser etc.). At some point I wasn't sure what to store in the context, so the app has a mix of both. At least I think it was beneficial for learning purposes but I'm sure there are better practices to apply.
-- I big wall I hit was to figure how to avoid sending messages everywhere and keep them segregated for each room and also make sure a user can talk alone in a room without others knowing. I thought I could solve it using some conditions on react side but what did the trick was to use additional socketIO functionalities like .join(), .leave() and .to(roomName) to be more precise about where the users are connected and where should the messages be targetted from the server side.
+- I big wall I hit was the fact that as users created and joined different chat rooms, messages started being sent everywhere and where no longer segregated to the room they where created in. I thought I could solve this by filtering on the client side by the message roomName but it didn't work out. What did the trick was to use additional socketIO functionalities on server side like **.join(roomName)**, **.leave(roomName)** and **.to(roomName)** to be more precise about where the users are connected and where should the messages be targetted from the server side.
 
 ## Working principles of this chat 📝
 
@@ -24,8 +24,9 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Users can create new rooms by writting a name in the newRoom input above the room list.
 - After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
 - A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.</br><hr>
-  
-  __What the app doesn't allow__ (at least for now)__:__
+
+  **What the app doesn't allow** (at least for now)**:**
+
 * _Open private conversation with other users._ Since all rooms are public to all registered users.
 * _Send files or pictures._
 * _Delete rooms._ </br>
@@ -53,7 +54,7 @@ Although I believe I've achieved the desired functional result and fulfilled mos
 - Client side is rather simplistic, so it could be improved as well. Adding framer motion animations would be a nice touch.
 - At the moment the rooms can only be created but not deleted. This could be a nice feature to add and manage whether there are users in that in a room to be deleted or not.
 - Users don't have a profile picture nor can send files or pictures. Multer could be used to implement this feature.
-- Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.
+- Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.</br>
   These are just a few enhancements that I can think of right now. I'm sure there are many more. Feel free to contribute to this project if you want to.
 
 ## Languages and Technologies 👦•💻
