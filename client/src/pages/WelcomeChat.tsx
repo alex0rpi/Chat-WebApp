@@ -82,6 +82,10 @@ const WelcomeChat = () => {
     socket?.emit('enter_room', data);
   };
 
+  const onRoomDelete = (roomToDelete: string) => {
+    appState.socket?.emit('delete_room', roomToDelete);
+  };
+
   return (
     <ContainerChatWindow>
       <NewRoomForm socket={socket} setRooms={setRooms} />
@@ -93,6 +97,7 @@ const WelcomeChat = () => {
         roomList={rooms}
         currentRoom={currentRoom}
         onRoomClick={onRoomClickHandler}
+        onRoomDelete={onRoomDelete}
         currentUser={currentUser}
       />
       <ConnectedUsersBox

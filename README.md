@@ -10,7 +10,6 @@ This project constitutes the final project of a Backend Nodejs bootcamp that I d
 - Manage routing in react, since react-router had significant changes from v5 to v6.
 - Setup the first 'connection' event emitters and listeners in the socket context to connect at the start and listen for the socketIO server reply and update the context accordingly.
 - Decide where and how to set the event emitters and listeners in the react frontend. Ended up using several useEffect hooks for each necessity and grouping them in the welcomeChat, father component, instead of placing them in each child component.
-- Setup the context in react and what to store there.
 - Combining Bootstrap styling with Formik and Yup validation on client side.
 - Ended up using quite a few of useStates (e.g. for rooms, messages, loggedUser etc.). At some point I wasn't sure what to store in the context, so the app has a mix of both. At least I think it was beneficial for learning purposes but I'm sure there are better practices to apply.
 - I big wall I hit was the fact that as users created and joined different chat rooms, messages started being sent everywhere and where no longer segregated to the room they where created in. I thought I could solve this by filtering on the client side by the message roomName but it didn't work out. What did the trick was to use additional socketIO functionalities on server side like **.join(roomName)**, **.leave(roomName)** and **.to(roomName)** to be more precise about where the users are connected and where should the messages be targetted from the server side.
@@ -23,13 +22,13 @@ The chat is a web application that allows users to create rooms and chat with ot
 - After registering they are redirected to the welcome chat where the input msg is autofocused and they can start chatting with other users in that room.
 - Users can create new rooms by writting a name in the newRoom input above the room list.
 - After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
-- A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.</br><hr>
+- A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
+- Users can delete rooms (except the welcome room) as long as they're empty of users</br><hr>
 
   **What the app doesn't allow** (at least for now)**:**
-
 * _Open private conversation with other users._ Since all rooms are public to all registered users.
 * _Send files or pictures._
-* _Delete rooms._ </br>
+* _Delete neither rooms that contain users nor the 'welcome' room in any case._ </br>
 
 ## Installation 📦
 
@@ -52,7 +51,7 @@ Although I believe I've achieved the desired functional result and fulfilled mos
 - Implement a more robust error handling and validation system. Mine here is still quite basic.
 - Study the implementation of hexagonal architecture. At least in the backend.
 - Client side is rather simplistic, so it could be improved as well. Adding framer motion animations would be a nice touch.
-- At the moment the rooms can only be created but not deleted. This could be a nice feature to add and manage whether there are users in that in a room to be deleted or not.
+- It could be a nice feature to add deleteRooms with users inside and redirect them all somewhere else.
 - Users don't have a profile picture nor can send files or pictures. Multer could be used to implement this feature.
 - Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.</br>
   These are just a few enhancements that I can think of right now. I'm sure there are many more. Feel free to contribute to this project if you want to.

@@ -6,9 +6,13 @@ class RoomRepository {
     await Room.create({ roomName });
   }
 
+  async deleteRoom(roomName: string) {
+    await Room.destroy({ where: { roomName } });
+  }
+
   async retrieveRoomByName(roomName: string) {
     const existingRoom = await Room.findOne({ where: { roomName } });
-    return existingRoom
+    return existingRoom;
     // return room object containing roomName and roomId
   }
 
@@ -27,7 +31,7 @@ class RoomRepository {
       include: [{ model: User }],
     });
     return rooms;
-  } 
+  }
   // returns an array of objects, each object is a room with its users.
   /* e.g. { 
     roomId: 1, 

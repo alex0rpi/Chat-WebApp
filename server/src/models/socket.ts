@@ -56,6 +56,9 @@ export class ServerSocket {
     socket.on('create_room', (roomName) => {
       evListenersEmitters.createRoom(this, roomName);
     });
+    socket.on('delete_room', (roomName) => {
+      evListenersEmitters.deleteRoom(this, roomName);
+    });
   };
 
   GetUinfoKeyFromSocketId = (id: string) =>

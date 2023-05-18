@@ -56,7 +56,6 @@ const RoomListBox = (props: RoomListProps) => {
     roomName: string
   ) => {
     if (confirm(`Confirm delete room ${roomName}`)) {
-      alert(`Room ${roomName} deleted`);
       event.preventDefault();
       if (roomName === currentRoom) {
         return;
