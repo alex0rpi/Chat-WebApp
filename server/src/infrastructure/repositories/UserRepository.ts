@@ -7,10 +7,10 @@ class UserRepository {
   }
 
   async retrieveByName(userName: string) {
-    const existingUser = await User.findOne(
-      { where: { userName } },
-      { attributes: ['userId', 'userName'] }
-    );
+    const existingUser = await User.findOne({
+      where: { userName },
+      attributes: ['userId', 'userName'],
+    });
     return existingUser;
   }
 

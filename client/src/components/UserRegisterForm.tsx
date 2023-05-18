@@ -40,7 +40,7 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
         navigate('/chat/welcome');
       }
     } catch (error: unknown) {
-      if (error instanceof Error) console.log(error);
+      if (error instanceof Error) alert(error.message);
     }
   };
 

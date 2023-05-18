@@ -1,6 +1,7 @@
 export interface User {
   userId?: number;
   userName: string;
+  password?: string;
 }
 
 export interface RegisterForm extends User {

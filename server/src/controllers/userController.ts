@@ -11,11 +11,16 @@ export const registerUser: RequestHandler = async (req, res) => {
   const result: Result = validationResult(req);
   const errors = result.array();
   if (errors.length > 0) {
-    const error = new NotCorrectParamsError('Incorrect fields provided', 422, errors);
+    const error = new NotCorrectParamsError('Incorrect fields provided', 400, errors);
     return res.json(error);
   }
   try {
     let { userName, password } = req.body;
+    const existingUser = await userRepository!.retrieveByName(userName);
+    if (existingUser) {
+      const error = new NotCorrectParamsError('User already exists', 400);
+      return res.json(error);
+    }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
     const newUser = await userRepository!.create(userName, hashedPw);
@@ -27,7 +32,7 @@ export const registerUser: RequestHandler = async (req, res) => {
     const token = jwt.sign(tokenPayload, config.SECRET, {
       expiresIn: '24h',
     });
-    res.setHeader('authorization', 'Bearer ' + token);
+    // res.setHeader('authorization', 'Bearer ' + token);
     return res.json({
       payload: {
         token,
@@ -44,19 +49,19 @@ export const loginUser: RequestHandler = async (req, res) => {
   const result: Result = validationResult(req);
   const errors = result.array();
   if (errors.length > 0) {
-    const error = new NotCorrectParamsError('Incorrect fields provided', 422, errors);
+    const error = new NotCorrectParamsError('Incorrect fields provided', 400, errors);
     return res.json(error);
   }
   try {
     let { userName, password } = req.body;
     const existingUser = await userRepository!.retrieveByName(userName);
     if (!existingUser) {
-      const error = new NotCorrectParamsError('User not found', 422);
+      const error = new NotCorrectParamsError('User not found', 400);
       return res.json(error);
     }
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
-      const error = new NotCorrectParamsError('Incorrect password.', 422);
+      const error = new NotCorrectParamsError('Incorrect password.', 400);
       return res.json(error);
     }
     const tokenPayload: TokenPayloadInterface = {
@@ -66,7 +71,7 @@ export const loginUser: RequestHandler = async (req, res) => {
     const token = jwt.sign(tokenPayload, config.SECRET, {
       expiresIn: '24h',
     });
-    res.setHeader('authorization', 'Bearer ' + token);
+    // res.setHeader('authorization', 'Bearer ' + token);
     return res.json({
       payload: {
         token,

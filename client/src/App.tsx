@@ -22,7 +22,7 @@ function App() {
       <Header_bar />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/welcome/login" />} />
+          <Route path="*" element={<Navigate to="/welcome/login" />} />
           <Route
             path="/welcome/login"
             element={<UserLoginForm setLoggedUser={setLoggedUser} />}
