@@ -66,12 +66,13 @@ const WelcomeChat = () => {
   const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     // alert('You are about to disconnect from the chat.');
-    appState.socket?.disconnect();
+    socket?.disconnect();
     dispatch({ type: 'remove_user', payload: null });
     localStorage.removeItem('token');
     navigate('/gatochat/login');
   };
 
+  // *When the user clicks on a room
   const onRoomClickHandler = (nextRoom: string) => {
     // alert('You are about to change the room.');
     navigate(`/chat/${nextRoom}`);
@@ -83,8 +84,24 @@ const WelcomeChat = () => {
   };
 
   const onRoomDelete = (roomToDelete: string) => {
-    appState.socket?.emit('delete_room', roomToDelete);
+    socket?.emit('delete_room', roomToDelete);
   };
+
+  /*
+   * When the user closes the tab it triggers a disconnect event using the javascript window beforeunload event.
+   */
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      socket?.emit('disconnect');
+    };
+    // Add the event listener when the component mounts
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [socket]);
 
   return (
     <ContainerChatWindow>

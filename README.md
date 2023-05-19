@@ -7,7 +7,7 @@ This is a web chat that uses SocketIO to communicate between clients and server.
 This project constitutes the final project of a Backend Nodejs bootcamp that I did at the Barcelona Cibern@rium (https://cibernarium.barcelonactiva.cat/). This project allowed me to throw myself into the pool and try many different technologies, almost entirely in Typescript, which is quite new to me. I would lie If I said that I didn't struggle. Every technology gave me its own headaches. Some comments and a few difficulties I had:
 
 - I struggled setting up the sequelize models in typescript. To the point I decided to allow these files in javascript.
-- Manage routing in react, since react-router had significant changes from v5 to v6.
+- Manage routing in react, since react-router had significant changes from v5 to v6. Eventually I manage to have a working routing system that redirects the user to certain pages depending on the state of the app. If a user is not logged, he/she cannot go into a chat room, for example. I setup a not found page as well.
 - Setup the first 'connection' event emitters and listeners in the socket context to connect at the start and listen for the socketIO server reply and update the context accordingly.
 - Decide where and how to set the event emitters and listeners in the react frontend. Ended up using several useEffect hooks for each necessity and grouping them in the welcomeChat, father component, instead of placing them in each child component.
 - Combining Bootstrap styling with Formik and Yup validation on client side.
@@ -25,7 +25,9 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Users can create new rooms by writting a name in the newRoom input above the room list.
 - After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
 - A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
-- Users can delete rooms (except the welcome room) as long as they're empty of users</br><hr>
+- Users can delete rooms (except the welcome room) as long as they're empty of users
+- Finally, users can disconnect by clicking the disconnect button on the top left of the app grid or simply close the browser window which triggers a javascript beforeunload event that emmits a disconnection request to the socket server.
+</br><hr>
 
   **What the app doesn't allow** (at least for now)**:**
 
@@ -49,16 +51,18 @@ The chat is a web application that allows users to create rooms and chat with ot
 
 Although I believe I've achieved the desired functional result and fulfilled most of the bootcamp requirements, there is significant room for improvement for this app. To mention a few potential improvements:
 
+- First and foremost, there is no password recovery functionality. I would like to implement this feature in the future.
 - The app should be dockerized. I'm still learning how to use docker and docker-compose.
 - React implementation on client side needs to be more encapsulated. For example all http request should be in a services directory. My frontend in general is rather simplistic, so it could be improved as well. Adding framer motion animations would be a nice touch.
 - JSON web token implementation is a bit trivial and superficial. Users are assigned a token at login/register and then it is stored in the local storage, which is not the most secure practice. I'm still learning how to implement a more robust authentication system.
 - Ideally, the sequelize models shouls be implemented in typescript, just like the rest of the project.
-- Implement a more robust error handling and validation system. Mine here is still quite basic.
+- Implement a more robust error handling. Mine here is still quite basic with browser alerts.
 - Study the implementation of hexagonal architecture. At least in the backend. I only scratched the surface by having an infrastructure of database repositories. These are charged with the CRUD operation on the databse. These allows the controllers and listeners to be db agnostic.
 - It could be a nice feature to add deleteRooms with users inside and redirect them all somewhere else. Also, the fact that any user can delete any room is not the best practice. Ideally, only the creator of the room should be able to delete it (for example).
 - Users don't have a profile picture nor can send files or pictures. Multer could be used to implement this feature.
 - Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.</br>
-  These are just a few enhancements that I can think of right now. I'm sure there are many more. Feel free to contribute to this project if you want to.
+
+These are just a few enhancements that I can think of right now. I'm sure there are many more. Feel free to contribute to this project if you want to.
 
 ## Languages and Technologies 👦•💻
 
