@@ -41,7 +41,7 @@ const initDB = async () => {
     await sequelize.authenticate();
     await sequelize.sync({ force: false });
     console.log('Mysql DB successfully connected.');
-    // create the "welcome" room and assign the id 1 to it.
+    // create the "welcome" room.
     const welcomeRoomCreated = await Room.findOrCreate({
       where: { roomName: 'welcome' }, defaults: { roomName: 'welcome' }
     }) // this returns an array with the instance and a boolean that indicates if it was created or not.

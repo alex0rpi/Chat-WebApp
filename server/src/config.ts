@@ -50,7 +50,8 @@ const getSanitzedConfig = (config: ENV): Config => {
   }
   return config as Config;
 };
-/* If any field was undefined. We don't want our app to run if it can't connect to DB and ensure that these fields are accessible. If all is OK, return it as Config which just removes the undefined from our type definition. */
+/* If any field is undefined, we don't want our app to run if it can't connect to DB and ensure that these fields are accessible.
+If all is OK, return it as Config which just removes the undefined from the type definition. */
 
 const config = getConfig();
 

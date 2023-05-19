@@ -18,7 +18,7 @@ export const registerUser: RequestHandler = async (req, res) => {
     let { userName, password } = req.body;
     const existingUser = await userRepository!.retrieveByName(userName);
     if (existingUser) {
-      const error = new NotCorrectParamsError('User already exists', 400);
+      const error = new NotCorrectParamsError('User already exists🙀, please try another one.', 400);
       return res.status(400).json(error);
     }
     const saltRounds = 10;
@@ -57,12 +57,12 @@ export const loginUser: RequestHandler = async (req, res) => {
     let { userName, password } = req.body;
     const existingUser = await userRepository!.retrieveByName(userName);
     if (!existingUser) {
-      const error = new NotCorrectParamsError('User not found', 400);
+      const error = new NotCorrectParamsError('User not found😿, please try again.', 400);
       return res.status(400).json(error);
     }
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
-      const error = new NotCorrectParamsError('Incorrect password.', 422);
+      const error = new NotCorrectParamsError('Incorrect password😾, please try again.', 400);
       return res.status(400).json(error);
     }
     const tokenPayload: TokenPayloadInterface = {

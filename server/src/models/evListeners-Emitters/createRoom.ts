@@ -7,7 +7,7 @@ export const createRoom = async (serverSocket: ServerSocket, roomName: string) =
     // Get the list all rooms with their users
     const rooms = await roomRepository!.getAllRoomsAndUsers();
     serverSocket.io.emit('update_rooms', rooms);
-    // Room is created but user hasn't entered it.
+    // Room is created but user remains where he/she is.
   } catch (err) {
     console.log('Create room fail:', err);
   }
