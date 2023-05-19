@@ -1,10 +1,11 @@
 // This file contains customized classes that extend the Error class.
 
-export class NotCorrectParamsError extends Error {
+export class NotCorrectParamsError {
+  message: string;
   code: number;
   errors?: string[];
   constructor(message: string, code: number, errors?: string[]) {
-    super(message);
+    this.message = message;
     this.code = code;
     this.errors = errors; // This is an array of strings(errors from express-validator)
   }
@@ -17,4 +18,3 @@ export class InvalidTokenError extends Error {
     this.code = code;
   }
 }
-

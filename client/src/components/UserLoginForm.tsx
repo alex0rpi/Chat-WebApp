@@ -19,19 +19,23 @@ const UserLoginForm = (props: LoginFormProps) => {
   const onLoginHandler = async (values: LoginForm) => {
     const { userName, password } = values;
     try {
-      const loginResponse = await fetch('/api/users/login', {
+      const response = await fetch('/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userName, password }),
       });
-      if (loginResponse.ok) {
-        const data = await loginResponse.json();
-        localStorage.setItem('token', data.payload.token);
-        setLoggedUser(data.payload.user as User);
-        navigate('/chat/welcome');
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.message);
+        return;
       }
+      const data = await response.json();
+      localStorage.setItem('token', data.payload.token);
+      setLoggedUser(data.payload.user as User);
+      navigate('/chat/welcome');
     } catch (error: unknown) {
-      if (error instanceof Error) alert("Something's wrong, please check your data.");
+      alert('Something went wront, please try again later');
+      return;
     }
   };
 

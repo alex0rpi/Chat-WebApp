@@ -18,7 +18,6 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
     formError: null,
   };
 
-  //* Register handler ------------------------------------------------------ *//
   const onRegisterHandler = async (values: RegisterForm) => {
     const userName = values.userName.trim();
     const password = values.password?.trim();
@@ -34,14 +33,19 @@ const UserRegisterForm = (props: RegisterFormProps): React.ReactElement => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userName, password }),
       });
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.payload.token);
-        setLoggedUser(data.payload.user as User);
-        navigate('/chat/welcome');
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.message);
+        return;
       }
+      const data = await response.json();
+      localStorage.setItem('token', data.payload.token);
+      setLoggedUser(data.payload.user as User);
+      navigate('/chat/welcome');
     } catch (error: unknown) {
-      if (error instanceof Error) alert(error.message);
+      // show an alert window with the error received from the backend
+      alert('Something went wront, please try again later');
+      return;
     }
   };
 

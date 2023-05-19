@@ -11,15 +11,15 @@ export const registerUser: RequestHandler = async (req, res) => {
   const result: Result = validationResult(req);
   const errors = result.array();
   if (errors.length > 0) {
-    const error = new NotCorrectParamsError('Incorrect fields provided', 422, errors);
-    return res.json(error);
+    const error = new NotCorrectParamsError('Incorrect fields provided', 400, errors);
+    return res.status(400).json(error);
   }
   try {
     let { userName, password } = req.body;
     const existingUser = await userRepository!.retrieveByName(userName);
     if (existingUser) {
       const error = new NotCorrectParamsError('User already exists', 400);
-      return res.json({error});
+      return res.status(400).json(error);
     }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
@@ -41,7 +41,8 @@ export const registerUser: RequestHandler = async (req, res) => {
       },
     });
   } catch (error: unknown) {
-    if (error instanceof Error) return res.status(500).json(error);
+    if (error instanceof Error)
+      return res.status(500).json({ status: false, error: 'Internal server error' });
   }
 };
 
@@ -49,20 +50,20 @@ export const loginUser: RequestHandler = async (req, res) => {
   const result: Result = validationResult(req);
   const errors = result.array();
   if (errors.length > 0) {
-    const error = new NotCorrectParamsError('Incorrect fields provided', 422, errors);
-    return res.json(error);
+    const error = new NotCorrectParamsError('Incorrect fields provided', 400, errors);
+    return res.status(400).json(error);
   }
   try {
     let { userName, password } = req.body;
     const existingUser = await userRepository!.retrieveByName(userName);
     if (!existingUser) {
-      const error = new NotCorrectParamsError('User not found', 422);
-      return res.json(error);
+      const error = new NotCorrectParamsError('User not found', 400);
+      return res.status(400).json(error);
     }
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) {
       const error = new NotCorrectParamsError('Incorrect password.', 422);
-      return res.json(error);
+      return res.status(400).json(error);
     }
     const tokenPayload: TokenPayloadInterface = {
       userName: existingUser.userName,
@@ -78,7 +79,8 @@ export const loginUser: RequestHandler = async (req, res) => {
         user: existingUser,
       },
     });
-  } catch (error) {
-    if (error instanceof Error) return res.status(500).json(error);
+  } catch (error: unknown) {
+    if (error instanceof Error)
+      return res.status(500).json({ status: false, error: 'Internal server error' });
   }
 };
