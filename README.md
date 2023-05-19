@@ -39,11 +39,11 @@ The chat is a web application that allows users to create rooms and chat with ot
 
 - Clone the repository on your local machine using the command git clone.
 - Open two terminals to be able to execute client and server side at the same time.
-- Terminal 1: cd client and then npm i. Then npm run dev to run the frontend.
-- Terminal 2: cd server and then npm i.
-- On server side, create a config.env file inside the /config folder. It will contain the environment variables that you need to set up for the databse in order \* to run the server. You can use the .env.example file as a template.
+- Terminal 1: __cd client__ and then __npm i__. Then __npm run dev__ to run the frontend.
+- Terminal 2: __cd server__ and then __npm i__.
+- On server side, create a config.env file if not exists inside the /config folder. It will contain the environment variables that you need to set up for the databse in order \* to run the server. You can use the _config.env-template_ file as a template.
 - Make sure you fill correctly the variables in the config.env file, otherwise the server won't run. Put a correct mysql username (MYSQL_USER) and password \* (MYSQL_PWD), and a correct database name (MYSQL_NAME). You can change the PORT if you want.
-- npm start to run the backend. This will create the database and the tables if they don't exist already. You can check that in the mysql workbench.
+- __npm start__ to run the backend. This will create the database and the tables if they don't exist already. You can check that in the mysql workbench.
 - Open http://localhost:3000/ in your browser.
 - Have fun🎊🎉 cat lovers🐈.
 
