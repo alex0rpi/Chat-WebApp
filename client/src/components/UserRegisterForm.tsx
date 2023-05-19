@@ -1,5 +1,3 @@
-// Only visible at the beggining, once the user enters the app to identify itself.
-
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';

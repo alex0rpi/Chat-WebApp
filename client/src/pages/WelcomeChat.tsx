@@ -12,7 +12,7 @@ import NewRoomForm from '../components/NewRoomForm';
 
 const WelcomeChat = () => {
   const navigate = useNavigate();
-  const { currentRoom } = useParams(); // in case I am in a room, indicated at the url
+  const { currentRoom } = useParams(); // roomName is indicated at the url
   const [rooms, setRooms] = useState<Room[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -46,9 +46,6 @@ const WelcomeChat = () => {
   useEffect(() => {
     socket?.on('update_messages', (data) => {
       const { roomName, newMessages } = data;
-      // console.log('roomName received on update_messages:', roomName);
-      // console.log('newMessages received on update_messages: ', newMessages);
-      // console.log(roomName === currentRoom);
       if (roomName === currentRoom) {
         setMessages(newMessages);
       }
@@ -58,14 +55,12 @@ const WelcomeChat = () => {
   // *If a new room is created
   useEffect(() => {
     socket?.on('update_rooms', (updatedRooms) => {
-      // console.log(updatedRooms);
       setRooms(updatedRooms); // all existing rooms
     });
   }, [socket]);
 
   const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    // alert('You are about to disconnect from the chat.');
     socket?.disconnect();
     dispatch({ type: 'remove_user', payload: null });
     localStorage.removeItem('token');
@@ -74,7 +69,6 @@ const WelcomeChat = () => {
 
   // *When the user clicks on a room
   const onRoomClickHandler = (nextRoom: string) => {
-    // alert('You are about to change the room.');
     navigate(`/chat/${nextRoom}`);
     const data = {
       userId: currentUser.userId,

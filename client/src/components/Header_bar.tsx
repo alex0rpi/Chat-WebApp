@@ -1,5 +1,3 @@
-// the title, mainly, nothing more
-
 const Header_bar = () => {
   return (
     <div className="header_bar">

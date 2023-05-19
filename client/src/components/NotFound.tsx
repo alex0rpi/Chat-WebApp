@@ -1,5 +1,3 @@
-// the title, mainly, nothing more
-
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {

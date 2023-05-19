@@ -1,5 +1,3 @@
-// This input component will be visible:
-// at welcome chat once the user is identified AND at a room chat
 import { useRef, useContext, useEffect } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import { Button, Form } from 'react-bootstrap';

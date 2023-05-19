@@ -18,7 +18,3 @@ export const useSocket = (
 
   return socket;
 };
-
-// We want this hook to return the socket object through which we talk to the server.
-// But it is not connected yet.
-// We'll include this returned socket object in our context provider object.
