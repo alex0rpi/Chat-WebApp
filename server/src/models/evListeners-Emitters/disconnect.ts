@@ -37,8 +37,7 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
 
     // Retrieve updated list of active users
     const users = Object.keys(serverSocket.activeUsers);
-    //* users here is an array of user objects but it is stringified.
-    //* Abans era Object.values (socketid), ara passo keys, que tenen més info rellevant: userId i userName
+    // users here is an array of user objects but it is stringified.
 
     // send the users array to all remaining connected users.
     const data = {

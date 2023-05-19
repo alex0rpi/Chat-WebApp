@@ -47,12 +47,4 @@ export const integrate = (
   const logged_users = Object.values(serverSocket.activeUsers); // convert the obj to array of socketIds
   console.log('Sending callback for integrate ...');
   callback(current_uid, logged_users);
-
-  // Send new user to all connected users
-  serverSocket.SendMessage(
-    'user_connected',
-    logged_users.filter((id) => id !== socket.id),
-    logged_users // array of socket ids of all connected users
-  );
-  //this sends the message to all connected users, except the one that just connected.
 };

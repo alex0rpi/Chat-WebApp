@@ -42,6 +42,7 @@ export class ServerSocket {
     });
 
     socket.on('disconnect', () => {
+      console.info('Disconnect received from ' + socket.id);
       evListenersEmitters.disconnect(this, socket);
     });
 
@@ -63,17 +64,4 @@ export class ServerSocket {
 
   GetUinfoKeyFromSocketId = (id: string) =>
     Object.keys(this.activeUsers).find((uInfoKey) => this.activeUsers[uInfoKey] === id);
-
-  /**
-   * Send a message though the socket
-  //  * @param {*} name The ename of the event, ex: integrate
-  //  * @param {*} users List of socket id's
-  //  * @param {*} payload any information needed
-   */
-  SendMessage = (event: string, users: string[], payload?: string[] | string) => {
-    console.log(`Server emits event: #${event}# to `, users);
-    users.forEach((id) => {
-      payload ? this.io.to(id).emit(event, payload) : this.io.to(id).emit(event);
-    });
-  };
 }

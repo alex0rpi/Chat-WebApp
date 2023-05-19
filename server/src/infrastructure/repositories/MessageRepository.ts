@@ -24,6 +24,10 @@ class MessageRepository {
     return messageList;
     //this query, along with the messages it includes the user who wrote it (as: 'user')
   }
+
+  async deleteMessagesFromRoom(roomId: number) {
+    await Message.destroy({ where: { roomId } });
+  }
 }
 
 export default MessageRepository;
