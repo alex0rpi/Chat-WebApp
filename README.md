@@ -1,10 +1,10 @@
 # Chat-WebApp 💻🖥
 
-This is a web chat that uses SocketIO to communicate between clients and server. It also uses ReactJS with Vite for the frontend and NodeJS with Express for the backend.
+This project is a web chat that uses SocketIO to allow communication between connected users. Tha app uses ReactJS with Vite for the frontend and NodeJS with Express for the backend. All backed with a Mysql database.
 
 ## Personal note 📝🙍🏻‍♂️
 
-This project constitutes the end project of a Backend Nodejs bootcamp that I did at the Barcelona Cibern@rium (https://cibernarium.barcelonactiva.cat/). This project allowed me to throw myself into the pool and try many different technologies, almost entirely in Typescript, which at the time of making is new to me. I would lie If I said that I didn't struggle. Every technology gave me its own headaches. Some comments and a few difficulties I had:
+This project constitutes the end project of a Backend Nodejs bootcamp that I did at the Barcelona Cibern@rium (https://cibernarium.barcelonactiva.cat/). This project allowed me to throw myself into the pool and try many different technologies, almost entirely in Typescript, which at the time of making was rather new to me. I would lie If I said that I didn't struggle. Every technology gave me its own headaches. Some comments and a few difficulties I had:
 
 - I struggled setting up the sequelize models in typescript. To the point I decided to allow these files in javascript.
 - Manage routing in react, since react-router had significant changes from v5 to v6. Eventually I manage to have a working routing system that redirects the user to certain pages depending on the state of the app. For instance, if a user is not logged he/she cannot go into a chat room.
@@ -20,16 +20,16 @@ This project constitutes the end project of a Backend Nodejs bootcamp that I did
 The chat is a web application that allows users to create rooms and chat with other users in real time.
 
 - First users must register. Usernames must be unique, so any attempt to register with an already existing username will be rejected with a simple browser alert message displayed.<br/>
-  <img src="./client/screenshots/screenshot01.PNG" height="250" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot01.PNG" height="200" title="Register/login"><br/>
 - Users can switch between login and register forms by clicking on the 'login' or 'register' links. If a user tries to login with a non-existing username, a simple browser alert message will be displayed.
 - After registering/login, users are redirected to the welcome chat where the input msg is autofocused (a nice touch I believe :) and they can start chatting with other users in that room.<br/>
-  <img src="./client/screenshots/screenshot02.PNG" height="250" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot02.PNG" height="200" title="Register/login"><br/>
 - Users can create new rooms by writting a name in the newRoom input above the room list.<br/>
-  <img src="./client/screenshots/screenshot03.PNG" height="250" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot03.PNG" height="200" title="Register/login"><br/>
 - After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
 - A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
 - Users can delete rooms (except the welcome room) as long as they're empty of users.<br/>
-  <img src="./client/screenshots/screenshot05.PNG" height="300" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot05.PNG" height="250" title="Register/login"><br/>
 - Finally, users can disconnect by clicking the disconnect button on the top left of the app grid or simply close the browser window which triggers a javascript beforeunload event that emmits a disconnection request to the socket server.
   </br><hr>
   **What the app doesn't allow** (at least for now)**:**
