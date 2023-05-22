@@ -8,7 +8,8 @@ export class ServerSocket {
   public io: Server;
   public botName = 'Bot `◑_◐´';
   public activeUsers: ActiveUser;
-  /* serverSocket.users is an object of user objects like this, where the key is the user object stringified and the value is his/her socket id:
+  /* serverSocket.users is an object of user objects like this,
+   where the key is the user object stringified and the value is his/her socket id:
   {
     '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q',
     '{"userId":2,"userName":"person"}': 'TY6Z3X4W5V6U7T8S9PO0',
@@ -16,8 +17,8 @@ export class ServerSocket {
   } */
 
   constructor(server: HTTPServer) {
-    ServerSocket.instance = this; // this is a singleton class, so we set the instance to this class.
-    this.activeUsers = {}; // {uid: socket.id, uid: socket.id, ...}
+    ServerSocket.instance = this;
+    this.activeUsers = {};
     this.io = new Server(server, {
       // initialize the socket.io server
       serveClient: false, // don't serve the client files

@@ -8,14 +8,17 @@ interface ConnectedUsersBoxProps {
 }
 
 const ConnectedUsersBox = (props: ConnectedUsersBoxProps) => {
+  // Get the room where the user is
   const room: Room | undefined = props.roomList.find(
     (roomObj) => roomObj.roomName === props.currentRoom
   );
 
   const currentUserId = props.currentUser.userId;
 
+  // Get the users of the current room
   const usersToShow = room?.users ? [...room.users] : [];
 
+  // Show own user at the top of the list
   usersToShow.map((user, index) => {
     if (user.userId === currentUserId) {
       const ownUser = usersToShow[index];

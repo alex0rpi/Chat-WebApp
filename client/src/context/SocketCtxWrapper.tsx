@@ -43,7 +43,6 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
 
   const SendIntegrate = async (): Promise<void> => {
     console.log('Sending Integrate to server ...');
-
     socket.emit(
       'integrate',
       loggedUser,
@@ -52,7 +51,6 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
         // This function is called when the server responds with the current user id and the list of connected users
         dispatch({ type: 'update_current_uid', payload: current_uid });
         dispatch({ type: 'update_logged_users', payload: logged_users });
-
         setLoading(false);
       }
     );
@@ -62,7 +60,7 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     socket.connect();
     dispatch({ type: 'update_socket', payload: socket });
     StartListeners();
-    void SendIntegrate(); // precedir amb un void per indicar que no ens interessa el què retorni.
+    void SendIntegrate(); // preceding with void tells TS to ignore anything the function returns.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

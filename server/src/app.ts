@@ -13,7 +13,6 @@ const httpServer = http.createServer(app); // Node http server object is suitabl
 
 /** Start the single Socket instance **/
 new ServerSocket(httpServer);
-// Static instance of the socket server. We can now access the socket server from anywhere in the application.
 
 /** Log the request */
 app.use((req, res, next) => {
@@ -34,7 +33,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 /** CORS handling **/
-app.use(cors()); // ! We should configure CORS properly. We should not allow all origins.
+// app.use(cors());
 // For the moment we'll use a proxy at client side to avoid CORS issues.
 
 app.use('/users', userRoutes);

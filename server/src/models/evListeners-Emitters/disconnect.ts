@@ -26,18 +26,17 @@ export const disconnect = async (serverSocket: ServerSocket, socket: Socket) => 
     // retrieve room name from room id
     const userRoomObject = await roomRepository?.retrieveRoomById(userRoom.roomId);
 
-    // Borra el usuario de la lista de users actius
+    // Delete user from user-room table
     await userRoomRepository!.deleteUserRooms(userInfoToDisconnect.userId);
 
     //* Get the updated list all rooms with their users
     const rooms = await roomRepository!.getAllRoomsAndUsers();
 
-    // Delete user from active users list
+    // Delete user from active users list on socket server
     delete serverSocket.activeUsers[userToDisconnect!];
 
     // Retrieve updated list of active users
     const users = Object.keys(serverSocket.activeUsers);
-    // users here is an array of user objects but it is stringified.
 
     // send the users array to all remaining connected users.
     const data = {

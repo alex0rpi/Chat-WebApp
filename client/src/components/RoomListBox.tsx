@@ -16,11 +16,11 @@ const RoomListBox = (props: RoomListProps) => {
   const { currentRoom, roomList, onRoomClick, onRoomDelete } = props;
 
   /* show and sort rooms alphabetically */
-  /* place the welcome room on the first place */
   const sortedRooms: Room[] = [...roomList].sort((a, b) =>
     a.roomName.localeCompare(b.roomName)
   );
 
+  /* place the welcome room on the first place */
   sortedRooms.map((roomItem, index) => {
     if (roomItem.roomName === 'welcome') {
       const welcomeRoom = sortedRooms[index];
@@ -71,7 +71,7 @@ const RoomListBox = (props: RoomListProps) => {
         return;
       }
       // execute function on parent component
-      onRoomDelete(roomName)
+      onRoomDelete(roomName);
     }
   };
 
@@ -81,6 +81,7 @@ const RoomListBox = (props: RoomListProps) => {
         {sortedRooms &&
           sortedRooms.map((room) => {
             const connectedUsers: number = room.users!.length;
+            // I use the non-null assertion '!' because there will always be an array, even if it's empty.
             return (
               <div className="roomListItem" key={room.roomId}>
                 <span>{connectedUsers! > 0 && connectedUsers}</span>
