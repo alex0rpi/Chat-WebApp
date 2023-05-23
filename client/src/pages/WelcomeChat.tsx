@@ -58,14 +58,6 @@ const WelcomeChat = () => {
     });
   }, [socket]);
 
-  const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    socket?.disconnect();
-    dispatch({ type: 'remove_user', payload: null });
-    localStorage.removeItem('token');
-    navigate('/gatochat/login');
-  };
-
   // *When the user clicks on a room
   const onRoomClickHandler = (nextRoom: string) => {
     navigate(`/chat/${nextRoom}`);
@@ -80,14 +72,23 @@ const WelcomeChat = () => {
     socket?.emit('delete_room', roomToDelete);
   };
 
+  const handleExit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    socket?.disconnect();
+    dispatch({ type: 'remove_user', payload: null });
+    localStorage.removeItem('token');
+    navigate('/gatochat/login');
+  };
+
   /*
    * When the user closes the tab it triggers a disconnect event using the javascript window beforeunload event.
    */
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
+      dispatch({ type: 'remove_user', payload: null });
       localStorage.removeItem('token');
-      socket?.emit('disconnect');
+      socket?.disconnect();
     };
     // Add the event listener when the component mounts
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -95,6 +96,7 @@ const WelcomeChat = () => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   return (

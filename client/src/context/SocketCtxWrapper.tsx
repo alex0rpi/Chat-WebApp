@@ -24,35 +24,19 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
   const [appState, dispatch] = useReducer(reducerFunction, initialSocketContext);
   const [loading, setLoading] = useState(true);
 
-  // * Put in motion some initial function in a useEffect: StartListeners, SendIntegrate
-
-  const StartListeners = (): void => {
-
-    /** User Disconnected event */
-    socket.on('user_disconnected', (socketid: string) => {
-      // console.info('User disconnected message received')
-      dispatch({ type: 'remove_user', payload: socketid });
-    });
-  };
-
   const SendIntegrate = async (): Promise<void> => {
     console.log('Sending Integrate to server ...');
-    socket.emit(
-      'integrate',
-      loggedUser,
-      (current_uid: string) => {
-        // console.info('User integrate callback message received')
-        // This function is called when the server responds with the current user id and the list of connected users
-        dispatch({ type: 'update_current_uid', payload: current_uid });
-        setLoading(false);
-      }
-    );
+    socket.emit('integrate', loggedUser, (current_uid: string) => {
+      // console.info('User integrate callback message received')
+      // This function is called when the server responds with the current user id and the list of connected users
+      dispatch({ type: 'update_current_uid', payload: current_uid });
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
     socket.connect();
     dispatch({ type: 'update_socket', payload: socket });
-    StartListeners();
     void SendIntegrate(); // preceding with void tells TS to ignore anything the function returns.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
