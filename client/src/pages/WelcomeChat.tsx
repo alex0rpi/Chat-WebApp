@@ -87,6 +87,7 @@ const WelcomeChat = () => {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
+      localStorage.removeItem('token');
       socket?.emit('disconnect');
     };
     // Add the event listener when the component mounts
