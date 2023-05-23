@@ -32,6 +32,6 @@ export interface Message {
 }
 
 export interface User {
-  uid: number;
+  userId: number;
   username: string;
 }

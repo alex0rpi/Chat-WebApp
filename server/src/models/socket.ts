@@ -64,6 +64,6 @@ export class ServerSocket {
 
   GetUinfoKeyFromSocketId = (socketId: string) =>
     Object.keys(this.activeUsers).find(
-      (uInfoKey) => this.activeUsers[uInfoKey] === socketId
+      (userInfos) => this.activeUsers[userInfos] === socketId
     );
 }

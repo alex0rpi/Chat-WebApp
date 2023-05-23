@@ -17,9 +17,9 @@ const WelcomeChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const { appState, dispatch } = useContext(SocketContext);
-  const { socket, current_uid } = appState;
+  const { socket, userInfos } = appState;
 
-  const currentUser = JSON.parse(current_uid) as User;
+  const currentUser = JSON.parse(userInfos) as User;
 
   // *When I log into the app after login/register
   useEffect(() => {

@@ -9,9 +9,9 @@ interface ChatBoxProps {
 const ChatBox = (props: ChatBoxProps) => {
   const { messages } = props;
   const { appState } = useContext(SocketContext);
-  const { current_uid } = appState;
+  const { userInfos } = appState;
 
-  const user = JSON.parse(current_uid) as User;
+  const user = JSON.parse(userInfos) as User;
 
   // Scroll to the bottom of the chat-box
   const messagesEndRef = useRef<HTMLDivElement>(null);

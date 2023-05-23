@@ -11,9 +11,9 @@ const MessageInput = (props: MessageInputProps) => {
   const { appState } = useContext(SocketContext);
   const msgInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { current_uid, socket } = appState;
+  const { userInfos, socket } = appState;
 
-  const user = JSON.parse(current_uid) as User;
+  const user = JSON.parse(userInfos) as User;
 
   const handleSendMsg = async (
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
