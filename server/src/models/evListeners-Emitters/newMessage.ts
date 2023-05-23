@@ -9,7 +9,6 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
   const { userId, userName, roomName, message } = data;
   try {
     // Retrieve room object where msg came from
-    debugger;
     const room = await roomRepository!.retrieveRoomByName(roomName);
     // save message on db
     await messageRepository!.createMessage(userId, userName, room.roomId, message);
@@ -19,7 +18,6 @@ export const newMessage = async (serverSocket: ServerSocket, data: MessageData) 
     // console.log(messages[messages.length - 1]);
 
     // Send updated messages to all users in the room
-    //* una idea era agegir el .to() però llavors tampoc s'enviarà els newMessages a l'usuari que ha enviat el missatge.
     serverSocket.io.to(room.roomName).emit('update_messages', {
       roomName: room.roomName,
       newMessages: messages,

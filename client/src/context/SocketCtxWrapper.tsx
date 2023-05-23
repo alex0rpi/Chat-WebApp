@@ -22,7 +22,6 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
   });
 
   const [appState, dispatch] = useReducer(reducerFunction, initialSocketContext);
-
   const [loading, setLoading] = useState(true);
 
   // * Put in motion some initial function in a useEffect: StartListeners, SendIntegrate
@@ -46,7 +45,7 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     socket.emit(
       'integrate',
       loggedUser,
-      async (current_uid: string, logged_users: string[]) => {
+      (current_uid: string, logged_users: string[]) => {
         // console.info('User integrate callback message received')
         // This function is called when the server responds with the current user id and the list of connected users
         dispatch({ type: 'update_current_uid', payload: current_uid });

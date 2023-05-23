@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { Message } from '../../models/initModels';
-import { User } from '../../models/initModels';
 
 class MessageRepository {
   // Afegir un missatge d'un user al welcome xat o a una room en concret si aplica.

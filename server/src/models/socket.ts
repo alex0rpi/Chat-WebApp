@@ -37,7 +37,6 @@ export class ServerSocket {
     // *SOCKET IDS ARE UNIQUE TO EACH CONNECTION OR BROWSER WINDOW
     console.info('Life signs received from: ' + socket.id);
 
-    // !Handle connection event
     socket.on('integrate', (loggedUser, callback) => {
       evListenersEmitters.integrate(this, socket, loggedUser, callback);
     });
@@ -63,6 +62,8 @@ export class ServerSocket {
     });
   };
 
-  GetUinfoKeyFromSocketId = (id: string) =>
-    Object.keys(this.activeUsers).find((uInfoKey) => this.activeUsers[uInfoKey] === id);
+  GetUinfoKeyFromSocketId = (socketId: string) =>
+    Object.keys(this.activeUsers).find(
+      (uInfoKey) => this.activeUsers[uInfoKey] === socketId
+    );
 }
