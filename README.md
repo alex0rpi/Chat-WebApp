@@ -2,7 +2,7 @@
 
 This project is a web chat that uses SocketIO to allow communication between connected users. Tha app uses ReactJS with Vite for the frontend and NodeJS with Express for the backend. All backed with a Mysql database.
 
-## Personal note 📝🙍🏻‍♂️
+## Personal notes 📝🙍🏻‍♂️
 
 This project constitutes the end project of a Backend Nodejs bootcamp that I did at the Barcelona Cibern@rium (https://cibernarium.barcelonactiva.cat/). This project allowed me to throw myself into the pool and try many different technologies, almost entirely in Typescript, which at the time of making was rather new to me. I would lie If I said that I didn't struggle. Every technology gave me its own headaches. Some comments and a few difficulties I had:
 
