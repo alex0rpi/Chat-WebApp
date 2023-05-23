@@ -6,11 +6,10 @@ import { Socket } from 'socket.io-client';
 export interface ISocketContext {
   socket: Socket | undefined;
   current_uid: string; // the id of the current user, e.g. '1Y2Z3X4W5V6U7T8S9R0Q'
-  logged_users: string[]; // '{{"userId":1,"userName":"Alex"},{"userId":2,"userName":"Bulma"}}'
 }
 
 export interface IReducerActions {
-  type: 'update_socket' | 'update_current_uid' | 'update_logged_users' | 'remove_user';
+  type: 'update_socket' | 'update_current_uid' | 'remove_user';
   payload: string | string[] | Socket | null; // types admited by reducer.
 }
 export const reducerFunction = (
@@ -23,17 +22,6 @@ export const reducerFunction = (
   }
   if (action.type === 'update_current_uid') {
     return { ...state, current_uid: action.payload as string };
-  }
-  if (action.type === 'update_logged_users') {
-    return { ...state, logged_users: action.payload as string[] };
-  }
-  if (action.type === 'remove_user') {
-    return {
-      ...state,
-      logged_users: state.logged_users.filter(
-        (socketId) => socketId !== (action.payload as string)
-      ),
-    };
   }
 
   return state;
@@ -49,7 +37,6 @@ export interface ISocketContextProps {
 export const initialSocketContext: ISocketContext = {
   socket: undefined,
   current_uid: '',
-  logged_users: [],
 };
 
 export const SocketContext = createContext<ISocketContextProps>({

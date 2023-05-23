@@ -34,9 +34,8 @@ const WelcomeChat = () => {
   // *If anyone enters the room
   useEffect(() => {
     socket?.on('update_user_room', (data) => {
-      const { users, rooms: roomsReceived } = data;
+      const { rooms: roomsReceived } = data;
       // all existing rooms with their users
-      dispatch({ type: 'update_logged_users', payload: users });
       setRooms(roomsReceived);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

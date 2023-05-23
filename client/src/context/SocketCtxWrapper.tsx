@@ -27,11 +27,6 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
   // * Put in motion some initial function in a useEffect: StartListeners, SendIntegrate
 
   const StartListeners = (): void => {
-    /** User connected event */
-    socket.on('user_connected', (users: string[]) => {
-      // console.info('User connected message received')
-      dispatch({ type: 'update_logged_users', payload: users });
-    });
 
     /** User Disconnected event */
     socket.on('user_disconnected', (socketid: string) => {
@@ -45,11 +40,10 @@ const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = 
     socket.emit(
       'integrate',
       loggedUser,
-      (current_uid: string, logged_users: string[]) => {
+      (current_uid: string) => {
         // console.info('User integrate callback message received')
         // This function is called when the server responds with the current user id and the list of connected users
         dispatch({ type: 'update_current_uid', payload: current_uid });
-        dispatch({ type: 'update_logged_users', payload: logged_users });
         setLoading(false);
       }
     );
