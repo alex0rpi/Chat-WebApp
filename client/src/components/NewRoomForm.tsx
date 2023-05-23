@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 interface NewRoomFormProps {
   socket: Socket | undefined;
   setRooms: React.Dispatch<React.SetStateAction<Room[]>>;
+  rooms: Room[];
 }
 
 const NewRoomForm = (props: NewRoomFormProps) => {
@@ -24,6 +25,13 @@ const NewRoomForm = (props: NewRoomFormProps) => {
     if (newRoomInput.trim() === '') {
       roomRef.current!.value = '';
       alert('No room name to create❓❗');
+      return;
+    }
+    // *Check if the room already exists
+    const roomExists = props.rooms.find((room) => room.roomName === newRoomInput);
+    if (roomExists) {
+      roomRef.current!.value = '';
+      alert('Room already exists❗');
       return;
     }
     if (newRoomInput !== null) {

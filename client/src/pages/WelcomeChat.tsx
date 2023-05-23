@@ -100,7 +100,7 @@ const WelcomeChat = () => {
 
   return (
     <ContainerChatWindow>
-      <NewRoomForm socket={socket} setRooms={setRooms} />
+      <NewRoomForm socket={socket} setRooms={setRooms} rooms={rooms} />
       <div className="exit-btn">
         <Button onClick={handleExit}>Disconnect</Button>
       </div>
