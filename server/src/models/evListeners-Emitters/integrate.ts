@@ -3,7 +3,7 @@ import { ServerSocket } from '../socket';
 import { ActiveUser } from '../Interfaces';
 
 interface IntegrateCallback {
-  (uid: string, users: string[]): void;
+  (uid: string): void;
 }
 
 export const integrate = (
@@ -22,10 +22,8 @@ export const integrate = (
     const current_uid = serverSocket.GetUinfoKeyFromSocketId(socket.id);
 
     if (current_uid) {
-      const logged_users = Object.keys(serverSocket.activeUsers);
-      // convert the obj to an array of socket ids
       console.log('Sending callback for reconnect ...');
-      callback(current_uid, logged_users);
+      callback(current_uid);
       // cb func that will be executed on client side, where it will receive the uid (user info consisting of userId and userName), and users array.
       return;
     }
@@ -44,7 +42,6 @@ export const integrate = (
   // '{"userId":1,"userName":"Alex"}': '1Y2Z3X4W5V6U7T8S9R0Q'
   // }
 
-  const logged_users = Object.keys(serverSocket.activeUsers); // convert the obj to array of socketIds
   console.log('Sending callback for integrate ...');
-  callback(current_uid, logged_users);
+  callback(current_uid);
 };
