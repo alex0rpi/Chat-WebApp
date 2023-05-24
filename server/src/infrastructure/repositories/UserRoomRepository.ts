@@ -17,6 +17,12 @@ class UserRoomRepository {
   async addUserToRoom(userId: number, roomId: number) {
     await UserRoom.create({ userId, roomId });
   }
+
+  // Retrieve a userId connected to any room by userId
+  async findUserByUserId(userId: number) {
+    const connectedUser = await UserRoom.findOne({ where: { userId }, raw: true });
+    return connectedUser;
+  }
 }
 
 export default UserRoomRepository;
