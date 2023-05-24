@@ -86,7 +86,7 @@ const RoomListBox = (props: RoomListProps) => {
               <div className="roomListItem" key={room.roomId}>
                 <span>{connectedUsers! > 0 && connectedUsers}</span>
                 <Button
-                  variant={room.roomName === currentRoom ? 'warning' : 'secondary'}
+                  variant={room.roomName === currentRoom ? 'success' : 'info'}
                   size="sm"
                   className="text-truncate room-button"
                   onClick={onRoomChange}
