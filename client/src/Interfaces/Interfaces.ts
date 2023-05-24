@@ -31,5 +31,6 @@ export interface Message {
 export interface Room {
   roomId?: number;
   roomName: string;
+  isPrivate: boolean;
   users?: User[];
 }

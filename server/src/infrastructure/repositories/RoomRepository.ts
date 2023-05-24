@@ -2,8 +2,8 @@ import { Room } from '../../models/initModels';
 import { User } from '../../models/initModels';
 
 class RoomRepository {
-  async createRoom(roomName: string) {
-    await Room.create({ roomName });
+  async createRoom(roomName: string, isPrivate: boolean = false) {
+    await Room.create({ roomName, isPrivate });
   }
 
   async deleteRoom(roomName: string) {

@@ -14,9 +14,15 @@ export interface MessageData {
   message: string;
 }
 
+export interface RoomData {
+  roomName: string;
+  isPrivate?: boolean;
+}
+
 export interface Room {
   roomId: number;
   roomName: string;
+  isPrivate: boolean;
 }
 
 export interface enterRoomData {

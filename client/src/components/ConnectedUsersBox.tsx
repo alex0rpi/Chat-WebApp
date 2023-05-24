@@ -50,8 +50,12 @@ const ConnectedUsersBox = (props: ConnectedUsersBoxProps) => {
         navigate('/gatochat/login');
         return;
       }
-      const newRoomName = `🔏${currentUser.userName}🔹${clickedUser}`;
-      socket?.emit('create_room', newRoomName);
+      const newRoomName = `🔏${currentUser.userName}↔${clickedUser}`;
+      const data = {
+        roomName: newRoomName,
+        isPrivate: true
+      };
+      socket?.emit('create_room', data);
     }
   };
 

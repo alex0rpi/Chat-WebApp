@@ -46,8 +46,10 @@ const NewRoomForm = (props: NewRoomFormProps) => {
         navigate('/gatochat/login');
         return;
       }
-      const newRoomName = roomRef.current?.value;
-      socket?.emit('create_room', newRoomName);
+      const data = {
+        roomName: newRoomInput,
+      };
+      socket?.emit('create_room', data);
       // reset the newRoomInput field
       roomRef.current!.value = '';
     }

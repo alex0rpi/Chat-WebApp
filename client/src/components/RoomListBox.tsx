@@ -13,7 +13,7 @@ interface RoomListProps {
 const RoomListBox = (props: RoomListProps) => {
   const navigate = useNavigate();
 
-  const { currentRoom, roomList, onRoomClick, onRoomDelete } = props;
+  const { currentRoom, roomList, onRoomClick, onRoomDelete, currentUser } = props;
 
   /* show and sort rooms alphabetically */
   const sortedRooms: Room[] = [...roomList].sort((a, b) =>
@@ -75,34 +75,44 @@ const RoomListBox = (props: RoomListProps) => {
     }
   };
 
+  const showRoom = (room: Room) => {
+    const connectedUsers: number = room.users!.length;
+    const roomObject = (
+      <div className="roomListItem" key={room.roomId}>
+        <span>{connectedUsers! > 0 && connectedUsers}</span>
+        <Button
+          variant={room.roomName === currentRoom ? 'success' : 'info'}
+          size="sm"
+          className="text-truncate room-button"
+          onClick={onRoomChange}
+        >
+          {room.roomName}
+        </Button>
+        {room.roomName !== 'welcome' && room.users?.length === 0 && (
+          <button
+            className="deleteRoomBtn"
+            onClick={(event) => deleteRoomHandler(event, room.roomName)}
+          >
+            ❌
+          </button>
+        )}
+      </div>
+    );
+    return roomObject;
+  };
+
   return (
     <div className="room-list">
       <div className="d-grid gap-1">
         {sortedRooms &&
           sortedRooms.map((room) => {
-            const connectedUsers: number = room.users!.length;
-            // I use the non-null assertion '!' because there will always be an array, even if it's empty.
-            return (
-              <div className="roomListItem" key={room.roomId}>
-                <span>{connectedUsers! > 0 && connectedUsers}</span>
-                <Button
-                  variant={room.roomName === currentRoom ? 'success' : 'info'}
-                  size="sm"
-                  className="text-truncate room-button"
-                  onClick={onRoomChange}
-                >
-                  {room.roomName}
-                </Button>
-                {room.roomName !== 'welcome' && room.users?.length === 0 && (
-                  <button
-                    className="deleteRoomBtn"
-                    onClick={(event) => deleteRoomHandler(event, room.roomName)}
-                  >
-                    ❌
-                  </button>
-                )}
-              </div>
-            );
+            if (room.isPrivate) {
+              if (room.roomName.includes(currentUser!.userName)) {
+                return showRoom(room);
+              }
+            } else {
+              return showRoom(room);
+            }
           })}
       </div>
     </div>
