@@ -66,7 +66,6 @@ export const loginUser: RequestHandler = async (req, res) => {
       const error = new NotCorrectParamsError('User not found😿, please try again.', 400);
       return res.status(400).json(error);
     }
-    // CHeck if user is already connected in a room
     const connectedUser = await userRoomRepository!.findUserByUserId(existingUser.userId);
     if (connectedUser) {
       const error = new NotCorrectParamsError(
