@@ -91,7 +91,11 @@ export const loginUser: RequestHandler = async (req, res) => {
     return res.json({
       payload: {
         token,
-        user: existingUser,
+        user: {
+          userId: existingUser.userId,
+          userName: existingUser.userName,
+        },
+        message: `user -${userName}- logged in. `,
       },
     });
   } catch (error: unknown) {

@@ -3,7 +3,11 @@ import { User } from '../../models/initModels';
 class UserRepository {
   async create(userName: string, password: string) {
     const newUser = await User.create({ userName, password });
-    return newUser;
+    const returnedUser = {
+      userId: newUser.userId,
+      userName: newUser.userName,
+    };
+    return returnedUser;
   }
 
   async retrieveByName(userName: string) {

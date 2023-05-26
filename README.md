@@ -35,10 +35,10 @@ The chat is a web application that allows users to create rooms and chat with ot
 
 **Some of the things the app doesn't allow** (at least for now)**:**
 
-* _Create private rooms with more than 2 users._ 
-* No notifications or mentions of any kind are sent or highlighted to the users. You just see rooms being created/deleted and messages appearing in front of you.
-* _Send files or pictures._
-* _Delete neither rooms that contain users nor the 'welcome' room in any case._ </br>
+- _Create private rooms with more than 2 users._
+- No notifications or mentions of any kind are sent or highlighted to the users. You just see rooms being created/deleted and messages appearing in front of you.
+- _Send files or pictures._
+- _Delete neither rooms that contain users nor the 'welcome' room in any case._ </br>
 
 ## Installation 📦
 
@@ -64,6 +64,12 @@ npm i
 - **npm start** to run the backend. This will create the database and the tables if they don't exist already. You can check that in the mysql workbench.
 - Open http://localhost:3000/ in your browser.
 - Have fun🎊🎉 cat lovers🐈.
+
+## API routes check with Postman 📡
+
+- You can try the 3 existing API routes in the backend server logic:register, login and tokeninfo.
+- Just click on the following link and then click on the 'Run in Postman' button. It will open the Postman app and you'll be able to fork the Postman collection and try the routes with modified JSON body inputs. <br>
+  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25968116-5c72061e-c1c8-4454-b8bc-119dc0532a50?action=collection%2Ffork&collection-url=entityId%3D25968116-5c72061e-c1c8-4454-b8bc-119dc0532a50%26entityType%3Dcollection%26workspaceId%3D57d04225-0c95-4842-86b9-1798df87390b)
 
 ## Improvement opportunities 📈
 
