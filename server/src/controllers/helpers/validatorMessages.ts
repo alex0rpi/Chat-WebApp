@@ -1,9 +1,7 @@
 export const ERRMSGS = {
   USERREQUIRED: 'Username is required',
   PASSWORDREQUIRED: 'Password is required',
-  USERNAMECONFLICT: 'Sorry, username is already in use',
-  MISSINGUSERNAMEORPWD: 'Missing Username or password',
-  WRONGUSERORPASS: 'Wrong Username or password',
-  ROOMNAMEREQUIRED: 'roomName is required',
-  ERROR404: 'Not found - 404',
+  USERNAMETOOSHORT: 'Username is too short - should be 2 chars minimum.',
+  USERNAMETOOLONG: 'Username is too long - should be 20 chars maximum.',
+  PASSWORDTOOSHORT: 'Password is too short - should be 5 chars minimum.',
 };

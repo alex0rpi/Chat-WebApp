@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const loginSchema = Yup.object().shape({
   userName: Yup.string()
     .min(2, 'At least two characters')
-    .max(50, 'Too Long!')
+    .max(20, 'Too Long!')
     .required('Required😾'),
   password: Yup.string()
     .required('Password is required')

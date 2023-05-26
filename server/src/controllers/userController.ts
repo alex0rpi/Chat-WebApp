@@ -38,7 +38,6 @@ export const registerUser: RequestHandler = async (req, res) => {
     const token = jwt.sign(tokenPayload, config.SECRET, {
       expiresIn: '1h',
     });
-    res.setHeader('authorization', 'Bearer ' + token);
     return res.json({
       payload: {
         token,
@@ -89,7 +88,6 @@ export const loginUser: RequestHandler = async (req, res) => {
     const token = jwt.sign(tokenPayload, config.SECRET, {
       expiresIn: '1h',
     });
-    res.setHeader('authorization', 'Bearer ' + token);
     return res.json({
       payload: {
         token,
