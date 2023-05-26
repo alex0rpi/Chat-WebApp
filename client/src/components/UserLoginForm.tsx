@@ -4,10 +4,39 @@ import { useNavigate } from 'react-router-dom';
 import { LoginForm, LoginFormProps, User } from '../Interfaces/Interfaces';
 import { Formik } from 'formik';
 import { loginSchema } from '../validation/loginSchema';
+import { useEffect } from 'react';
 
 const UserLoginForm = (props: LoginFormProps) => {
   const { setLoggedUser } = props;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const checkTokenValidity = async (token: string) => {
+      try {
+        const response = await fetch('/api/users/tokeninfo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
+        if (!response.ok) {
+          localStorage.removeItem('token');
+          return;
+        }
+        const tokenData = await response.json();
+        // console.log('tokenData', tokenData.payload.decodedToken);
+        const { userName, userId } = tokenData.payload.decodedToken;
+        setLoggedUser({ userName, userId });
+        navigate('/chat/welcome');
+      } catch (error: unknown) {
+        console.log('Existing token is invalid');
+      }
+    };
+    if (token) {
+      checkTokenValidity(token);
+    }
+  }, [setLoggedUser]);
+
   const initialValues: LoginForm = {
     userName: '',
     password: '',

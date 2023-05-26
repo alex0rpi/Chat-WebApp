@@ -87,7 +87,7 @@ const WelcomeChat = () => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
       dispatch({ type: 'remove_user', payload: null });
-      localStorage.removeItem('token');
+      // localStorage.removeItem('token');
       socket?.disconnect();
     };
     // Add the event listener when the component mounts
