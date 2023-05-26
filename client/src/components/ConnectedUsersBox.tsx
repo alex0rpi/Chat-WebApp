@@ -2,6 +2,7 @@ import { Button } from 'react-bootstrap';
 import { Room, User } from '../Interfaces/Interfaces';
 import { useNavigate } from 'react-router-dom';
 import { Socket } from 'socket.io-client';
+import { motion } from 'framer-motion';
 
 interface ConnectedUsersBoxProps {
   socket: Socket | undefined;
@@ -53,7 +54,7 @@ const ConnectedUsersBox = (props: ConnectedUsersBoxProps) => {
       const newRoomName = `🔏${currentUser.userName}↔${clickedUser}`;
       const data = {
         roomName: newRoomName,
-        isPrivate: true
+        isPrivate: true,
       };
       socket?.emit('create_room', data);
     }
@@ -66,15 +67,27 @@ const ConnectedUsersBox = (props: ConnectedUsersBoxProps) => {
           room.users.length > 0 &&
           usersToShow.map((user) => {
             return (
-              <Button
+              <motion.div
+                style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
                 key={user.userId}
-                variant={`${user.userId === currentUserId ? 'warning' : 'primary'}`}
-                size="sm"
-                className="text-truncate"
-                onClick={handleUserClick}
+                initial={{ opacity: 0, x: '100%' }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  opacity: { ease: 'linear' },
+                  layout: { duration: 0.5 },
+                  type: 'spring',
+                  stiffness: 260,
+                }}
               >
-                🐱{user.userName}
-              </Button>
+                <Button
+                  variant={`${user.userId === currentUserId ? 'warning' : 'primary'}`}
+                  size="sm"
+                  className="text-truncate"
+                  onClick={handleUserClick}
+                >
+                  🐱{user.userName}
+                </Button>
+              </motion.div>
             );
           })}
       </div>

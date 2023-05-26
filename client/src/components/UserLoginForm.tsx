@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginForm, LoginFormProps, User } from '../Interfaces/Interfaces';
 import { Formik } from 'formik';
 import { loginSchema } from '../validation/loginSchema';
+import { motion } from 'framer-motion';
 
 const UserLoginForm = (props: LoginFormProps) => {
   const { setLoggedUser } = props;
@@ -38,7 +39,17 @@ const UserLoginForm = (props: LoginFormProps) => {
   };
 
   return (
-    <div className="name-field">
+    <motion.div
+      className="name-field"
+      initial={{ scale: 0 }}
+      animate={{ rotate: 360, scale: 1 }}
+      transition={{
+        type: 'spring',
+        stiffness: 260,
+        damping: 20,
+      }}
+      exit={{ opacity: 0, x: '-100vw' }}
+    >
       <h2>Login</h2>
 
       <Formik
@@ -101,7 +112,7 @@ const UserLoginForm = (props: LoginFormProps) => {
         }}
       </Formik>
       <Link to="/gatochat/register">I am not yet registered🔑</Link>
-    </div>
+    </motion.div>
   );
 };
 

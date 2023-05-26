@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { Room, User } from '../Interfaces/Interfaces';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 interface RoomListProps {
   roomList: Room[];
@@ -78,7 +79,18 @@ const RoomListBox = (props: RoomListProps) => {
   const showRoom = (room: Room) => {
     const connectedUsers: number = room.users!.length;
     const roomObject = (
-      <div className="roomListItem" key={room.roomId}>
+      <motion.div
+        initial={{ opacity: 0, x: '100%' }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          opacity: { ease: 'linear' },
+          layout: { duration: 0.5 },
+          type: 'spring',
+          stiffness: 260,
+        }}
+        className="roomListItem"
+        key={room.roomId}
+      >
         <span>{connectedUsers! > 0 && connectedUsers}</span>
         <Button
           variant={room.roomName === currentRoom ? 'success' : 'info'}
@@ -96,7 +108,7 @@ const RoomListBox = (props: RoomListProps) => {
             ❌
           </button>
         )}
-      </div>
+      </motion.div>
     );
     return roomObject;
   };
