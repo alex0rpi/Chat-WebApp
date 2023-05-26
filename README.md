@@ -27,11 +27,12 @@ The chat is a web application that allows users to create rooms and chat with ot
   <img src="./client/screenshots/screenshot03.PNG" height="200" title="public_room"><br/>
 - If a user clicks on another connected user on the right side list, a new **private** room will be created, allowing only the clicked user and the current user to see it, talk in it and delete it.
   <img src="./client/screenshots/screenshot07.PNG" height="250" title="private_room"><br/>
-- A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
-- Rooms can be deleted (except the welcome room) as long as they're empty of users.<br/>
+- A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once it goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
+- Empty rooms can be deleted (except the welcome room).<br/>
   <img src="./client/screenshots/screenshot05.PNG" height="250" title="delete_room"><br/>
 - JSON web token is used to authorize users once they're logged in. User token is then verified over and again once a user tries either to create a room, either to join an existing room. If the token is not valid, the user is redirected to the login page.
 - Finally, users can disconnect by clicking the disconnect button on the top left of the app grid or simply close the browser window which triggers a javascript beforeunload event that emmits a disconnection request to the socket server.
+- When users login they'll see the persisted rooms and messages.
   </br><hr>
 
 **Some of the things the app doesn't do** (at least for now)**:**
@@ -43,6 +44,11 @@ The chat is a web application that allows users to create rooms and chat with ot
 
 ## Installation 📦
 
+- Make sure you have the following SW installed on your machine:<br>
+  ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) or any other source code editor.<br>
+  ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white) Specifically Mysql workbench to check the created tables.<br>
+  ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)<br>
+  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) Which includes the npm package manager.
 - Clone the repository on your local machine using the command git clone.
 - Open two terminals to be able to execute client and server side at the same time.
 - On terminal 1 setup the frontend:
@@ -78,6 +84,7 @@ Although I believe I've achieved the desired functional result and fulfilled mos
 
 - First and foremost, add password recovery functionality.
 - JSON web token implementation is a bit trivial and superficial. Users are assigned a token at login/register and then it is stored in the local storage, which is not the most secure practice. I'm still learning how to implement a more robust authentication system. Another important feature would be to add token verification at first connection. If the user's localhost keeps the token after leaving the page, then when returning to the chat page he/she could be automatically logged in. I'm actually working on it on a separate project branch.
+- It would be a nice touch to notify users in a room when someone is writing a message.
 - Client side code needs to be more encapsulated. For example all API requests should be in a services directory.
 - Ideally, the sequelize models shouls be implemented in typescript, just like the rest of the project.
 - Implement a more robust error handling. Mine here is still quite basic with browser alerts.
@@ -114,3 +121,4 @@ Although I believe I've achieved the desired functional result and fulfilled mos
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue)
