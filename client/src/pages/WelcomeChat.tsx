@@ -114,6 +114,7 @@ const WelcomeChat = () => {
         currentUser={currentUser}
       />
       <ConnectedUsersBox
+        socket={socket}
         currentUser={currentUser}
         currentRoom={currentRoom}
         roomList={rooms}

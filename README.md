@@ -24,17 +24,19 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Users can switch between login and register forms by clicking on the 'login' or 'register' links. If a user tries to login with a non-existing username, a simple browser alert message will be displayed.
 - After registering/login, users are redirected to the welcome chat where the input msg is autofocused (a nice touch I believe :) and they can start chatting with other users in that room.<br/>
   <img src="./client/screenshots/screenshot02.PNG" height="200" title="Register/login"><br/>
-- Users can create new rooms by writting a name in the newRoom input above the room list.<br/>
+- Users can create new **public** rooms by writting a name in the newRoom input above the room list.<br/>
+- If a user clicks on another connected user on the right side list, a new **private** room will be created, allowing only the clicked user and the current user to see it, talk in it and delete it.
   <img src="./client/screenshots/screenshot03.PNG" height="200" title="Register/login"><br/>
-- After that they can just click on the new generated room button in the room list and they will be redirected to that room, where they can chat with other users in that room.
 - A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
-- Users can delete rooms (except the welcome room) as long as they're empty of users.<br/>
+- Rooms can be deleted (except the welcome room) as long as they're empty of users.<br/>
   <img src="./client/screenshots/screenshot05.PNG" height="250" title="Register/login"><br/>
 - Finally, users can disconnect by clicking the disconnect button on the top left of the app grid or simply close the browser window which triggers a javascript beforeunload event that emmits a disconnection request to the socket server.
   </br><hr>
-  **What the app doesn't allow** (at least for now)**:**
 
-* _Open private conversation with other users._ Since all rooms are public to all registered users.
+**Some of the things the app doesn't allow** (at least for now)**:**
+
+* _Create private rooms with more than 2 users._ 
+* No notifications or mentions of any kind are sent or highlighted to the users. You just see rooms being created/deleted and messages appearing in front of you.
 * _Send files or pictures._
 * _Delete neither rooms that contain users nor the 'welcome' room in any case._ </br>
 

@@ -10,6 +10,11 @@ export default (sequelize, DataTypes) => {
             unique: true,
             allowNull: false,
             collate: 'utf8_bin'
+        },
+        isPrivate: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     },
         {

@@ -54,8 +54,8 @@ export class ServerSocket {
       evListenersEmitters.newMessage(this, data);
     });
 
-    socket.on('create_room', (roomName) => {
-      evListenersEmitters.createRoom(this, roomName);
+    socket.on('create_room', (data) => {
+      evListenersEmitters.createRoom(this, data);
     });
     socket.on('delete_room', (roomName) => {
       evListenersEmitters.deleteRoom(this, roomName);
