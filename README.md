@@ -33,10 +33,10 @@ The chat is a web application that allows users to create rooms and chat with ot
 - Finally, users can disconnect by clicking the disconnect button on the top left of the app grid or simply close the browser window which triggers a javascript beforeunload event that emmits a disconnection request to the socket server.
   </br><hr>
 
-**Some of the things the app doesn't allow** (at least for now)**:**
+**Some of the things the app doesn't do** (at least for now)**:**
 
 - _Create private rooms with more than 2 users._
-- No notifications or mentions of any kind are sent or highlighted to the users. You just see rooms being created/deleted and messages appearing in front of you.
+- _No notifications or mentions of any kind are sent or highlighted to the users. You just see rooms being created/deleted and messages appearing in front of you._
 - _Send files or pictures._
 - _Delete neither rooms that contain users nor the 'welcome' room in any case._ </br>
 
@@ -76,8 +76,8 @@ npm i
 Although I believe I've achieved the desired functional result and fulfilled most of the bootcamp requirements, there is significant room for improvement for this app. To mention a few potential improvements:
 
 - First and foremost, add password recovery functionality.
-- React implementation on client side needs to be more encapsulated. For example all http request should be in a services directory. My frontend in general is rather simplistic, so it could be improved as well. Adding framer motion animations would be a nice touch.
-- JSON web token implementation is a bit trivial and superficial. Users are assigned a token at login/register and then it is stored in the local storage, which is not the most secure practice. I'm still learning how to implement a more robust authentication system.
+- JSON web token implementation is a bit trivial and superficial. Users are assigned a token at login/register and then it is stored in the local storage, which is not the most secure practice. I'm still learning how to implement a more robust authentication system. Another important feature would be to add token verification at first connection. If the user's localhost keeps the token after leaving the page, then when returning to the chat page he/she could be automatically logged in. I'm actually working on it on a separate project branch.
+- Client side code needs to be more encapsulated. For example all API requests should be in a services directory.
 - Ideally, the sequelize models shouls be implemented in typescript, just like the rest of the project.
 - Implement a more robust error handling. Mine here is still quite basic with browser alerts.
 - Study the implementation of hexagonal architecture. At least in the backend. I only scratched the surface by having an infrastructure of database repositories. These are charged with the CRUD operation on the databse. These allows the controllers and listeners to be db agnostic.
@@ -85,8 +85,6 @@ Although I believe I've achieved the desired functional result and fulfilled mos
 - Users don't have a profile picture nor can send files or pictures. Multer could be used to implement this feature.
 - Also, once registered, users are permanently stored on the db. It would be nice to implement a feature so users can delete their accounts.</br>
 - The app should be dockerized. I'm still learning how to use docker and docker-compose.
-
-These are just a few enhancements that can be implemented.
 
 ## Languages and Technologies 👦•💻
 
@@ -101,6 +99,8 @@ These are just a few enhancements that can be implemented.
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Bcrypt](https://img.shields.io/badge/bcrypt-%23FFFFFF.svg?style=for-the-badge&logo=bcrypt&logoColor=white)
+![Postman](https://img.shields.io/badge/postman-%23FF6C37.svg?style=for-the-badge&logo=postman&logoColor=white)
 
 ### Databases and ORM
 
