@@ -1,6 +1,6 @@
 # Chat-WebApp 💻🖥
 
-This project is a web chat that uses SocketIO to allow communication between connected users. Tha app uses ReactJS with Vite for the frontend and NodeJS with Express for the backend. All backed with a Mysql database.
+This project is a web chat that uses SocketIO to allow communication between connected users. The app uses ReactJS with Vite for the frontend and NodeJS with Express for the backend. All backed with a Mysql database.
 
 ## Personal notes 📝🙍🏻‍♂️
 
@@ -13,7 +13,6 @@ This project constitutes the end project of a Backend Nodejs bootcamp that I did
 - I placed quite a few of useStates (e.g. for rooms, messages, loggedUser etc.). At some point I wasn't sure about what to store in the React context, so the app has a mix of both. At some point I even realized I was updating the context state even if I wasn't really using some context variables anywhere in the frontend. Anyway, I think it was beneficial for learning purposes but I'm sure there are better practices to apply regarding context management in React.
 - Combining Bootstrap styling with Formik and Yup validation on client side.
 - I big wall I hit was the fact that as users created and joined different chat rooms, messages started being sent everywhere and where no longer segregated to the room they where created in. I thought I could solve this by filtering on the client side by the message roomName but it didn't work out. What did the trick was to use additional socketIO functionalities on server side like **.join(roomName)**, **.leave(roomName)** and **.to(roomName)** to be more precise about where the users are connected and where should the messages be targetted from the server side.
-- JSON web token is used to authorize users once they're logged in. User token is then verified over and again once a user tries either to create a room, either to join an existing room. If the token is not valid, the user is redirected to the login page.
 
 ## Working principles of this chat 📝
 
@@ -23,13 +22,15 @@ The chat is a web application that allows users to create rooms and chat with ot
   <img src="./client/screenshots/screenshot01.PNG" height="200" title="Register/login"><br/>
 - Users can switch between login and register forms by clicking on the 'login' or 'register' links. If a user tries to login with a non-existing username, a simple browser alert message will be displayed.
 - After registering/login, users are redirected to the welcome chat where the input msg is autofocused (a nice touch I believe :) and they can start chatting with other users in that room.<br/>
-  <img src="./client/screenshots/screenshot02.PNG" height="200" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot02.PNG" height="200" title="welcome_room"><br/>
 - Users can create new **public** rooms by writting a name in the newRoom input above the room list.<br/>
+  <img src="./client/screenshots/screenshot03.PNG" height="200" title="public_room"><br/>
 - If a user clicks on another connected user on the right side list, a new **private** room will be created, allowing only the clicked user and the current user to see it, talk in it and delete it.
-  <img src="./client/screenshots/screenshot03.PNG" height="200" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot07.PNG" height="250" title="private_room"><br/>
 - A user can ONLY BE AT ONE ROOM AT A TIME. Meaning, once he/she goes to a different room, it will be socket-disconnected from the previous one, and socket-joined to the next one.
 - Rooms can be deleted (except the welcome room) as long as they're empty of users.<br/>
-  <img src="./client/screenshots/screenshot05.PNG" height="250" title="Register/login"><br/>
+  <img src="./client/screenshots/screenshot05.PNG" height="250" title="delete_room"><br/>
+- JSON web token is used to authorize users once they're logged in. User token is then verified over and again once a user tries either to create a room, either to join an existing room. If the token is not valid, the user is redirected to the login page.
 - Finally, users can disconnect by clicking the disconnect button on the top left of the app grid or simply close the browser window which triggers a javascript beforeunload event that emmits a disconnection request to the socket server.
   </br><hr>
 
