@@ -29,7 +29,7 @@ const WelcomeChat = () => {
     };
     socket?.emit('enter_room', data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // !abans tenia només currentRoom a les dependències
+  }, []);
 
   // *If anyone enters the room
   useEffect(() => {

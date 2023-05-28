@@ -4,7 +4,7 @@ import express from 'express';
 import initDB from './models/initModels';
 import userRoutes from './routes/userRoutes';
 import notFoundController from './middlewares/notFoundController';
-import cors from 'cors';
+// import cors from 'cors';
 import { ServerSocket } from './models/socket';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 

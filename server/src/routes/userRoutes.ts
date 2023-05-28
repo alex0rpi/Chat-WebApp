@@ -5,7 +5,7 @@ import { validateUserToken } from '../middlewares/validateUserToken';
 
 const router = express.Router();
 
-//! app.use('/users', userRoutes);
+// app.use('/users', userRoutes);
 
 router.post('/register', userValidate, userController.registerUser);
 

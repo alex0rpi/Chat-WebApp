@@ -7,11 +7,11 @@ import {
 } from './SocketContext';
 import { useSocket } from '../hooks/useSocketHook';
 
-export interface ISocketContextComponentProps extends PropsWithChildren {
+export interface ISocketContextWrapperProps extends PropsWithChildren {
   loggedUser: User | null;
 }
 
-const SocketCtxWrapper: React.FunctionComponent<ISocketContextComponentProps> = ({
+const SocketCtxWrapper: React.FunctionComponent<ISocketContextWrapperProps> = ({
   children,
   loggedUser,
 }) => {
