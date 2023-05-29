@@ -14,8 +14,7 @@ export const integrate = (
 ) => {
   console.log('Integrate recieved from ' + socket.id);
 
-  // If it is a new connection, add it to the active users list
-  // console.log(loggedUser);
+  // Add connection to the active users list
   const userInfos = JSON.stringify({
     userId: loggedUser.userId,
     userName: loggedUser.userName,

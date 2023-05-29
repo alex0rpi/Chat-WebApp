@@ -41,8 +41,7 @@ export const enterRoom = async (
 
     // The user is in the new room ###########################
 
-    // ! Inform other users in the new room and the ones of the previous room too----------------------
-
+    // Inform other users in the new room and the ones of the previous room too----------------------
     if (previousRoomObj) {
       const previousRoomData = {
         userId: null,
@@ -62,7 +61,7 @@ export const enterRoom = async (
       message: `${user.userName} joined the room👏🏻`,
     };
     await newMessage(serverSocket, nextRoomData);
-    // ! Users have been informed ---------------------------------------------------------------------
+    // Users have been informed ---------------------------------------------------------------------
 
     //* Get the list all rooms with their users
     const rooms = await roomRepository!.getAllRoomsAndUsers();

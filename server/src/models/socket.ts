@@ -6,13 +6,11 @@ import * as evListenersEmitters from './evListeners-Emitters';
 export class ServerSocket {
   public static instance: ServerSocket;
   public io: Server;
-  public botName = 'Bot `◑_◐´';
   public activeUsers: ActiveUser;
   /* serverSocket.users is an object of user objects like this,
    where the key is the user object stringified and the value is his/her socket id:
   {
     '{"userId":1,"userName":"admin"}': '1Y2Z3X4W5V6U7T8S9R0Q',
-    '{"userId":2,"userName":"person"}': 'TY6Z3X4W5V6U7T8S9PO0',
     ...
   } */
 
