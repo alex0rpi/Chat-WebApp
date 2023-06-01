@@ -34,3 +34,11 @@ export interface Room {
   isPrivate: boolean;
   users?: User[];
 }
+
+export interface RegisterLoginResponse {
+  payload: {
+    token: string;
+    user: User;
+    message: string;
+  };
+}
